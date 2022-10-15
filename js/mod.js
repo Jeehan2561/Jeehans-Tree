@@ -1,47 +1,29 @@
 let modInfo = {
-	name: "The Numbruh Tree",
-	id: "JHTNT",
-	author: "JeehanMoment",
+	name: "Le Boring Tree",
+	id: "JHLBT",
+	author: "MomentCookie (JeehanMoment)",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "JeehanMoment's Modded stuffs",
-	discordLink: "https://discord.gg/4mPMTVJGf3",
-	initialStartPoints: new Decimal (0), // Used for hard resets and new players
+	discordLink: "https://discord.gg/ccbBZHYsTv",
+	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: ".1.2.1",
-	name: "B&B",
+	num: "1",
+	name: "Start",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
     <h2>Warning: This mod may be unbalanced</h2><br>
-	<h3>V.1.2.1 - Bombs and Bricks Part 1<h3><br>
-		- Added 14 new Acievements.<br>
-		- Added 1 Automators.<br>
-		- Added 3 new Buyables.<br>
-		- Added 5 new Generators.<br>
-		- Added 6 new Upgrades.<br>
-		Endgame: 1e5 total twos<br>
-	<h3>V.1.1 - Automatic, Generators, Volatility and a new layer</h3><br>
-		- Added 4 new Layers.<br>
-		- Added 20 new Acievements.<br>
-		- Added 3 Automators.<br>
-		- Added 1 new Buyables.<br>
-		- Added 5 Generators.<br>
-		- Added 1 Accelerator.<br>
-		- Added 20 new Upgrades.<br>
-		- Added 1 new Volatility Upgrades.<br>
-		Endgame: 10 total twos<br>
-	<h3>V.1 - Start</h3><br>
-		- Added 3 Layers.<br>
-		- Added 12 Achievements.<br>
-		- Added 1 Buyable.<br>
-		- Added 17 Upgrades.<br>
-		Endgame: 3 total ones`
+	<h3>V1 - Start</h3><br>
+	    - Added a layer.
+		- Added 15 upgrades.
+		- Added 2 buyables.
+		Endgame: - 16,777,216 amogus`
 	
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
@@ -56,30 +38,29 @@ function getStartPoints(){
 
 // Determines if it should show points/sec
 function canGenPoints(){
-	return true
+	return hasUpgrade('amogus', 11)
 }
 
 // Calculate points/sec!
 function getPointGen() {
 	if(!canGenPoints())
-		return new Decimal(0)
+		return new Decimal (0)
 
-	let gain = new Decimal(1)
-	if(hasUpgrade('zero', 24)) gain = gain.add(upgradeEffect('zero', 24))
-	if(hasUpgrade('zero', 11)) gain = gain.times(upgradeEffect('zero', 11))
-	if(hasUpgrade('zero', 12)) gain = gain.times(upgradeEffect('zero', 12))
-	if(hasUpgrade('zero', 13)) gain = gain.times(upgradeEffect('zero', 13))
-	if(hasUpgrade('zero', 15)) gain = gain.times(upgradeEffect('zero', 15))
-	if(hasUpgrade('zero', 22)) gain = gain.times(upgradeEffect('zero', 22))
-	gain = gain.times(buyableEffect('zero', 11))
-	if(hasUpgrade('one', 11)) gain = gain.times(upgradeEffect('one', 11))
-	if(hasUpgrade('one', 12)) gain = gain.times(upgradeEffect('one', 12))
-	if(hasUpgrade('one', 15)) gain = gain.times(upgradeEffect('one', 15).p)
-	if(hasUpgrade('two', 11)) gain = gain.times(upgradeEffect('two', 11))
-	if(hasUpgrade('two', 14)) gain = gain.times(upgradeEffect('two', 14))
-	if(hasUpgrade('two', 15)) gain = gain.times(upgradeEffect('two', 15).P)
-	if (hasAchievement('ach', 31)) gain=gain.times(Decimal.div(180, 100))
+	let gain = new Decimal (1)
+	if (hasUpgrade('amogus', 12)) gain = gain.times(upgradeEffect('amogus', 12))
+	if (hasUpgrade('amogus', 13)) gain = gain.times(upgradeEffect('amogus', 13))
+	if (hasUpgrade('amogus', 14)) gain = gain.times(upgradeEffect('amogus', 14))
+	if (hasUpgrade('amogus', 24)) gain = gain.times(upgradeEffect('amogus', 24))
+	if (hasUpgrade('amogus', 25)) gain = gain.times(upgradeEffect('amogus', 25))
+	if (hasUpgrade('amogus', 34)) gain = gain.times(upgradeEffect('amogus', 34))
+	gain = gain.times(tmp.amogus.getABeffect)
+	gain = gain.div(getPointDivider())
 	return gain
+}
+function getPointDivider() {
+	let base = player.points.max(10).log(10).max(1).pow(2)
+	if (hasUpgrade('amogus', 22)) base = base.pow(0.5)
+	return base
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -88,14 +69,16 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	() => `<br>If you found a bug Please contact JeehanMoment#6268 on Discord.`,
+	() => `<br>If you found a bug Please contact MomentCookie#6268 on Discord.`,
+	"<br>",
+	() => player.points.gte(10)&(canGenPoints()) ? `Your point gain is divided by ` + format(getPointDivider())  : "",
 	"<br>",
 	() => player.keepGoing ? `You're past endgame. The Game may not balanced after this.` : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.two.total.gte(new Decimal("1e5"))
+	return player.amogus.points.gte(new Decimal("16777216"))
 }
 
 
