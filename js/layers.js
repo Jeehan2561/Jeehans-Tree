@@ -179,7 +179,7 @@ addLayer("goal", {
         P111: {
             name: "P1A1",
             tooltip() {return "Have 100 Points [1 GP]"},
-            done() {return player.points.gte(100)},
+            done() {return player.points.gte(100) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -187,7 +187,7 @@ addLayer("goal", {
         P112: {
             name: "P1A2",
             tooltip() {return "Have 10,000 Points [1 GP]"},
-            done() {return player.points.gte(10000)},
+            done() {return player.points.gte(10000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -195,7 +195,7 @@ addLayer("goal", {
         P113: {
             name: "P1A3",
             tooltip() {return "Have 1,000,000 Points [1 GP]"},
-            done() {return player.points.gte(1000000)},
+            done() {return player.points.gte(1000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -203,7 +203,7 @@ addLayer("goal", {
         P114: {
             name: "P1A4",
             tooltip() {return "Have 100,000,000 Points [1 GP]"},
-            done() {return player.points.gte(100000000)},
+            done() {return player.points.gte(100000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -211,7 +211,7 @@ addLayer("goal", {
         P115: {
             name: "P1A5",
             tooltip() {return "Have 1.000e10 Points [1 GP]"},
-            done() {return player.points.gte(100000000)},
+            done() {return player.points.gte(100000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -219,7 +219,7 @@ addLayer("goal", {
         P121: {
             name: "P1B1",
             tooltip() {return "Have 100 Amogus [1 GP]"},
-            done() {return player.amogus.points.gte(100)},
+            done() {return player.amogus.points.gte(100) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -227,7 +227,7 @@ addLayer("goal", {
         P122: {
             name: "P1B2",
             tooltip() {return "Have 10,000 Amogus [1 GP]"},
-            done() {return player.amogus.points.gte(10000)},
+            done() {return player.amogus.points.gte(10000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -235,7 +235,7 @@ addLayer("goal", {
         P123: {
             name: "P1B3",
             tooltip() {return "Have 1,000,000 Amogus [1 GP]"},
-            done() {return player.amogus.points.gte(1000000)},
+            done() {return player.amogus.points.gte(1000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -243,7 +243,7 @@ addLayer("goal", {
         P124: {
             name: "P1B4",
             tooltip() {return "Have 100,000,000 Amogus [1 GP]"},
-            done() {return player.amogus.points.gte(100000000)},
+            done() {return player.amogus.points.gte(100000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -251,7 +251,7 @@ addLayer("goal", {
         P125: {
             name: "P1B5",
             tooltip() {return "Have 1.000e10 Amogus [1 GP]"},
-            done() {return player.amogus.points.gte(1e10)},
+            done() {return player.amogus.points.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -259,7 +259,7 @@ addLayer("goal", {
         P131: {
             name: "P1C1",
             tooltip() {return "Have 5 🆎 Boosters [1 GP]"},
-            done() {return getBuyableAmount('amogus', 11).gte(5)},
+            done() {return getBuyableAmount('amogus', 11).gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -267,7 +267,7 @@ addLayer("goal", {
         P132: {
             name: "P1C2",
             tooltip() {return "Have 10 🆎 Boosters [1 GP]"},
-            done() {return getBuyableAmount('amogus', 11).gte(10)},
+            done() {return getBuyableAmount('amogus', 11).gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -275,7 +275,7 @@ addLayer("goal", {
         P133: {
             name: "P1C3",
             tooltip() {return "Have 15 🆎 Boosters [1 GP]"},
-            done() {return getBuyableAmount('amogus', 11).gte(15)},
+            done() {return getBuyableAmount('amogus', 11).gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -283,7 +283,7 @@ addLayer("goal", {
         P134: {
             name: "P1C4",
             tooltip() {return "Have 20 🆎 Boosters [1 GP]"},
-            done() {return getBuyableAmount('amogus', 11).gte(20)},
+            done() {return getBuyableAmount('amogus', 11).gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -291,7 +291,7 @@ addLayer("goal", {
         P135: {
             name: "P1C5",
             tooltip() {return "Have 25 🆎 Boosters [1 GP]"},
-            done() {return getBuyableAmount('amogus', 11).gte(25)},
+            done() {return getBuyableAmount('amogus', 11).gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -299,7 +299,7 @@ addLayer("goal", {
         P141: {
             name: "P1D1",
             tooltip() {return "Have 5 🆎 Generators [1 GP]"},
-            done() {return getBuyableAmount('amogus', 12).gte(5)},
+            done() {return getBuyableAmount('amogus', 12).gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -307,7 +307,7 @@ addLayer("goal", {
         P142: {
             name: "P1D2",
             tooltip() {return "Have 10 🆎 Generators [1 GP]"},
-            done() {return getBuyableAmount('amogus', 12).gte(10)},
+            done() {return getBuyableAmount('amogus', 12).gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -315,7 +315,7 @@ addLayer("goal", {
         P143: {
             name: "P1D3",
             tooltip() {return "Have 15 🆎 Generators [1 GP]"},
-            done() {return getBuyableAmount('amogus', 12).gte(15)},
+            done() {return getBuyableAmount('amogus', 12).gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -323,7 +323,7 @@ addLayer("goal", {
         P144: {
             name: "P1D4",
             tooltip() {return "Have 20 🆎 Generators [1 GP]"},
-            done() {return getBuyableAmount('amogus', 12).gte(20)},
+            done() {return getBuyableAmount('amogus', 12).gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -331,7 +331,7 @@ addLayer("goal", {
         P145: {
             name: "P1D5",
             tooltip() {return "Have 25 🆎 Generators [1 GP]"},
-            done() {return getBuyableAmount('amogus', 12).gte(25)},
+            done() {return getBuyableAmount('amogus', 12).gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -339,7 +339,7 @@ addLayer("goal", {
         P151: {
             name: "P1E1",
             tooltip() {return "Have 100 🆎 [1 GP]"},
-            done() {return player.amogus.AB.gte(100)},
+            done() {return player.amogus.AB.gte(100) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -347,7 +347,7 @@ addLayer("goal", {
         P152: {
             name: "P1E2",
             tooltip() {return "Have 10,000 🆎 [1 GP]"},
-            done() {return player.amogus.AB.gte(10000)},
+            done() {return player.amogus.AB.gte(10000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -355,7 +355,7 @@ addLayer("goal", {
         P153: {
             name: "P1E3",
             tooltip() {return "Have 1,000,000 🆎 [1 GP]"},
-            done() {return player.amogus.AB.gte(1000000)},
+            done() {return player.amogus.AB.gte(1000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -363,7 +363,7 @@ addLayer("goal", {
         P154: {
             name: "P1E4",
             tooltip() {return "Have 100,000,000 🆎 [1 GP]"},
-            done() {return player.amogus.AB.gte(100000000)},
+            done() {return player.amogus.AB.gte(100000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -371,7 +371,7 @@ addLayer("goal", {
         P155: {
             name: "P1E5",
             tooltip() {return "Have 1.000e10 🆎 [1 GP]"},
-            done() {return player.amogus.AB.gte(1e10)},
+            done() {return player.amogus.AB.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -380,7 +380,7 @@ addLayer("goal", {
             name: "P1F1",
             tooltip() {return "Have 5 Boring Booster [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.booster.points.gte(5)},
+            done() {return player.booster.points.gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -389,7 +389,7 @@ addLayer("goal", {
             name: "P1F2",
             tooltip() {return "Have 10 Boring Booster [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.booster.points.gte(10)},
+            done() {return player.booster.points.gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -398,7 +398,7 @@ addLayer("goal", {
             name: "P1F3",
             tooltip() {return "Have 15 Boring Booster [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.booster.points.gte(15)},
+            done() {return player.booster.points.gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -407,7 +407,7 @@ addLayer("goal", {
             name: "P1F4",
             tooltip() {return "Have 20 Boring Booster [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.booster.points.gte(20)},
+            done() {return player.booster.points.gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -416,7 +416,7 @@ addLayer("goal", {
             name: "P1F5",
             tooltip() {return "Have 25 Boring Booster [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.booster.points.gte(25)},
+            done() {return player.booster.points.gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -425,7 +425,7 @@ addLayer("goal", {
             name: "P1G1",
             tooltip() {return "Have 5 🆎 Extractors [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 22).gte(5)},
+            done() {return getBuyableAmount('amogus', 22).gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -434,7 +434,7 @@ addLayer("goal", {
             name: "P1G2",
             tooltip() {return "Have 10 🆎 Extractors [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 22).gte(10)},
+            done() {return getBuyableAmount('amogus', 22).gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -443,7 +443,7 @@ addLayer("goal", {
             name: "P1G3",
             tooltip() {return "Have 15 🆎 Extractors [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 22).gte(15)},
+            done() {return getBuyableAmount('amogus', 22).gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -452,7 +452,7 @@ addLayer("goal", {
             name: "P1G4",
             tooltip() {return "Have 20 🆎 Extractors [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 22).gte(20)},
+            done() {return getBuyableAmount('amogus', 22).gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -461,7 +461,7 @@ addLayer("goal", {
             name: "P1G5",
             tooltip() {return "Have 25 🆎 Extractors [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 22).gte(25)},
+            done() {return getBuyableAmount('amogus', 22).gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -470,7 +470,7 @@ addLayer("goal", {
             name: "P1H1",
             tooltip() {return "Have 5 🆎 Enhancers [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 23).gte(5)},
+            done() {return getBuyableAmount('amogus', 23).gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -479,7 +479,7 @@ addLayer("goal", {
             name: "P1H2",
             tooltip() {return "Have 10 🆎 Enhancers [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 23).gte(10)},
+            done() {return getBuyableAmount('amogus', 23).gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -488,7 +488,7 @@ addLayer("goal", {
             name: "P1H3",
             tooltip() {return "Have 15 🆎 Enhancers [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 23).gte(15)},
+            done() {return getBuyableAmount('amogus', 23).gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -497,7 +497,7 @@ addLayer("goal", {
             name: "P1H4",
             tooltip() {return "Have 20 🆎 Enhancers [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 23).gte(20)},
+            done() {return getBuyableAmount('amogus', 23).gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -506,7 +506,7 @@ addLayer("goal", {
             name: "P1H5",
             tooltip() {return "Have 25 🆎 Enhancers [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 23).gte(25)},
+            done() {return getBuyableAmount('amogus', 23).gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -515,7 +515,7 @@ addLayer("goal", {
             name: "P1I1",
             tooltip() {return "Have 5 🆎 Space Labs [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 24).gte(5)},
+            done() {return getBuyableAmount('amogus', 24).gte(5) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -524,7 +524,7 @@ addLayer("goal", {
             name: "P1I2",
             tooltip() {return "Have 10 🆎 Space Labs [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 24).gte(10)},
+            done() {return getBuyableAmount('amogus', 24).gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -533,7 +533,7 @@ addLayer("goal", {
             name: "P1I3",
             tooltip() {return "Have 15 🆎 Space Labs [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 24).gte(15)},
+            done() {return getBuyableAmount('amogus', 24).gte(15) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -542,7 +542,7 @@ addLayer("goal", {
             name: "P1I4",
             tooltip() {return "Have 20 🆎 Space Labs [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 24).gte(20)},
+            done() {return getBuyableAmount('amogus', 24).gte(20) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -551,7 +551,7 @@ addLayer("goal", {
             name: "P1I5",
             tooltip() {return "Have 25 🆎 Space Labs [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return getBuyableAmount('amogus', 24).gte(25)},
+            done() {return getBuyableAmount('amogus', 24).gte(25) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -560,7 +560,7 @@ addLayer("goal", {
             name: "P1J1",
             tooltip() {return "Have 10 Extracted 🆎 [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.amogus.ExAB.gte(10)},
+            done() {return player.amogus.ExAB.gte(10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -569,7 +569,7 @@ addLayer("goal", {
             name: "P1J2",
             tooltip() {return "Have 100 Extracted 🆎 [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.amogus.ExAB.gte(100)},
+            done() {return player.amogus.ExAB.gte(100) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -578,7 +578,7 @@ addLayer("goal", {
             name: "P1J3",
             tooltip() {return "Have 1,000 Extracted 🆎 [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.amogus.ExAB.gte(1000)},
+            done() {return player.amogus.ExAB.gte(1000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -587,7 +587,7 @@ addLayer("goal", {
             name: "P1J4",
             tooltip() {return "Have 10,000 Extracted 🆎 [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.amogus.ExAB.gte(10000)},
+            done() {return player.amogus.ExAB.gte(10000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -596,7 +596,7 @@ addLayer("goal", {
             name: "P1J5",
             tooltip() {return "Have 100,000 Extracted 🆎 [2 GP]"},
             unlocked() {return player.booster.unlocked},
-            done() {return player.amogus.ExAB.gte(100000)},
+            done() {return player.amogus.ExAB.gte(100000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(2)
             }
@@ -725,7 +725,7 @@ addLayer("amogus", {
         12: {
 	        title: "Amogus Upgrade A2",
         	description: "Multiply point gain by 4, how boring.",
-         	cost: new Decimal (4),
+         	cost: new Decimal (2),
             effect() {
                 let base = new Decimal (4)
                 if (hasUpgrade('amogus', 23)) base = base.add(upgradeEffect('amogus', 23))
@@ -738,7 +738,7 @@ addLayer("amogus", {
         13: {
 	        title: "Amogus Upgrade A3",
         	description: "Multiply point gain based on best amogus. (by using a sussy formula)",
-         	cost: new Decimal (10),
+         	cost: new Decimal (5),
             tooltip() {return "Formula: ([best amogus]+2)<sup>0.4</sup>"},
             effect() {return player.amogus.best.max(0).add(2).pow(0.4)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -747,7 +747,7 @@ addLayer("amogus", {
         14: {
 	        title: "Amogus Upgrade A4",
         	description: "Multiply point gain based on points.",
-         	cost: new Decimal (25),
+         	cost: new Decimal (12),
             tooltip() {return "Formula: (log<sub>10</sub>([points]+1)+2)<sup>0.5</sup>"},
             effect() {return player.points.max(0).add(1).log(10).add(2).pow(0.5)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -756,7 +756,7 @@ addLayer("amogus", {
         15: {
 	        title: "Amogus Upgrade A5",
         	description: "Multiply amogus gain based on points.",
-         	cost: new Decimal (69),
+         	cost: new Decimal (40),
             tooltip() {return "Formula: (log<sub>10</sub>([points]+1)+2)<sup>0.2</sup>"},
             effect() {return player.points.max(0).add(1).log(10).add(2).pow(0.2)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -765,7 +765,7 @@ addLayer("amogus", {
         21: {
 	        title: "Amogus Upgrade B1",
         	description: "Multiply amogus gain based on best amogus.",
-         	cost: new Decimal (150),
+         	cost: new Decimal (81),
             tooltip() {return "Formula: (log<sub>10</sub>([best amogus]+1)+2)<sup>0.25</sup>"},
             effect() {return player.amogus.best.max(0).add(1).log(10).add(2).pow(0.25)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -774,13 +774,13 @@ addLayer("amogus", {
         22: {
 	        title: "Amogus Upgrade B2",
         	description: "Square root the point gain divider, should be pretty useful later on.",
-         	cost: new Decimal (300),
+         	cost: new Decimal (144),
             unlocked() {return hasUpgrade('amogus', 21)}
        	},
         23: {
 	        title: "Amogus Upgrade B3",
         	description: "Add 1 to <b>Amogus Upgrade A2</b>'s Effect Base Per Upgrade.",
-         	cost: new Decimal (750),
+         	cost: new Decimal (250),
             effect() {return new Decimal (player.amogus.upgrades.length)},
             effectDisplay() { return "+"+format(upgradeEffect(this.layer, this.id)) },
             unlocked() {return hasUpgrade('amogus', 22)}
@@ -788,7 +788,7 @@ addLayer("amogus", {
         24: {
 	        title: "Amogus Upgrade B4",
         	description: "It's getting little slow, Multiply Point gain based on upgrades",
-         	cost: new Decimal (1234),
+         	cost: new Decimal (420),
             tooltip() {return "Formula: ([amogus upgrades]+2)<sup>1.25</sup>"},
             effect() {return new Decimal (player.amogus.upgrades.length).add(2).pow(1.25)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -797,7 +797,7 @@ addLayer("amogus", {
         25: {
 	        title: "Amogus Upgrade B5",
         	description: "Multiply Point gain by 2.5, Unlock <b>🆎</b> tab",
-         	cost: new Decimal (4096),
+         	cost: new Decimal (1536),
             effect() {return new Decimal (2.5)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             unlocked() {return hasUpgrade('amogus', 24)}
@@ -805,7 +805,7 @@ addLayer("amogus", {
         31: {
 	        title: "Amogus Upgrade C1",
         	description: "Each <b>🆎 Generator</b> Multiply amogus gain by 1.25",
-         	cost: new Decimal (12288),
+         	cost: new Decimal (5e3),
             effect() {return Decimal.pow(1.25, getBuyableAmount('amogus', 12))},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             unlocked() {return hasUpgrade('amogus', 25)}
@@ -813,7 +813,7 @@ addLayer("amogus", {
         32: {
 	        title: "Amogus Upgrade C2",
         	description: "Boost 🆎 Limit based on 🆎",
-         	cost: new Decimal (32768),
+         	cost: new Decimal (12345),
              tooltip() {return "Formula: (log<sub>10</sub>([🆎]+10)+2)<sup>0.25</sup>"},
             effect() {return player.amogus.AB.max(0).add(10).log(10).max(1).add(2).pow(0.25)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
@@ -822,7 +822,7 @@ addLayer("amogus", {
         33: {
 	        title: "Amogus Upgrade C3",
         	description: "Increase <b>🆎 Generator</b>'s Second Effect Base by 1, Unlock <b>🆎 Booster</b>",
-         	cost: new Decimal (1e5),
+         	cost: new Decimal (1.75e4),
             effect() {return new Decimal (1)},
             effectDisplay() { return "+"+format(upgradeEffect(this.layer, this.id))},
             unlocked() {return hasUpgrade('amogus', 32)}
@@ -830,7 +830,7 @@ addLayer("amogus", {
         34: {
 	        title: "Amogus Upgrade C4",
         	description: "Each <b>🆎 Booster</b> Multiply point gain by 2",
-         	cost: new Decimal (262144),
+         	cost: new Decimal (4e4),
             effect() {return Decimal.pow(2, getBuyableAmount('amogus', 11))},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             unlocked() {return hasUpgrade('amogus', 33)}
@@ -838,7 +838,7 @@ addLayer("amogus", {
         35: {
 	        title: "Amogus Upgrade C5",
         	description: "Multiply 🆎 Gain and Limit by 1.1 per upgrade, Unlock a new layer",
-         	cost: new Decimal (1048576),
+         	cost: new Decimal (2e5),
             effect() {return Decimal.pow(1.1, player.amogus.upgrades.length)},
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             unlocked() {return hasUpgrade('amogus', 34)}
@@ -1134,7 +1134,7 @@ addLayer("booster", {
        return base
     },
     color: "#ACACE6",
-    requires: new Decimal(1e6),
+    requires: new Decimal(8e5),
     resource: "boring boosters",
     baseResource: "amogus",
     baseAmount() {return player.amogus.points},

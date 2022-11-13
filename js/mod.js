@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.1",
-	name: "BB",
+	num: "1.1.1",
+	name: "Balance Boost",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -23,7 +23,7 @@ let changelog = `<h1>Changelog:</h1><br>
 	    - Added a layer.<br>
 		- Added 15 upgrades.<br>
 		- Added 2 buyables.<br>
-		Endgame: - 16,777,216 amogus<br>
+		Endgame: - 16,777,216 amogus<br><br>
 	<h3>V1.1 - BB</h3><br>
 	    - Added 3 layers.<br>
 		- Added 15 upgrades.<br>
@@ -31,7 +31,12 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 50 Goals.<br>
 		- Added 3 Difficulty Modifiers.<br>
 		- Easy/Normal mode for each one (i don't like to make stuffs harder).<br>
-		Endgame: - 26 boring boosters (even you can get 27 or more idc)<br>`
+		Endgame: - 26 boring boosters (even you can get 27 or more idc)<br><br>
+	<h3>V1.1.1 - Balance Boost</h3><br>
+	    - Fixed Several Bugs.<br>
+		- Balance First Layer lil' better (by lowering the upgrades' cost)<br>
+		- Multiplied Booster Cost by 0.8 (cause i was bored)<br>
+		Endgame: - 26 boring boosters (even you can get 27 or more idc)<br><br>`
 	
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
