@@ -48,7 +48,7 @@
 		<div class="vl" v-if="player.navTab !== 'none' && tmp.other.splitScreen && player.tab!='none' && !(tmp.gameEnded && !player.keepGoing)"></div>
 		<div v-if="(tmp.gameEnded && !player.keepGoing)" class="fullWidth">
 			<br>
-			<h2>{{VERSION.withoutName}}</h2><br><br>
+			<h2>{{VERSION.withName}}</h2><br><br>
 			<h3 v-html="modInfo.winText"></h3><br>
 			<h3>Please check the Discord to see if there are new content updates!</h3><br><br>
 			<div v>You spent {{formatTime(player.runTime)}} to beat the run.</div>
