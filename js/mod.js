@@ -40,7 +40,7 @@ let changelog = `<h1>Changelog:</h1><br>
 		Endgame: - 26 boring boosters (even you can get 27 or more idc)<br><br>
 	<h3>V1.2 - Classical Case</h3><br>
 		- Added a prestige layer<br>
-		- Moved Point gain nerfs lists in a side layer
+		- Moved Point gain nerfs lists in a side layer.<br>
 		- Added 30 upgrades<br>
 		- Added 12 buyables<br>
 		- Added 5 milestones.<br>
