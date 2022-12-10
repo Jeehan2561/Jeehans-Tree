@@ -54,14 +54,13 @@ addLayer("difficulty", {
             }},
         },
         12: {
-            title: "Point gain divider",
+            title: "Point gain divider (RECOMMEND NORMAL ONLY FOR THIS)",
             display(){
                 if (player.difficulty.dividerNerf) return "is raised to the 0.75th power (Easier version)"
                 return "is on (Normal Version)"
             },
-            unlocked() {return true},
-            canClick() {return !player.difficulty.gameStarted},
-            onClick() { player.difficulty.dividerNerf = !player.difficulty.dividerNerf },
+            unlocked() {return false},
+            canClick() {return false},
             style: {"background-color"(){
                 let color = "#FF0000"
                 if (player.difficulty.dividerNerf) color = "#00FF00"
@@ -168,16 +167,22 @@ addLayer("goal", {
             ["row", [["achievement", "P131"],["achievement", "P132"],["achievement", "P133"],["achievement", "P134"],["achievement", "P135"]]],
             ["row", [["achievement", "P141"],["achievement", "P142"],["achievement", "P143"],["achievement", "P144"],["achievement", "P145"]]],
             ["row", [["achievement", "P151"],["achievement", "P152"],["achievement", "P153"],["achievement", "P154"],["achievement", "P155"]]],
+            "blank",
+            "blank",
             ["row", [["achievement", "P161"],["achievement", "P162"],["achievement", "P163"],["achievement", "P164"],["achievement", "P165"]]],
             ["row", [["achievement", "P171"],["achievement", "P172"],["achievement", "P173"],["achievement", "P174"],["achievement", "P175"]]],
             ["row", [["achievement", "P181"],["achievement", "P182"],["achievement", "P183"],["achievement", "P184"],["achievement", "P185"]]],
             ["row", [["achievement", "P191"],["achievement", "P192"],["achievement", "P193"],["achievement", "P194"],["achievement", "P195"]]],
             ["row", [["achievement", "P1101"],["achievement", "P1102"],["achievement", "P1103"],["achievement", "P1104"],["achievement", "P1105"]]],
+            "blank",
+            "blank",
             ["row", [["achievement", "P1111"],["achievement", "P1112"],["achievement", "P1113"],["achievement", "P1114"],["achievement", "P1115"]]],
             ["row", [["achievement", "P1121"],["achievement", "P1122"],["achievement", "P1123"],["achievement", "P1124"],["achievement", "P1125"]]],
             ["row", [["achievement", "P1131"],["achievement", "P1132"],["achievement", "P1133"],["achievement", "P1134"],["achievement", "P1135"]]],
             ["row", [["achievement", "P1141"],["achievement", "P1142"],["achievement", "P1143"],["achievement", "P1144"],["achievement", "P1145"]]],
             ["row", [["achievement", "P1151"],["achievement", "P1152"],["achievement", "P1153"],["achievement", "P1154"],["achievement", "P1155"]]],
+            "blank",
+            "blank",
             ["row", [["achievement", "P1161"],["achievement", "P1162"],["achievement", "P1163"],["achievement", "P1164"],["achievement", "P1165"]]],
             ["row", [["achievement", "P1171"],["achievement", "P1172"],["achievement", "P1173"],["achievement", "P1174"],["achievement", "P1175"]]],
             ["row", [["achievement", "P1181"],["achievement", "P1182"],["achievement", "P1183"],["achievement", "P1184"],["achievement", "P1185"]]],
@@ -837,6 +842,231 @@ addLayer("goal", {
                 player[this.layer].points = player[this.layer].points.add(3)
             }
         },
+        P1161: {
+            name: "P1P1",
+            tooltip() {return "Have 5 Deadly Virus [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.dv.points.gte(5) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1162: {
+            name: "P1P2",
+            tooltip() {return "Have 10 Deadly Virus [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.dv.points.gte(10) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1163: {
+            name: "P1P3",
+            tooltip() {return "Have 15 Deadly Virus [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.dv.points.gte(15) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1164: {
+            name: "P1P4",
+            tooltip() {return "Have 20 Deadly Virus [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.dv.points.gte(20) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1165: {
+            name: "P1P5",
+            tooltip() {return "Have 25 Deadly Virus [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.dv.points.gte(25) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1171: {
+            name: "P1Q1",
+            tooltip() {return "Have 5 Super Boosters [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.sbooster.points.gte(5) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1172: {
+            name: "P1Q2",
+            tooltip() {return "Have 10 Super Boosters [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.sbooster.points.gte(10) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1173: {
+            name: "P1Q3",
+            tooltip() {return "Have 15 Super Boosters [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.sbooster.points.gte(15) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1174: {
+            name: "P1Q4",
+            tooltip() {return "Have 20 Super Boosters [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.sbooster.points.gte(20) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1175: {
+            name: "P1Q5",
+            tooltip() {return "Have 25 Super Boosters [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return player.sbooster.points.gte(25) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1181: {
+            name: "P1R1",
+            tooltip() {return "Beat King [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return hasChallenge('chess', 21) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1182: {
+            name: "P1R2",
+            tooltip() {return "Beat Silver General [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return hasChallenge('chess', 22) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1183: {
+            name: "P1R3",
+            tooltip() {return "Beat Berolina Pawn [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return hasChallenge('chess', 23) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1184: {
+            name: "P1R4",
+            tooltip() {return "Beat General [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return hasChallenge('chess', 24) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1185: {
+            name: "P1R5",
+            tooltip() {return "Beat Amalgam [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return hasChallenge('chess', 25) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1191: {
+            name: "P1S1",
+            tooltip() {return "Perform DIEmension Shifts 2 times [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 32).gte(2) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1192: {
+            name: "P1S2",
+            tooltip() {return "Perform DIEmension Shifts 4 times [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 32).gte(4) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1193: {
+            name: "P1S3",
+            tooltip() {return "Perform DIEmension Shifts 6 times [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 32).gte(6) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1194: {
+            name: "P1S4",
+            tooltip() {return "Perform DIEmension Boosts 8 times [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 32).gte(8) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1195: {
+            name: "P1S5",
+            tooltip() {return "Perform DIEmension Boosts 10 times [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 32).gte(10) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1201: {
+            name: "P1T1",
+            tooltip() {return "Obtain a Deadly orb [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 33).gte(1) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1202: {
+            name: "P1T2",
+            tooltip() {return "Obtain 2 Deadly orbs [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 33).gte(2) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1203: {
+            name: "P1T3",
+            tooltip() {return "Obtain 3 Deadly orbs [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 33).gte(3) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1204: {
+            name: "P1T4",
+            tooltip() {return "Obtain 4 Deadly orbs [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 33).gte(4) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
+        P1205: {
+            name: "P1T5",
+            tooltip() {return "Obtain 5 Deadly orbs [4 GP]"},
+            unlocked() {return player.dv.unlocked},
+            done() {return getBuyableAmount('dv', 33).gte(5) && player.difficulty.gameStarted},
+            onComplete() {
+                player[this.layer].points = player[this.layer].points.add(4)
+            }
+        },
     },
     update(diff) {
         if (!player.difficulty.gameStarted) layerDataReset(this.layer)
@@ -875,6 +1105,9 @@ addLayer("pgn", {
             ["display-text", function() {
                 if (player.points.gte("1.8e308")&&(canGenPoints())) return "Previous Effect is raised to the " + format(getPointDividerExpo2()) + "th power (based on points)"
             }],
+            ["display-text", function() {
+                if (player.points.gte("6.9e420")&&(canGenPoints())) return "Point gain will be capped at " + format(getPointCap())
+            }],
         ]
         }
     },
@@ -884,7 +1117,7 @@ addLayer("amogus", {
     symbol: "ඞ", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
-        unlocked: false,
+        unlocked: true,
 		points: new Decimal(0),
         best: new Decimal (0),
         AB: new Decimal (0),
@@ -915,6 +1148,8 @@ addLayer("amogus", {
         if (hasUpgrade('booster', 31)) mult = mult.times(upgradeEffect('booster', 31))
         if (hasUpgrade('chess', 11)) mult = mult.times(upgradeEffect('chess', 11))
         if (hasUpgrade('chess', 24)) mult = mult.times(upgradeEffect('chess', 24))
+        if (hasUpgrade('dv', 14)) mult = mult.times(upgradeEffect('dv', 14))
+        if (hasUpgrade('dv', 75)) mult = mult.times(upgradeEffect('dv', 75).AM)
         if (player.difficulty.staticResBoost) mult = mult.times(2)
         mult = mult.times(tmp.chess.effect)
         mult = mult.times(buyableEffect('chess', 22).Ef)
@@ -924,6 +1159,8 @@ addLayer("amogus", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         expo = new Decimal (1)
         if (hasUpgrade('booster', 42)) expo = expo.times(1.1)
+        if (hasUpgrade('dv', 35)) expo = expo.times(1.1)
+        if (inChallenge('chess', 22)) expo = expo.times(0.5)
         return expo
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -939,7 +1176,7 @@ addLayer("amogus", {
         layerDataReset(this.layer, keep)
     },
     hotkeys: [
-        {key: "a", description: "A: Reset for amogus", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "a", description: "A: Reset for amogus", onPress(){if (canReset(this.layer)&&(!hasMilestone('booster', 1))) doReset(this.layer)}},
     ],
     passiveGeneration() {
         let passive = 0
@@ -948,7 +1185,7 @@ addLayer("amogus", {
         return passive
     },
     getABeffect() {
-        return player.amogus.AB.max(0).pow(0.5).add(1)
+        return softcap(player.amogus.AB.max(0), new Decimal ("1e1000"), new Decimal (0.1)).pow(0.5).add(1)
     },
     getExABeffect() {
         return player.amogus.ExAB.max(0).pow(0.4).add(1)
@@ -959,7 +1196,7 @@ addLayer("amogus", {
             content:[
                 "main-display",
                 "blank",
-                ["prestige-button",function(){return ""}],
+                ["prestige-button", "", function (){ return hasMilestone("booster", 1) ? {'display': 'none'} : {}}],
                 "blank",
                 "resource-display",
                 "blank",
@@ -977,12 +1214,12 @@ addLayer("amogus", {
             content:[
                 "main-display",
                 "blank",
-                ["prestige-button",function(){return ""}],
+                ["prestige-button", "", function (){ return hasMilestone("booster", 1) ? {'display': 'none'} : {}}],
                 "blank",
                 "resource-display",
                 ["display-text",
                 function() {
-                    return "You have " + format(player.amogus.AB) + " 🆎, Translated to a x" + format(tmp.amogus.getABeffect) + " boost to point gain."
+                    return "You have " + format(player.amogus.AB) + " 🆎, Translated to a x" + format(tmp.amogus.getABeffect) + " boost to point gain." + (player.amogus.AB.gte("1e1000") ? " (softcapped past 1.000e1000 🆎)" : "")
                 }],
                 ["display-text",
                 function() {
@@ -1147,7 +1384,7 @@ addLayer("amogus", {
        	},
         43: {
 	        title: "Amogus Upgrade D3",
-        	description: "Multiply passive amogus gain based on amogus, Decrease <b>Material Points</b>' Cost base by 1.",
+        	description: "Multiply passive amogus gain based on amogus, Decrease <b>Material Points</b>' Cost base to 8.",
          	cost: new Decimal (1e180),
             tooltip() {return "Formula: (log<sub>10</sub>[amogus]+1)<sup>1.25</sup>"},
             effect() {return player.amogus.points.max(1).log(10).add(1).pow(1.25)},
@@ -1204,9 +1441,9 @@ addLayer("amogus", {
             display(){
                 return ""
             },
-            unlocked() {return true},
+            unlocked() {return (!hasMilestone('booster', 1))},
             canClick() {return true},
-            onHold() {if (canReset(this.layer)) doReset(this.layer)},
+            onHold() {if (canReset(this.layer) &&(!hasMilestone('booster', 1))) doReset(this.layer)},
             style: {"background-color"(){
                 let color = "#FF0000"
                 return color
@@ -1296,9 +1533,11 @@ addLayer("amogus", {
                 let base1 = new Decimal (1.125)
                 if (hasUpgrade('booster', 15)) base1 = base1.add(upgradeEffect('booster', 15))
                 base1 = base1.add(buyableEffect('amogus', 23).Ef)
+                if (hasMilestone('dv', 7)) base1 = base1.times(player.dv.dedpow.max(1).ln().max(1).ln().max(1))
                 let base2 = new Decimal (2)
                 if (hasUpgrade('amogus', 33)) base2 = base2.add(upgradeEffect('amogus', 33))
                 base2 = base2.add(buyableEffect('amogus', 23).Ef)
+                if (hasMilestone('dv', 7)) base2 = base2.times(player.dv.dedpow.max(1).ln().max(1).ln().max(1))
                 let expo = x
                 let eff1 = base1.pow(x.sub(1), expo).mul(x.min(1))
                 eff1 = eff1.times(buyableEffect('amogus', 11).Bo)
@@ -1310,6 +1549,7 @@ addLayer("amogus", {
                 if (player.difficulty.staticResBoost) eff1 = eff1.times(2)
                 eff1 = eff1.times(buyableEffect('chess', 11).Ef)
                 eff1 = eff1.times(buyableEffect('chess', 31).Ef)
+                if (hasUpgrade('dv', 43)) eff1 = eff1.times(upgradeEffect('dv', 43).AB)
                 if (inChallenge('chess', 12)) eff1 = eff1.div(1e15)
                 let eff2 = base2.pow(x, expo).mul(x.min(1))
                 eff2 = eff2.times(buyableEffect('amogus', 11).Bo)
@@ -1318,8 +1558,11 @@ addLayer("amogus", {
                 if (hasUpgrade('booster', 13)) eff2 = eff2.times(upgradeEffect('booster', 13))
                 if (hasUpgrade('booster', 25)) eff2 = eff2.times(upgradeEffect('booster', 25))
                 if (hasUpgrade('booster', 43)) eff2 = eff2.times(upgradeEffect('booster', 43))
+                if (hasUpgrade('dv', 43)) eff2 = eff2.times(upgradeEffect('dv', 43).AB)
                 eff2 = eff2.times(buyableEffect('amogus', 24).Ef)
                 if (hasUpgrade('chess', 32)) eff2 = eff2.pow(1.1)
+                if (hasUpgrade('dv', 12)) eff2 = eff2.pow(1.1)
+                if (hasUpgrade('dv', 33)) eff2 = eff2.pow(1.1)
                 return {
                     BaP: base1,
                     BaL: base2,
@@ -1340,11 +1583,17 @@ addLayer("amogus", {
                 return hasUpgrade('booster', 43)
             },
             cost(x) {
-                let base = new Decimal(69).add(x.pow(2))
+                let base = new Decimal(69)
                 if (hasUpgrade('chess', 44)) base = base.sub(69)
-                return base.floor()
+                let expo = new Decimal (2)
+                if (hasMilestone('dv', 3)) expo = new Decimal (1.9)
+                if (hasUpgrade('dv', 63)) expo = new Decimal (1.8)
+                let base2 = x.pow(expo)
+                return base.add(base2).floor()
             },
             tooltip() {
+                if (hasUpgrade('dv', 63)) return "Cost Formula:<br>x<sup>1.8</sup>"
+                if (hasMilestone('dv', 3)) return "Cost Formula:<br>x<sup>1.9</sup>"
                 if (hasUpgrade('chess', 44)) return "Cost Formula:<br>x<sup>2</sup>"
                 return "Cost Formula:<br>69+x<sup>2</sup>"
             },
@@ -1356,11 +1605,13 @@ addLayer("amogus", {
             },
             buy() {
                 let cost = new Decimal (1)
+                if (hasChallenge('chess', 22)) cost = new Decimal (0)
                 setBuyableAmount(this.layer, 11, getBuyableAmount(this.layer, 11).sub(this.cost().times(cost)))
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
                 let base1 = new Decimal (1.05)
+                if (hasChallenge('chess', 22)) base1 = base1.add(0.05)
                 let eff1 = base1.pow(x)
                 return {
                     Ba1: base1,
@@ -1407,6 +1658,10 @@ addLayer("amogus", {
                 if (hasUpgrade('chess', 45)) base2 = base2.pow(0.5)
                 let expo2 = new Decimal (1.1)
                 if (hasChallenge('chess', 15)) expo2 = new Decimal (1.09)
+                if (hasChallenge('chess', 23)) expo2 = new Decimal (1.08)
+                if (hasMilestone('dv', 4)) expo2 = new Decimal (1.07)
+                if (hasUpgrade('dv', 33)) expo2 = new Decimal (1.06)
+                if (hasUpgrade('dv', 53)) expo2 = new Decimal (1.05)
                 let limbase = new Decimal (2)
                 let diveff2 = new Decimal (1)
                 if (hasUpgrade('amogus', 45)) diveff2 = diveff2.times(upgradeEffect('amogus', 45))
@@ -1421,10 +1676,14 @@ addLayer("amogus", {
                 eff1 = eff1.times(buyableEffect('chess', 32).Ef)
                 if (player.difficulty.staticResBoost) eff1 = eff1.times(2)
                 if (hasMilestone('chess', 1)) eff1 = eff1.times(tmp.chess.M1effect)
+                if (hasUpgrade('dv', 61)) eff1 = eff1.times(upgradeEffect('dv', 61).AB)
+                if (hasUpgrade('dv', 65)) eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 72)) eff1 = eff1.times(6268)
                 let eff2 = base2.pow(Decimal.pow(expo2, x.sub(1))).times(x.max(1).min(1))
                 eff2 = eff2.div(diveff2)
                 let lim = new Decimal (1).times(Decimal.pow(limbase, x)).times(x.max(1).min(1))
                 if (hasUpgrade('chess', 43)) lim = lim.times(upgradeEffect('chess', 43))
+                if (hasUpgrade('dv', 61)) lim = lim.times(upgradeEffect('dv', 61).AB)
                 return {
                     BaE: base1,
                     BaLO: base2.pow(expo2.pow(x)).div(diveff2).div(eff2),
@@ -1552,8 +1811,15 @@ addLayer("booster", {
     baseResource: "amogus",
     baseAmount() {return player.amogus.points},
     type: "static",
-    base() {return new Decimal (5)},
-    exponent() {return new Decimal (1.25)},
+    base() {
+        let base = new Decimal (5)
+        if (hasUpgrade('sbooster', 14)) base = new Decimal (4)
+        return base},
+    exponent() {
+        let base = new Decimal (1.25)
+        if (hasUpgrade('sbooster', 11)) base = new Decimal (1.2)
+        return base
+    },
     gainMult() {
         let mult = new Decimal (1)
         if (hasUpgrade('amogus', 45)) mult = mult.div(upgradeEffect('amogus', 45))
@@ -1563,6 +1829,10 @@ addLayer("booster", {
         if (hasUpgrade('booster', 41)) mult = mult.div(upgradeEffect('booster', 41))
         if (hasUpgrade('chess', 41)) mult = mult.div(upgradeEffect('chess', 41))
         mult = mult.div(buyableEffect('chess', 41).Ef)
+        if (hasUpgrade('dv', 21)) mult = mult.div(upgradeEffect('dv', 21))
+        if (hasUpgrade('dv', 22)) mult = mult.div(upgradeEffect('dv', 22))
+        if (hasUpgrade('dv', 55)) mult = mult.div(player.dv.dedpow.max(1))
+        if (hasUpgrade('sbooster', 13)) mult = mult.div(upgradeEffect('sbooster', 13))
         return mult
     },
     row: 1,
@@ -1584,6 +1854,7 @@ addLayer("booster", {
         if (hasUpgrade('booster', 12)) base = base.add(upgradeEffect('booster', 12))
         if (hasUpgrade('booster', 45)) base = base.add(upgradeEffect('booster', 45))
         base = base.add(buyableEffect('chess', 42).Ef)
+        base = base.times(tmp.sbooster.effect)
         if (inChallenge('chess', 13)) base = base.sub(1)
         if (inChallenge('chess', 14)) base = base.sub(1.25)
         if (inChallenge('chess', 15)) base = base.sub(1.5)
@@ -1592,6 +1863,9 @@ addLayer("booster", {
 	},
     M4effect() {
         return Decimal.add(player[this.layer].milestones.length, 2).pow(0.75)
+    },
+    M5effect() {
+        return Decimal.pow(1.25, player.booster.best.max(0).add(1))
     },
     effectDescription() { 
         let eff = this.effect();
@@ -1882,7 +2156,7 @@ addLayer("booster", {
             },
         1: {requirementDescription: "9 Boring Boosters",
             done() {return player[this.layer].best.gte(9)},
-            effectDescription: "Gain 100% of amogus gain on reset per second.",
+            effectDescription: "Gain 100% of amogus gain on reset per second, But Remove the ability to reset.",
         },
         2: {requirementDescription: "15 Boring Boosters",
             done() {return player[this.layer].best.gte(15)},
@@ -1897,6 +2171,137 @@ addLayer("booster", {
         4: {requirementDescription: "27 Boring Boosters",
             done() {return player[this.layer].best.gte(27)},
             effectDescription: "Unlock a new layer.",
+        },
+        5: {requirementDescription: "197 Boring Boosters",
+            done() {return player[this.layer].best.gte(197)},
+            unlocked() {return hasUpgrade('dv', 22)},
+            effectDescription() {return "Multiply Point gain cap by "+format(tmp.booster.M5effect)+" (based on best booster), Unlock a new layer."},
+            tooltip() {return "Formula: <br>1.25<sup>[Best Booster]+1</sup>"},
+        },
+    },
+    update(diff) {
+        if (!player.difficulty.gameStarted) {
+            player[this.layer].unlocked = false
+            layerDataReset(this.layer)}
+    },
+})
+addLayer("sbooster", {
+    name: "super boosters",
+    symbol: "SB",
+    position: 1,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        best: new Decimal (0),
+    }},
+    tooltip() {
+       let base = formatWhole(player.sbooster.points)+" super boosters"
+       if (false) base = base+"<br>"+format(player.amogus.AB)+" 🆎"
+       return base
+    },
+    color: "#0CC8FF",
+    requires: new Decimal(200),
+    resource: "super boosters",
+    baseResource: "boring boosters",
+    baseAmount() {return player.booster.points},
+    type: "static",
+    base() {
+        let base = new Decimal (1.1)
+        if (hasUpgrade('dv', 53)) base = new Decimal (1.05)
+        return base
+    },
+    exponent() {return new Decimal (1.25)},
+    gainMult() {
+        let mult = new Decimal (1)
+        return mult
+    },
+    row: 1,
+    layerShown() {return hasMilestone('booster', 5)||player[this.layer].unlocked},
+    roundUpCost() {return true},
+    doReset(l) {
+        if (!(layers[l].row > this.row)) return
+        
+        let keep = ['milestones']
+
+        if (hasMilestone('dv', 5)) keep.push('upgrades')
+        
+        layerDataReset(this.layer, keep)
+    },
+    branches: ["booster"],
+    effect() {
+		let amt = player.sbooster.best;
+		let base = new Decimal(1.05)
+		eff = Decimal.pow(base.max(1),amt);
+		return eff;
+	},
+    effectDescription() { 
+        let eff = this.effect();
+        return "translated to a "+format(eff)+"x boost to boring booster base (based on best super booster)"
+    },
+    hotkeys: [
+        {key: "B", description: "Shift+B: Super Booster reset",
+         onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked(){return player[this.layer].unlocked}}
+    ],
+    tabFormat: ["main-display",
+                    "prestige-button", "resource-display",
+                    ["blank", "5px"],
+						"milestones",
+						"upgrades"
+				],
+    upgrades: {
+        11: {
+	        title: "Super Booster Upgrade A1",
+        	description: "Reduce Boring Booster's cost exponent from 1.25 to 1.2",
+         	cost: new Decimal (1),
+            unlocked() {return true}
+       	},
+        12: {
+	        title: "Super Booster Upgrade A2",
+        	description: "Raise Point gain cap by 1.025th power per upgrade",
+         	cost: new Decimal (3),
+            effect() {
+                let base = new Decimal(1.025)
+                let expo = new Decimal(player[this.layer].upgrades.length)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id)) },
+            unlocked() {return hasUpgrade('sbooster', 11)}
+       	},
+        13: {
+	        title: "Super Booster Upgrade A3",
+        	description: "Divide B-Booster's Cost by 1e5 per S-Boosters",
+         	cost: new Decimal (4),
+            effect() {
+                let base = new Decimal(1e5)
+                let expo = player[this.layer].points
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id)) },
+            unlocked() {return hasUpgrade('sbooster', 12)}
+       	},
+        14: {
+	        title: "Super Booster Upgrade A4",
+        	description: "Reduce Booster's Cost base from 5 to 4 but Raise point gain to the 0.8th power.",
+         	cost: new Decimal (5),
+            unlocked() {return hasUpgrade('sbooster', 13)}
+       	},
+        15: {
+	        title: "Super Booster Upgrade A5",
+        	description: "Raise Point gain cap to the 1.05th power.",
+         	cost: new Decimal (6),
+            unlocked() {return hasUpgrade('sbooster', 14)}
+       	},
+    },
+    milestones: {
+        0: {requirementDescription: "3 Super Boosters",
+                done() {return player[this.layer].best.gte(3)}, // Used to determine when to give the milestone
+                effectDescription: "Multiply Point gain cap by 1e8 per super booster.",
+            },
+        1: {requirementDescription: "7 Super Boosters",
+            done() {return player[this.layer].best.gte(7)}, // Used to determine when to give the milestone
+            effectDescription: "Square root the point gain nerf.",
         },
     },
     update(diff) {
@@ -1936,12 +2341,23 @@ addLayer("chess", {
         if (hasUpgrade('chess', 15)) mult = mult.times(upgradeEffect('chess', 15))
         if (hasUpgrade('chess', 32)) mult = mult.times(upgradeEffect('chess', 32))
         if (hasUpgrade('chess', 42)) mult = mult.times(upgradeEffect('chess', 42))
+        if (hasMilestone('chess', 3)) mult = mult.times(250)
         mult = mult.times(buyableEffect('chess', 51).Ef)
+        mult = mult.times(tmp.dv.effect)
+        mult = mult.times(tmp.dv.dedpoweff)
+        if (hasUpgrade('dv', 12)) mult = mult.times(upgradeEffect('dv', 12))
+        if (hasMilestone('dv', 3)) mult = mult.times(Decimal.pow(10, new Decimal(player.dv.milestones.length)))
+        if (hasUpgrade('dv', 25)) mult = mult.times(upgradeEffect('dv', 25))
+        if (hasUpgrade('dv', 44)) mult = mult.times(upgradeEffect('dv', 44).CP)
         if (player.difficulty.staticResBoost) mult = mult.times(2)
+        if (hasChallenge('chess', 21)) mult = mult.times(Decimal.pow(8, Object.values(player[this.layer].challenges).reduce((a,b) => a+b)))
+        if (hasChallenge('chess', 25)) mult = mult.times(player.chess.points.max(1).ln().max(1).pow(Object.values(player[this.layer].challenges).reduce((a,b) => a+b)))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return new Decimal (1)
+        let exp = new Decimal (1)
+        if (hasUpgrade('dv', 15)) exp = exp.times(1.05)
+        return exp
     },
     row: 2, // Row the layer is in on the tree (0 is the first row)
     layerShown() {
@@ -1950,19 +2366,22 @@ addLayer("chess", {
     doReset(l) {
         if (!(layers[l].row > this.row)) return
         
-        let keep = ['milestones']
-        
+        let keep = ['milestones', 'challenges']
+        if (hasMilestone('dv', 1)) keep.push('upgrades')
+        if (hasMilestone('dv', 2)) keep.push('buyables')
+        if (hasMilestone('dv', 2)) keep.push('spentMP')
         
         layerDataReset(this.layer, keep)
     },
     hotkeys: [
-        {key: "c", description: "C: Reset for chess points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "c", description: "C: Reset for chess points", onPress(){if (canReset(this.layer)&&(!hasMilestone('chess', 3))) doReset(this.layer)}},
     ],
-    branches: ["amogus", "booster"],
+    branches: ["booster"],
     effect() {
 		let amt = player.chess.best.max(0).add(1).log(2).add(1);
 		let pow = new Decimal(2)
         if (hasUpgrade('chess', 43)) pow = pow.times(2)
+        if (hasChallenge('chess', 23)) pow = pow.times(2)
 		eff = Decimal.pow(amt, pow);
 		return eff;
 	},
@@ -1979,8 +2398,11 @@ addLayer("chess", {
         return "translated to a "+format(eff)+"x boost to amogus gain (based on best chess points)"
     },
     passiveGeneration() {
-        if (hasMilestone('chess', 2)) return new Decimal (0.1)
-        return 0
+        let eff = 0
+        if (hasMilestone('chess', 2)) eff = new Decimal (0.1)
+        if (hasMilestone('chess', 2)){
+            if (hasMilestone('chess', 3)) eff = eff.times(10)}
+        return eff
     },
     tabFormat: {
         "Upgrades": {
@@ -1988,7 +2410,7 @@ addLayer("chess", {
         content:[
             "main-display",
             "blank",
-            ["prestige-button",function(){return ""}],
+            ["prestige-button", "", function (){ return hasMilestone("chess", 3) ? {'display': 'none'} : {}}],
             "blank",
             "resource-display",
             "blank",
@@ -2003,7 +2425,7 @@ addLayer("chess", {
             content:[
                 "main-display",
                 "blank",
-                ["prestige-button",function(){return ""}],
+                ["prestige-button", "", function (){ return hasMilestone("chess", 3) ? {'display': 'none'} : {}}],
                 "blank",
                 "resource-display",
                 "blank",
@@ -2027,7 +2449,7 @@ addLayer("chess", {
                 content:[
                     "main-display",
                     "blank",
-                    ["prestige-button",function(){return ""}],
+                    ["prestige-button", "", function (){ return hasMilestone("chess", 3) ? {'display': 'none'} : {}}],
                     "blank",
                     "resource-display",
                     "blank",
@@ -2053,6 +2475,11 @@ addLayer("chess", {
                     done() {return player[this.layer].best.gte(4.204e20)}, // Used to determine when to give the milestone
                     effectDescription: "Gain 10% of chess gain on reset per second.",
                 },
+        3: {
+                    requirementDescription: "40 total MP",
+                        done() {return buyableEffect('chess',11).MP.gte(40)}, // Used to determine when to give the milestone
+                        effectDescription: "Multiply Previous Milestone by 10, Multiply Chess gain by 250, Unlock a new layer but remove the ability to reset.",
+                    },
     },
     clickables: {
         11: {
@@ -2212,14 +2639,14 @@ addLayer("chess", {
             tooltip() {return "Effect Formula: (ln([chess points])+2)<sup>2.5</sup>"},
          	cost: new Decimal (8e5),
             effect() {
-                return player.chess.points.ln().add(2).pow(2.5)
+                return player.chess.points.max(1).ln().add(2).pow(2.5)
             },
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
             unlocked() {return hasUpgrade(this.layer, 33)}
        	},
         35: {
 	        title: "Chess Upgrade C5",
-        	description: "Decrease <b>Material Points</b>' Cost base by 1, Unlock 5 more booster upgrades.",
+        	description: "Decrease <b>Material Points</b>' Cost base to 9, Unlock 5 more booster upgrades.",
          	cost: new Decimal (1.2e6),
             unlocked() {return hasUpgrade(this.layer, 34)}
        	},
@@ -2239,7 +2666,7 @@ addLayer("chess", {
        	},
         42: {
 	        title: "Chess Upgrade D2",
-        	description: "Decrease <b>Material Points</b>' Cost base by 1, Multiply chess point gain based on total MP",
+        	description: "Decrease <b>Material Points</b>' Cost base to 7, Multiply chess point gain based on total MP",
             tooltip() {return "Effect Formula: ([MP]+2)<sup>[MP]<sup>0.5</sup></sup>"},
          	cost: new Decimal (1e23),
             effect() {
@@ -2253,7 +2680,7 @@ addLayer("chess", {
        	},
         43: {
 	        title: "Chess Upgrade D3",
-        	description: "Decrease <b>Material Points</b>' Cost base by 1, Raise Chess Point effect to the 2nd power, Multiply Ex. 🆎 lim based on Ex. 🆎 lim.",
+        	description: "Decrease <b>Material Points</b>' Cost base to 6, Raise Chess Point effect to the 2nd power, Multiply Ex. 🆎 lim based on Ex. 🆎 lim.",
             tooltip() {return "Effect Formula: (log<sub>2</sub>([Ex.🆎 Lim])+2)<sup>2</sup>"},
          	cost: new Decimal (2.727e27),
             effect() {
@@ -2303,12 +2730,18 @@ addLayer("chess", {
                 if (hasUpgrade('chess', 42)) base = new Decimal (7)
                 if (hasUpgrade('chess', 43)) base = new Decimal (6)
                 if (hasChallenge('chess', 15)) base = new Decimal (5)
+                if (hasChallenge('chess', 21)) base = new Decimal (4)
+                if (hasChallenge('chess', 24)) base = new Decimal (3)
                 let pow = x.pow(1.25)
                 let divcost = new Decimal(1)
                 divcost = divcost.times(buyableEffect('chess', 52).Ef)
+                if (hasUpgrade('dv', 34)) divcost = divcost.times(upgradeEffect('dv', 34))
+                if (hasUpgrade('dv', 51)) divcost = divcost.times(player.dv.dedpow.max(1))
                 return base.pow(pow).div(divcost).floor()
             },
             tooltip() {
+                if (hasChallenge('chess', 24)) return "Cost Formula:<br>3<sup>x<sup>1.25</sup></sup>"
+                if (hasChallenge('chess', 21)) return "Cost Formula:<br>4<sup>x<sup>1.25</sup></sup>"
                 if (hasChallenge('chess', 15)) return "Cost Formula:<br>5<sup>x<sup>1.25</sup></sup>"
                 if (hasUpgrade('chess', 43)) return "Cost Formula:<br>6<sup>x<sup>1.25</sup></sup>"
                 if (hasUpgrade('chess', 42)) return "Cost Formula:<br>7<sup>x<sup>1.25</sup></sup>"
@@ -2375,6 +2808,7 @@ addLayer("chess", {
                 if (inChallenge('chess', 13)) base1 = new Decimal (1)
                 if (inChallenge('chess', 14)) base1 = new Decimal (1)
                 if (inChallenge('chess', 15)) base1 = new Decimal (1)
+                if (inChallenge('chess', 23)) base1 = base1.pow(-1)
                 let expo = x
                 let eff1 = base1.pow(expo)
                 return {
@@ -2418,6 +2852,7 @@ addLayer("chess", {
                 if (inChallenge('chess', 13)) base1 = new Decimal (1)
                 if (inChallenge('chess', 14)) base1 = new Decimal (1)
                 if (inChallenge('chess', 15)) base1 = new Decimal (1)
+                if (inChallenge('chess', 23)) base1 = base1.pow(-1)
                 let expo = x
                 let eff1 = base1.pow(expo)
                 return {
@@ -2821,15 +3256,1279 @@ addLayer("chess", {
         15: {
             name: "Cheap Queen",
             challengeDescription() {return "Divide Point gain by 1.000e150, Decrease Booster's base by 1.5, Square root Queens' effect, Pawns and Knights do nothing."},
-            goalDescription: "2.400e147 points",
-            rewardDescription() {return "Decrease <b>Material Points</b>' Cost base by 1, Ex. Req. scales less for each <b>🆎 Exors</b>"},
-            canComplete: function() {return player.points.gte("2.4e147")},
+            goalDescription: "2.400e120 points",
+            rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 5, Ex. Req. scales less for each <b>🆎 Exors</b>"},
+            canComplete: function() {return player.points.gte("2.4e120")},
             unlocked() {return hasChallenge('chess', 14)},
+        },
+        21: {
+            name: "King",
+            challengeDescription() {return "Stuck in <b>Ferz</b> and <b>Wazir</b>, Square root your Point gain."},
+            goalDescription: "1.000e200 points",
+            rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 4, Multiply chess gain by 8 per completed challenges"},
+            canComplete: function() {return player.points.gte("1e200")},
+            unlocked() {return hasUpgrade('dv', 21)},
+            countsAs: [13, 14],
+        },
+        22: {
+            name: "Silver General",
+            challengeDescription() {return "Stuck in <b>Ferz</b> and <b>Pawn</b>, Square root your amogus gain."},
+            goalDescription: "1.000e145 amogus",
+            rewardDescription() {return "Increase <b>🆎 Charged Boosters</b>' base by 0.05, Buying it doesn't consume your <b>🆎 Boosters</b>"},
+            canComplete: function() {return player.amogus.points.gte("1e145")},
+            unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 22)},
+            countsAs: [11, 13],
+        },
+        23: {
+            name: "Berolina Pawn",
+            challengeDescription() {return "Stuck in <b>Pawn</b>, Pawns' effect is raised to the -1th power, Dilate Point gain by 0.6th power after nerf."},
+            goalDescription: "1.000e85 amogus",
+            rewardDescription() {return "Raise chess effect to the 2nd power, Ex. Req. scales even less for each <b>🆎 Exors</b>"},
+            canComplete: function() {return player.amogus.points.gte("1e85")},
+            unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 23)},
+            countsAs: [11],
+        },
+        24: {
+            name: "General",
+            challengeDescription() {return "Stuck in <b>Dragon Knight</b>, <b>Ferz</b> and <b>Wazir</b>, Raise point gain to the 25th root"},
+            goalDescription: "1.000e29 points",
+            rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 3, Raise Point gain cap to the 1.05th power"},
+            canComplete: function() {return player.points.gte("1e29")},
+            unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 24)},
+            countsAs: [12, 13, 14],
+        },
+        25: {
+            name: "Amalgam",
+            challengeDescription() {return "Stuck in First 5 Challenges, Raise point gain to the 25th root"},
+            goalDescription: "3.000e24 points",
+            rewardDescription() {return "Multiply Chess gain by ln([chess points]) per challenge."},
+            canComplete: function() {return player.points.gte("3e24")},
+            unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 25)},
+            countsAs: [11, 12, 13, 14, 15],
         },
     },
     update(diff) {
         if (!player.difficulty.gameStarted) {
             player[this.layer].unlocked = false
             layerDataReset(this.layer)}
+    },
+})
+addLayer("dv", {
+    name: "deadly virus",
+    symbol: "D",
+    position: 0,
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        best: new Decimal (0),
+        dedpow: new Decimal (0),
+        dd1: new Decimal (0),
+        dd2: new Decimal (0),
+        dd3: new Decimal (0),
+        dd4: new Decimal (0),
+        dd5: new Decimal (0),
+        dd6: new Decimal (0),
+    }},
+    tooltip() {
+       let base = formatWhole(player.dv.points)+" deadly virus"
+       if (hasUpgrade('dv', 35)) base = base + "<br>" + format(player.dv.dedpow)+" DP"
+       return base
+    },
+    color: "#000080",
+    requires() {
+        let base = new Decimal(1e50)
+        return base
+    },
+    resource: "deadly virus",
+    baseResource: " chess points",
+    baseAmount() {return player.chess.points},
+    type: "static",
+    base() {
+        let base = new Decimal (1e5)
+        if (hasMilestone('dv', 7)) base = new Decimal (1e4)
+        return base},
+    exponent() {return new Decimal (1.25)},
+    gainMult() {
+        mult = new Decimal (1)
+        if (hasUpgrade('dv', 13)) mult = mult.div(upgradeEffect('dv', 13))
+        if (hasUpgrade('dv', 24)) mult = mult.div(upgradeEffect('dv', 24))
+        if (hasUpgrade('dv', 32)) mult = mult.div(upgradeEffect('dv', 32))
+        if (hasUpgrade('dv', 33)) mult = mult.div(upgradeEffect('dv', 33))
+        if (hasUpgrade('dv', 45)) mult = mult.div(player.dv.dedpow.max(1))
+        if (hasUpgrade('dv', 64)) mult = mult.div(tmp.dv.effect)
+        return mult
+    },
+    gainExp() {
+        return new Decimal (1)
+    },
+    row: 3,
+    layerShown() {
+        return hasMilestone('chess', 3)||player[this.layer].unlocked
+    },
+    doReset(l) {
+        if (!(layers[l].row > this.row)) return
+        
+        let keep = ['milestones']
+        
+        
+        layerDataReset(this.layer, keep)
+    },
+    hotkeys: [
+        {key: "d", description: "D: Reset for deadly virus", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    branches: ["chess"],
+    effect() {
+		let amt = player.dv.best.add(1)
+        if (hasUpgrade('dv', 23)) amt = new Decimal (100)
+		let pow = new Decimal(16)
+        if (hasUpgrade('dv', 23)) pow = player.dv.best
+		eff = Decimal.pow(amt, pow);
+		return eff;
+	},
+    dedpoweff() {
+        return player.dv.dedpow.max(0).add(1).pow(1.25)
+    },
+    effectDescription() { 
+        let eff = this.effect();
+        return "translated to a "+format(eff)+"x boost to chess gain (based on best)"
+    },
+    getDecayingRate() {
+        let base = new Decimal (0.1)
+        if (hasUpgrade('dv', 64)) base = new Decimal (0.08)
+        if (hasMilestone('dv', 10)) base = new Decimal (0.05)
+        return base
+    },
+    tabFormat: {
+        "Upgrades": {
+        unlocked(){return true},
+        content:[
+            "main-display",
+            "blank",
+            ["prestige-button",function(){return ""}],
+            "blank",
+            "resource-display",
+            "blank",
+            "blank",
+            "milestones",
+            "blank",
+            ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15]]],
+            ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25]]],
+            ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35]]],
+            "blank",
+        ]},
+        "DIEmensions": {
+            unlocked(){return hasUpgrade("dv", 35)},
+            content:[
+                "main-display",
+                "blank",
+                ["prestige-button",function(){return ""}],
+                "blank",
+                "resource-display",
+                "blank",
+                "blank",
+                ["display-text",
+                function() {
+                    return "You have " + format(player.dv.dedpow) + " Deadly Power, Translated to a x" + format(tmp.dv.dedpoweff) + " boost to chess gain."
+                }],
+                ["display-text",
+                function() {
+                    return "You're losing "+format(tmp.dv.getDecayingRate.times(100))+"% of Deadly Power, DIEmensions Amount when generating every second"
+                }],
+                "blank",
+                "buyables",
+                "blank",
+                ["row", [["bar", 1]]],
+                "blank",
+                ["row", [["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44], ["upgrade", 45]]],
+                ["row", [["upgrade", 51], ["upgrade", 52], ["upgrade", 53], ["upgrade", 54], ["upgrade", 55]]],
+                ["row", [["upgrade", 61], ["upgrade", 62], ["upgrade", 63], ["upgrade", 64], ["upgrade", 65]]],
+                ["row", [["upgrade", 71], ["upgrade", 72], ["upgrade", 73], ["upgrade", 74], ["upgrade", 75]]],
+            ]},
+    },
+    resetsNothing() {return hasMilestone('dv', 6)},
+    upgrades: {
+        11: {
+	        title: "Deadly Upgrade A1",
+        	description: "Multiply Point gain based on Deadly Virus.",
+            tooltip() {return "Effect Formula:<br>10<sup>([Deadly Virus]+2)<sup>2</sup></sup>"},
+            cost: new Decimal (1),
+            effect() {
+                let base = new Decimal(10)
+                let expo = player[this.layer].points.add(2).pow(2)
+                if (hasUpgrade('dv', 62)) expo = expo.pow(0.69)
+                let eff = base.pow(expo)
+                return eff
+            },
+             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            unlocked() {return true}
+       	},
+        12: {
+	        title: "Deadly Upgrade A2",
+        	description: "Raise 🆎 Lim. to the 1.1th power, Multiply chess gain by 5 per upgrade.",
+            cost: new Decimal (2),
+            effect() {
+                let base = new Decimal(5)
+                let expo = new Decimal(player[this.layer].upgrades.length)
+                let eff = base.pow(expo)
+                return eff
+            },
+             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            unlocked() {return hasUpgrade('dv', 11)}
+       	},
+        13: {
+	        title: "Deadly Upgrade A3",
+        	description: "Divide Deadly Virus' cost based on Total MP.",
+            tooltip() {return "Effect Formula:<br>1.25<sup>([Total MP]+2)<sup>1.25</sup></sup>"},
+            cost: new Decimal (3),
+            effect() {
+                let base = new Decimal(1.25)
+                let expo = new Decimal(buyableEffect('chess', 11).MP).max(0).add(2).pow(1.25)
+                let eff = base.pow(expo)
+                return eff
+            },
+             effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id)) },
+            unlocked() {return hasUpgrade('dv', 12)}
+       	},
+        14: {
+	        title: "Deadly Upgrade A4",
+        	description: "Multiply amogus gain by ln(points) per upgrade.",
+            cost: new Decimal (5),
+            effect() {
+                let base = player.points.max(0).add(1).ln().add(2)
+                let expo = new Decimal(player[this.layer].upgrades.length)
+                let eff = base.pow(expo)
+                return eff
+            },
+             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            unlocked() {return hasUpgrade('dv', 13)}
+       	},
+        15: {
+	        title: "Deadly Upgrade A5",
+        	description: "Multiply point gain by ln(amogus) per upgrade, Raise chess gain to the 1.05th power.",
+            cost: new Decimal (6),
+            effect() {
+                let base = player.amogus.points.max(0).add(1).ln().add(2)
+                let expo = new Decimal(player[this.layer].upgrades.length)
+                let eff = base.pow(expo)
+                return eff
+            },
+             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x" },
+            unlocked() {return hasUpgrade('dv', 14)}
+       	},
+        21: {
+	        title: "Deadly Upgrade B1",
+        	description: "Divide Booster's Cost based on chess point, Unlock a chess challenge per upgrade in this row",
+            tooltip() {return "Effect Formula:<br>10<sup>(log<sub>10</sub>[Chess points])<sup>0.75</sup></sup>"},
+            cost: new Decimal (7),
+            effect() {
+                let base = player.chess.points.max(1).log(10)
+                let expo = new Decimal(0.75)
+                let eff = Decimal.pow(10, base.pow(expo))
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id)) },
+            unlocked() {return hasUpgrade('dv', 15)}
+       	},
+        22: {
+	        title: "Deadly Upgrade B2",
+        	description: "Divide Booster's Cost based on total MP, Raise the 4th point gain nerf to the 0.8th power.",
+            tooltip() {return "Effect Formula:<br>2<sup>([Total MP]+2)<sup>1.2</sup></sup>"},
+            cost: new Decimal (9),
+            effect() {
+                let base = buyableEffect('chess', 11).MP.max(0).add(2)
+                let expo = new Decimal(1.2)
+                let eff = Decimal.pow(2, base.pow(expo))
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 21)}
+       	},
+        23: {
+	        title: "Deadly Upgrade B3",
+        	description: "Deadly Virus use a better Effect formula.",
+            tooltip() {return "Effect Formula:<br>([DV]+1)<sup>16</sup> => 100<sup>[DV]</sup>"},
+            cost: new Decimal (10),
+            unlocked() {return hasUpgrade('dv', 22)}
+       	},
+        24: {
+	        title: "Deadly Upgrade B4",
+        	description: "Divide Deadly Virus' cost based on 🆎.",
+            tooltip() {return "Effect Formula:<br>10<sup>log<sub>10</sub>[🆎]<sup>0.5</sup></sup>"},
+            cost: new Decimal (11),
+            effect() {
+                let base = player.amogus.AB.max(1).log(10)
+                let expo = new Decimal(0.5)
+                let eff = Decimal.pow(10, base.pow(expo))
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 23)}
+       	},
+        25: {
+	        title: "Deadly Upgrade B5",
+        	description: "Multiply chess gain by the length of this description, haha funny....",
+            cost: new Decimal (16),
+            effect() {
+                let base = new Decimal(this.description.length)
+                let expo = new Decimal(1)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 24)}
+       	},
+        31: {
+	        title: "Deadly Upgrade C1",
+        	description: "Multiply Point gain cap by Best B-Boosters per Deadly Virus",
+            cost: new Decimal (20),
+            effect() {
+                let base = player.booster.best.max(1)
+                let expo = player.dv.points
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 25)}
+       	},
+        32: {
+	        title: "Deadly Upgrade C2",
+        	description: "Divide Deadly Virus' Cost by log<sub>10</sub>[amogus] per deadly virus",
+            cost: new Decimal (22),
+            effect() {
+                let base = player.amogus.points.max(1).log(10).max(1)
+                let expo = player.dv.points
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 31)}
+       	},
+        33: {
+	        title: "Deadly Upgrade C3",
+        	description: "Ex. Req. scales even less for each <b>🆎 Exors</b>', Raise 🆎 lim. to the 1.1th power, Divide DV's Cost based on total MP.",
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[MP])<sup>[MP]<sup>0.8</sup></sup>"},
+            cost: new Decimal (31),
+            effect() {
+                let base = buyableEffect('chess', 11).MP.max(1).log(10).max(1)
+                let expo = buyableEffect('chess', 11).MP.pow(0.8)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 32)}
+       	},
+        34: {
+	        title: "Deadly Upgrade C4",
+        	description: "Divide <b>Mat. Pts</b>' Cost based on total MP",
+            tooltip() {return "Effect Formula:<br>2.5<sup>[MP]<sup>0.8</sup></sup>"},
+            cost: new Decimal (35),
+            effect() {
+                let base = new Decimal (2.5)
+                let expo = buyableEffect('chess', 11).MP.pow(0.8)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 33)}
+       	},
+        35: {
+	        title: "Deadly Upgrade C5",
+        	description: "Raise amogus gain to the 1.1th power and a new tab.",
+            cost: new Decimal (37),
+            unlocked() {return hasUpgrade('dv', 34)}
+       	},
+        41: {
+	        title: "DIEmension Upgrade A1",
+        	description: "Multiply DP gain based on DV.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(ln[DV])<sup>0.6</sup>"},
+            cost: new Decimal (250),
+            effect() {
+                let base = player.dv.points.max(1).ln().max(1)
+                let expo = new Decimal (0.6)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 35)}
+       	},
+        42: {
+	        title: "DIEmension Upgrade A2",
+        	description: "Multiply DP gain based on DP.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[DP])<sup>0.6</sup>"},
+            cost: new Decimal (222222),
+            effect() {
+                let base = player.dv.dedpow.max(1).log(10).max(1)
+                let expo = new Decimal (0.6)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 41)}
+       	},
+        43: {
+	        title: "DIEmension Upgrade A3",
+        	description: "Multiply DP gain based on 🆎, Multiply 🆎 gain and lim. based on DP",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[🆎])<sup>0.25</sup>,<br>(log<sub>10</sub>[DP])<sup>10</sup>"},
+            cost: new Decimal (7.5e10),
+            effect() {
+                let base = player.amogus.AB.max(1).log(10).max(1)
+                let expo = new Decimal (0.25)
+                let eff = base.pow(expo)
+                let base2 = player.dv.dedpow.max(1).log(10).max(1)
+                let expo2 = new Decimal (10)
+                let eff2 = base2.pow(expo2)
+                return {
+                    DP: eff,
+                    AB: eff2,
+                }
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id).DP)+"x, "+format(upgradeEffect(this.layer, this.id).AB)+"x"},
+            unlocked() {return hasUpgrade('dv', 42)}
+       	},
+        44: {
+	        title: "DIEmension Upgrade A4",
+        	description: "Multiply DP gain based on Chess points, Multiply chess gain based on DP",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[CHP])<sup>0.4</sup>,<br>(log<sub>10</sub>[DP])<sup>8</sup>"},
+            cost: new Decimal (3e18),
+            effect() {
+                let base = player.chess.points.max(1).log(10).max(1)
+                let expo = new Decimal (0.4)
+                let eff = base.pow(expo)
+                let base2 = player.dv.dedpow.max(1).log(10).max(1)
+                let expo2 = new Decimal (8)
+                let eff2 = base2.pow(expo2)
+                return {
+                    DP: eff,
+                    CP: eff2,
+                }
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id).DP)+"x, "+format(upgradeEffect(this.layer, this.id).CP)+"x"},
+            unlocked() {return hasUpgrade('dv', 43)}
+       	},
+        45: {
+	        title: "DIEmension Upgrade A5",
+        	description: "Multiply DP gain by GP, Divide DV's Cost by DP",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (3.6e27),
+            unlocked() {return hasUpgrade('dv', 44)}
+       	},
+        51: {
+	        title: "DIEmension Upgrade B1",
+        	description: "Multiply DP gain by total MP, Divide <b>Mat. Pts</b>' cost by DP",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (8.1e35),
+            unlocked() {return hasUpgrade('dv', 45)}
+       	},
+        52: {
+	        title: "DIEmension Upgrade B2",
+        	description: "Multiply DP gain by log<sub>2</sub>(S-Boosters) per DIEmension upgrade.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (4.242e42),
+            effect() {
+                let base = player.sbooster.points.max(1).log(2).max(1)
+                let expo = new Decimal(player.dv.upgrades.length).sub(15).max(0)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 51)}
+       	},
+        53: {
+	        title: "DIEmension Upgrade B3",
+        	description: "Ex. Req. scales even less for each <b>🆎 Exors</b>, Reduce S-Booster Cost Base from 1.1 to 1.05",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (1e57),
+            unlocked() {return hasUpgrade('dv', 52)}
+       	},
+        54: {
+	        title: "DIEmension Upgrade B4",
+        	description: "Multiply DP gain based on points, Multiply Point gain cap based on DP.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[Points])<sup>0.75</sup>,<br>(log<sub>10</sub>[DP])<sup>12.5</sup>"},
+            cost: new Decimal (1.5e61),
+            effect() {
+                let base = player.points.max(1).log(10).max(1)
+                let expo = new Decimal (0.75)
+                let eff = base.pow(expo)
+                let base2 = player.dv.dedpow.max(1).log(10).max(1)
+                let expo2 = new Decimal (12.5)
+                let eff2 = base2.pow(expo2)
+                return {
+                    DP: eff,
+                    PT: eff2,
+                }
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id).DP)+"x, "+format(upgradeEffect(this.layer, this.id).PT)+"x"},
+            unlocked() {return hasUpgrade('dv', 53)}
+       	},
+        55: {
+	        title: "DIEmension Upgrade B5",
+        	description: "Multiply DP gain based on B-Boosters, Divide Booster's Cost by DP.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>2</sub>[B-Boosters])<sup>4</sup>"},
+            cost: new Decimal (4.1e68),
+            effect() {
+                let base = player.booster.points.max(1).log(2).max(1)
+                let expo = new Decimal(4)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 54)}
+       	},
+        61: {
+	        title: "DIEmension Upgrade C1",
+        	description: "Multiply DP gain based on Ex. 🆎, Multiply Ex. 🆎 gain and lim. based on DP",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[Ex. 🆎])<sup>1.25</sup>,<br>(log<sub>10</sub>[DP])<sup>4</sup>"},
+            cost: new Decimal (6.4e79),
+            effect() {
+                let base = player.amogus.ExAB.max(1).log(10).max(1)
+                let expo = new Decimal (1.25)
+                let eff = base.pow(expo)
+                let base2 = player.dv.dedpow.max(1).log(10).max(1)
+                let expo2 = new Decimal (4)
+                let eff2 = base2.pow(expo2)
+                return {
+                    DP: eff,
+                    AB: eff2,
+                }
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id).DP)+"x, "+format(upgradeEffect(this.layer, this.id).AB)+"x"},
+            unlocked() {return hasUpgrade('dv', 55)}
+       	},
+        62: {
+	        title: "DIEmension Upgrade C2",
+        	description: "Multiply DP gain by log(log([DP])) per S-Boosters but Raise <b>D-Upgrade A1</b>'s eff expo to the 0.69th power (def not intended).",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (1.987e86),
+            effect() {
+                let base = player.dv.dedpow.max(1).log(10).max(1).log(10).max(1)
+                let expo = player.sbooster.points
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 61)}
+       	},
+        63: {
+	        title: "DIEmension Upgrade C3",
+        	description: "Reduce <b>🆎 C-Boosts</b>' cost exp to 1.8, Multiply Point gain cap by log<sub>2</sub>(log<sub>2</sub>([Points])) per <b>🆎 C-Boost</b><sup>1.125</sup>.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (4.4e110),
+            effect() {
+                let base = player.points.max(1).log(2).max(1).log(2).max(1)
+                let expo = player.sbooster.points.pow(1.125)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 62)}
+       	},
+        64: {
+	        title: "DIEmension Upgrade C4",
+        	description: "Multiply DP gain by <b>🆎 C-Boosts</b>' eff, Divide DV's cost by DV's eff, Reduce Decaying Rate to 8%",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (4.5e160),
+            unlocked() {return hasUpgrade('dv', 63)}
+       	},
+        65: {
+	        title: "DIEmension Upgrade C5",
+        	description: "Multiply DP gain by Factor of All [bought DDs+2], Multiply Ex. 🆎 gain by <b>Accelerators</b>' Effect",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (1.111e217),
+            effect() {
+                let base = getBuyableAmount('dv', 11).max(0).add(2).times(getBuyableAmount('dv', 12).max(0).add(2)).times(getBuyableAmount('dv', 13).max(0).add(2)).times(getBuyableAmount('dv', 21).max(0).add(2)).times(getBuyableAmount('dv', 22).max(0).add(2)).times(getBuyableAmount('dv', 23).max(0).add(2))
+                let expo = new Decimal (1)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 64)}
+       	},
+        71: {
+	        title: "DIEmension Upgrade D1",
+        	description: "Multiply DP gain by Unspent MP, Multiply Point gain cap based on Point gain cap.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(ln(ln[Point gain cap]))<sup>32</sup>"},
+            cost: new Decimal (1.5e241),
+            effect() {
+                let base = getPointCap().max(1).ln().max(1).ln().max(1)
+                let expo = new Decimal (32)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade('dv', 65)}
+       	},
+        72: {
+	        title: "DIEmension Upgrade D2",
+        	description: "Cookie gives you some good boosts :D, Multiply Ex. 🆎 and DP gain by 6,268, Raise Point gain cap based on Points",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(slog[Points])<sup>0.2</sup>"},
+            cost: new Decimal (2.828e249),
+            effect() {
+                let base = player.points.max(1).slog().max(1)
+                let expo = new Decimal (0.2)
+                let eff = base.pow(expo)
+                return eff
+            },
+            effectDisplay() { return "^"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade('dv', 71)}
+       	},
+        73: {
+	        title: "DIEmension Upgrade D3",
+        	description: "Multiply DD1 Eff by log<sub>2</sub>[DP], Multiply DD2 Eff by log<sub>2</sub>[DD1 Amt], Multiply DD3 Eff by log<sub>2</sub>[DD2 Amt].",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (2.828e258),
+            unlocked() {return hasUpgrade('dv', 72)}
+       	},
+        74: {
+	        title: "DIEmension Upgrade D4",
+        	description: "Multiply DD4 Eff by log<sub>2</sub>[DD3 Amt], Multiply DD5 Eff by log<sub>2</sub>[DD4 Amt], Multiply DD6 Eff by log<sub>2</sub>[DD5 Amt] but disable <b>DI-U A5</b>'s First Eff.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            cost: new Decimal (4.646e276),
+            unlocked() {return hasUpgrade('dv', 73)}
+       	},
+        75: {
+	        title: "DIEmension Upgrade D5",
+        	description: "Multiply DP gain based on amogus, Multiply amogus gain based on DP.",
+            currencyDisplayName: "DP",
+            currencyLayer: "dv",
+            currencyInternalName: "dedpow",
+            currencyLocation() {return player.dv},
+            tooltip() {return "Effect Formula:<br>(log<sub>10</sub>[amogus])<sup>1.25</sup>,<br>(log<sub>10</sub>[DP])<sup>5</sup>"},
+            cost: new Decimal (1.125e293),
+            effect() {
+                let base = player.amogus.points.max(1).log(10).max(1)
+                let expo = new Decimal (1.25)
+                let eff = base.pow(expo)
+                let base2 = player.dv.dedpow.max(1).log(10).max(1)
+                let expo2 = new Decimal (5)
+                let eff2 = base2.pow(expo2)
+                return {
+                    DP: eff,
+                    AM: eff2,
+                }
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id).DP)+"x, "+format(upgradeEffect(this.layer, this.id).AM)+"x"},
+            unlocked() {return hasUpgrade('dv', 74)}
+       	},
+    },
+    buyables: {
+        11: {
+            title: "1st Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (10)
+                let base2 = new Decimal (4)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.sub(1).pow(expo))).times(x.min(1))
+            },
+            tooltip() {
+                return "Cost Formula:<br>10*4<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" Deadly Power per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd1) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd1 = player[this.layer].dd1.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd1
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow(getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 41)) eff1 = eff1.times(upgradeEffect('dv', 41))
+                if (hasUpgrade('dv', 42)) eff1 = eff1.times(upgradeEffect('dv', 42))
+                if (hasUpgrade('dv', 43)) eff1 = eff1.times(upgradeEffect('dv', 43).DP)
+                if (hasUpgrade('dv', 44)) eff1 = eff1.times(upgradeEffect('dv', 44).DP)
+                if (hasUpgrade('dv', 45)) eff1 = eff1.times(player.goal.points.pow(hasUpgrade('dv', 74) ? 0 : 1))
+                if (hasUpgrade('dv', 51)) eff1 = eff1.times(buyableEffect('chess', 11).MP)
+                if (hasUpgrade('dv', 52)) eff1 = eff1.times(upgradeEffect('dv', 52))
+                if (hasUpgrade('dv', 54)) eff1 = eff1.times(upgradeEffect('dv', 54).DP)
+                if (hasUpgrade('dv', 55)) eff1 = eff1.times(upgradeEffect('dv', 55))
+                if (hasUpgrade('dv', 61)) eff1 = eff1.times(upgradeEffect('dv', 61).DP)
+                if (hasUpgrade('dv', 62)) eff1 = eff1.times(upgradeEffect('dv', 62))
+                if (hasUpgrade('dv', 64)) eff1 = eff1.times(buyableEffect('amogus', 21).Ef1)
+                if (hasUpgrade('dv', 65)) eff1 = eff1.times(upgradeEffect('dv', 65))
+                if (hasUpgrade('dv', 71)) eff1 = eff1.times(Decimal.sub(buyableEffect('chess', 11).MP, player.chess.spentMP))
+                if (hasUpgrade('dv', 72)) eff1 = eff1.times(6268)
+                if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dedpow.max(1).log(2).max(1))
+                if (hasUpgrade('dv', 75)) eff1 = eff1.times(upgradeEffect('dv', 75).DP)
+                if (hasMilestone('dv', 8)) eff1 = eff1.times(Decimal.pow(1.25, player.dv.points))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        12: {
+            title: "2nd Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (1750)
+                let base2 = new Decimal (8)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>1,750*8<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" 1st Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd2) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd2 = player[this.layer].dd2.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd2
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow((getBuyableAmount('dv', 32)).add(tmp.dv.buyables[32].freelvl).sub(1).max(0)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd1.max(1).log(2).max(1))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        13: {
+            title: "3rd Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (3e7)
+                let base2 = new Decimal (32)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>30,000,000*32<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" 2nd Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd3) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd3 = player[this.layer].dd3.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd3
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow((getBuyableAmount('dv', 32)).add(tmp.dv.buyables[32].freelvl).sub(2).max(0)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd2.max(1).log(2).max(1))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        21: {
+            title: "4th Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)&&getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(1)
+            },
+            cost(x) {
+                let base = new Decimal (9e12)
+                let base2 = new Decimal (256)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>9e12*256<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" 3rd Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd4) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd4 = player[this.layer].dd4.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd4
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow((getBuyableAmount('dv', 32)).add(tmp.dv.buyables[32].freelvl).sub(3).max(0)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd3.max(1).log(2).max(1))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        22: {
+            title: "5th Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)&&getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(2)
+            },
+            cost(x) {
+                let base = new Decimal (1e24)
+                let base2 = new Decimal (4096)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>1e24*4,096<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" 4th Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd5) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd5 = player[this.layer].dd5.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd5
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow((getBuyableAmount('dv', 32)).add(tmp.dv.buyables[32].freelvl).sub(4).max(0)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd4.max(1).log(2).max(1))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        23: {
+            title: "6th Deadly DIEmension",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)&&getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(3)
+            },
+            cost(x) {
+                let base = new Decimal (2e53)
+                let base2 = new Decimal (131072)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>2e53*131,072<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Generating "+format(this.effect().Ef)+" 5th Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd6) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                player[this.layer].dd6 = player[this.layer].dd6.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let prod = player[this.layer].dd6
+                let mult = new Decimal(2)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                currmult = currmult.times(buyableEffect('dv', 32).pow((getBuyableAmount('dv', 32)).add(tmp.dv.buyables[32].freelvl).sub(5).max(0)))
+                let eff1 = prod.times(currmult)
+                eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd5.max(1).log(2).max(1))
+                return {
+                    Mult: currmult,
+                    Ef: eff1,
+                }
+            },
+        },
+        31: {
+            title: "Accelerator",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (100)
+                let base2 = new Decimal (10)
+                let expo = new Decimal (1.25)
+                return base.times(base2.pow(x.pow(expo)))
+            },
+            tooltip() {
+                return "Cost Formula:<br>100*10<sup>x<sup>1.25</sup></sup>"
+            },
+            display() {
+                return "Multiply all DIEmensions' speed by "+format(this.effect().Mult)+"<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Ef)+"x<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))
+            },
+            canAfford() {
+                return player[this.layer].dedpow.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let mult = new Decimal (1.125)
+                mult = mult.add(buyableEffect('dv', 33).M)
+                let expo = x.max(0)
+                let currmult = mult.pow(expo)
+                return {
+                    Mult: mult,
+                    Ef: currmult,
+                }
+            },
+        },
+        32: {
+            title() {
+                let base = "DIEmension Shift"
+                if (getBuyableAmount(this.layer, this.id).add(this.freelvl()).gte(3)) base = "DIEmension Boost"
+                return base
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (3).add(x)
+                return base
+            },
+            tooltip() {
+                return "Cost Formula:<br>x+3"
+            },
+            display() {
+                let lengthdim = ""
+                if (getBuyableAmount(this.layer, this.id).gte(1)) lengthdim = "-" + getBuyableAmount(this.layer, this.id).add(tmp.dv.buyables[32].freelvl).add(1).min(6)
+                let unlock = " and Unlock a new DIEmension.<br>"
+                if (getBuyableAmount(this.layer, this.id).add(tmp.dv.buyables[32].freelvl).gte(3)) unlock = ""
+                let dimtype = ["3rd DIEmension", "4th DIEmension", "5th DIEmension", "6th DIEmension"][getBuyableAmount(this.layer, this.id).min(3)]
+                let freelvl = this.freelvl()
+                if (this.freelvl().gte(1)) return "Reset Everything before this but upgrades in this tab, Multiply DIEmension 1"+lengthdim+" by "+format(this.effect())+"<br>"+unlock+"Cost: "+formatWhole(this.cost())+" "+dimtype+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+"+"+formatWhole(freelvl)+" (Can only be bought 10 times)"
+                return "Reset Everything before this but upgrades in this tab, Multiply DIEmension 1"+lengthdim+" by "+format(this.effect())+"<br>"+unlock+"Cost: "+formatWhole(this.cost())+" "+dimtype+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+" (Can only be bought 10 times)"
+            },
+            canAfford() {
+                let dimtype = [getBuyableAmount('dv', 13), getBuyableAmount('dv', 21), getBuyableAmount('dv', 22), getBuyableAmount('dv', 23)][getBuyableAmount(this.layer, this.id).min(3)]
+                return dimtype.gte(this.cost())&&(!getBuyableAmount(this.layer, this.id).gte(10))
+            },
+            freelvl(){
+                let base = new Decimal (0)
+                if (hasMilestone('dv', 9)) base = base.add(new Decimal (player[this.layer].milestones.length))
+                return base
+            },
+            buy() {
+                player[this.layer].dedpow = new Decimal (0)
+                player[this.layer].dd1 = new Decimal (0)
+                player[this.layer].dd2 = new Decimal (0)
+                player[this.layer].dd3 = new Decimal (0)
+                player[this.layer].dd4 = new Decimal (0)
+                player[this.layer].dd5 = new Decimal (0)
+                player[this.layer].dd6 = new Decimal (0)
+                setBuyableAmount(this.layer, 11, new Decimal (0))
+                setBuyableAmount(this.layer, 12, new Decimal (0))
+                setBuyableAmount(this.layer, 13, new Decimal (0))
+                setBuyableAmount(this.layer, 21, new Decimal (0))
+                setBuyableAmount(this.layer, 22, new Decimal (0))
+                setBuyableAmount(this.layer, 23, new Decimal (0))
+                setBuyableAmount(this.layer, 31, new Decimal (0))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let mult = new Decimal (2)
+                return mult
+            },
+        },
+        33: {
+            title: "Deadly Orb",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#000080"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('dv', 35)
+            },
+            cost(x) {
+                let base = new Decimal (6).add(x.pow(2))
+                return base
+            },
+            tooltip() {
+                return "Cost Formula:<br>x<sup>2</sup>+6"
+            },
+            display() {
+                return "Reset Everything before this but upgrades in this tab Increase Accelerator's base"+" by "+format(this.effect().B)+"<br>Cost: "+formatWhole(this.cost())+" 6th DIEmemsions<br>Effect: +"+format(this.effect().M)+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+"/5"
+            },
+            canAfford() {
+                return getBuyableAmount('dv', 23).gte(this.cost())&&(!getBuyableAmount(this.layer, this.id).gte(5))
+            },
+            buy() {
+                player[this.layer].dedpow = new Decimal (0)
+                player[this.layer].dd1 = new Decimal (0)
+                player[this.layer].dd2 = new Decimal (0)
+                player[this.layer].dd3 = new Decimal (0)
+                player[this.layer].dd4 = new Decimal (0)
+                player[this.layer].dd5 = new Decimal (0)
+                player[this.layer].dd6 = new Decimal (0)
+                setBuyableAmount(this.layer, 11, new Decimal (0))
+                setBuyableAmount(this.layer, 12, new Decimal (0))
+                setBuyableAmount(this.layer, 13, new Decimal (0))
+                setBuyableAmount(this.layer, 21, new Decimal (0))
+                setBuyableAmount(this.layer, 22, new Decimal (0))
+                setBuyableAmount(this.layer, 23, new Decimal (0))
+                setBuyableAmount(this.layer, 31, new Decimal (0))
+                setBuyableAmount(this.layer, 32, new Decimal (0))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base = new Decimal (0.015)
+                let mult = base.times(x)
+                return {
+                    B: base,
+                    M: mult
+                }
+            },
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription: "1 deadly virus",
+                done() {return player[this.layer].best.gte(1)},
+                effectDescription: "Keep chess challenges on reset.",
+            },
+        1: {
+                requirementDescription: "2 deadly virus",
+                    done() {return player[this.layer].best.gte(2)},
+                    effectDescription: "Keep chess upgrades on reset.",
+            },
+        2: {
+                requirementDescription: "3 deadly virus",
+                    done() {return player[this.layer].best.gte(3)},
+                    effectDescription: "Keep <b>Material Points</b> and Pieces Choice on reset.",
+            },
+        3: {
+                requirementDescription: "5 deadly virus",
+                    done() {return player[this.layer].best.gte(5)},
+                    effectDescription: "Reduce <b>🆎 Charged Boosters</b>' cost exponent to 1.9, Multiply chess gain by 10 per milestone.",
+            },
+        4: {
+                requirementDescription: "24 deadly virus",
+                    done() {return player[this.layer].best.gte(24)},
+                    effectDescription: "Ex. Req. scales even less for each <b>🆎 Exors</b>, Multiply Point gain cap by Ex. 🆎.",
+            },
+        5: {
+                requirementDescription: "35 deadly virus",
+                    done() {return player[this.layer].best.gte(35)},
+                    effectDescription: "Keep S-Boosters upgrades.",
+            },
+        6: {
+                requirementDescription: "50 deadly virus",
+                    done() {return player[this.layer].best.gte(50)},
+                    unlocked() {return hasUpgrade('dv', 35)},
+                    effectDescription: "Deadly Virus reset nothing, Multiply Point gain cap by DP.",
+            },
+        7: {
+                requirementDescription: "69 deadly virus",
+                    done() {return player[this.layer].best.gte(69)},
+                    unlocked() {return hasUpgrade('dv', 35)},
+                    effectDescription() {return "Multiply Both <b>🆎 Gens</b>' Eff base by "+format(player.dv.dedpow.max(1).ln().max(1).ln().max(1))+" (based on DP), Reduce Deadly Virus' Cost base from 10,000 to 1,000."},
+                    tooltip() {return "Formula: <br>ln(ln[DP])"},
+            },
+        8: {
+                requirementDescription: "101 deadly virus",
+                    done() {return player[this.layer].best.gte(101)},
+                    unlocked() {return hasUpgrade('dv', 35)},
+                    effectDescription() {return "Multiply DP gain by 1.25 per DV, Raise Point gain cap to the 1.05th power"},
+            },
+        9: {
+                requirementDescription: "1.897e172 DP",
+                    done() {return player[this.layer].dedpow.gte(1.897e172)},
+                    unlocked() {return hasUpgrade('dv', 35)},
+                    effectDescription() {return "Gain a free DS/DBs per Milestone"},
+            },
+        10: {
+                requirementDescription: "191 deadly virus",
+                    done() {return player[this.layer].best.gte(191)},
+                    unlocked() {return hasUpgrade('dv', 35)},
+                    effectDescription() {return "Multiply Point gain cap by "+format(player.chess.points.max(1).ln().max(1).pow(5))+" (based on chess points) per Milestone, Reduce Decaying Rate to 5%"},
+                    tooltip() {return "Formula: <br>ln[chess points]<sup>5</sup>"},
+            },
+    },
+    bars: {
+        1: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            progress() {return player.dv.dedpow.max(1).log("1.8e308").min(1)},
+            display() {return "Progress till 1.800e308 DP<br>"+ format(player.dv.dedpow.max(1).log("1.8e308").times(100))+"%/100.000%"},
+            instant: false,
+            fillStyle: {'background-color' : "#000080"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+    },
+    update(diff) {
+        if (!player.difficulty.gameStarted) {
+            player[this.layer].unlocked = false
+            layerDataReset(this.layer)}
+        if (!player.dv.dedpow.gte("1.8e308")) {
+            if (player.dv.dd1.gte(1)) {
+            let dploserate = player.dv.dedpow.times(tmp.dv.getDecayingRate)
+            player.dv.dedpow = player.dv.dedpow.sub(dploserate.times(diff)).add((buyableEffect('dv', 11).Ef).times(diff)).max(0).min("1.8e308")
+        }
+        if (player.dv.dd2.gte(1)) {
+            let dd1loserate = player.dv.dd1.times(tmp.dv.getDecayingRate)
+            player.dv.dd1 = player.dv.dd1.sub(dd1loserate.times(diff)).add((buyableEffect('dv', 12).Ef).times(diff)).max(getBuyableAmount('dv', 11))
+        }
+        if (player.dv.dd3.gte(1)) {
+            let dd2loserate = player.dv.dd2.times(tmp.dv.getDecayingRate)
+            player.dv.dd2 = player.dv.dd2.sub(dd2loserate.times(diff)).add((buyableEffect('dv', 13).Ef).times(diff)).max(getBuyableAmount('dv', 12))
+        }
+        if (player.dv.dd4.gte(1)) {
+            let dd3loserate = player.dv.dd3.times(tmp.dv.getDecayingRate)
+            player.dv.dd3 = player.dv.dd3.sub(dd3loserate.times(diff)).add((buyableEffect('dv', 21).Ef).times(diff)).max(getBuyableAmount('dv', 13))
+        }
+        if (player.dv.dd5.gte(1)) {
+            let dd4loserate = player.dv.dd4.times(tmp.dv.getDecayingRate)
+            player.dv.dd4 = player.dv.dd4.sub(dd4loserate.times(diff)).add((buyableEffect('dv', 22).Ef).times(diff)).max(getBuyableAmount('dv', 21))
+        }
+        if (player.dv.dd6.gte(1)) {
+            let dd5loserate = player.dv.dd5.times(tmp.dv.getDecayingRate)
+            player.dv.dd5 = player.dv.dd5.sub(dd5loserate.times(diff)).add((buyableEffect('dv', 23).Ef).times(diff)).max(getBuyableAmount('dv', 22))
+        }}
+        player.dv.dedpow = player.dv.dedpow.min("1.8e308")
     },
 })

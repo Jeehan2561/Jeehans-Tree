@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2",
-	name: "Classical Case",
+	num: "1.3",
+	name: "Super Deadly",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -46,10 +46,19 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 5 milestones.<br>
 		- Added 5 Challenges<br>
 		- Fixed some several Displays<br>
-		Endgame: - 42 total MP <br><br>`
+		Endgame: - 42 total MP<br><br>
+	<h3>V1.3 - Super Deadly</h3><br>
+		- Added 2 prestige layers<br>
+		- Added a point gain cap (just to prevent inflation).<br>
+		- Added 40 upgrades<br>
+		- Added 9 buyables<br>
+		- Added 14 milestones.<br>
+		- Added 5 Challenges<br>
+		- REMOVED A DIFFICULTY MODIFIER (IT MEANT TO BE DONE)<br>
+		Endgame: - 1.800e308 DP<br><br>`
 	
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = "Congratulations! You have reached the end and beaten this game, I know this is too boring, but for now, You can join my discord server."
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -89,22 +98,49 @@ function getPointGen() {
 	if (hasUpgrade('chess', 21)) gain = gain.times(upgradeEffect('chess', 21))
 	if (hasUpgrade('chess', 34)) gain = gain.times(upgradeEffect('chess', 34))
 	gain = gain.times(buyableEffect('chess', 21).Ef)
-	gain = gain.div(getPointDivider())
 	if (player.difficulty.staticResBoost) gain = gain.times(2)
 	if (!player.difficulty.gameStarted) gain = new Decimal (0)
 	if (inChallenge('chess', 11)) gain = gain.div(1e100)
 	if (inChallenge('chess', 14)) gain = gain.div(tmp.chess.PointDivinWazir)
 	if (inChallenge('chess', 15)) gain = gain.div(1e150)
+	if (hasUpgrade('dv', 11)) gain = gain.times(upgradeEffect('dv', 11))
+	if (hasUpgrade('dv', 15)) gain = gain.times(upgradeEffect('dv', 15))
 	if (hasChallenge('chess', 11)&&(player.chess.activeChallenge==null)) gain = gain.pow(1.05)
-	return gain
+	if (inChallenge('chess', 21)) gain = gain.pow(0.5)
+	if (inChallenge('chess', 24)) gain = gain.pow(0.04)
+	if (inChallenge('chess', 25)) gain = gain.pow(0.04)
+	if (hasUpgrade('sbooster', 14)) gain = gain.pow(0.8)
+	gain = gain.div(getPointDivider())
+	if (inChallenge('chess', 23)) gain = Decimal.pow(10, gain.max(1).log(10).pow(0.6))
+	return gain.min(getPointCap())
+}
+function getPointCap() {
+	let cap = new Decimal ("1e500")
+	if (hasMilestone('booster', 5)) cap = cap.times(tmp.booster.M5effect)
+	if (hasMilestone('sbooster', 0)) cap = cap.times(Decimal.pow(1e8, player.sbooster.points.max(0)))
+	if (hasMilestone('dv', 4)) cap = cap.times((player.amogus.ExAB).max(1))
+	if (hasMilestone('dv', 6)) cap = cap.times((player.dv.dedpow).max(1))
+	if (hasUpgrade('dv', 31)) cap = cap.times(upgradeEffect('dv', 31))
+	if (hasUpgrade('dv', 31)) cap = cap.times(upgradeEffect('dv', 31))
+	if (hasUpgrade('dv', 54)) cap = cap.times(upgradeEffect('dv', 54).PT)
+	if (hasUpgrade('dv', 63)) cap = cap.times(upgradeEffect('dv', 63))
+	if (hasUpgrade('dv', 71)) cap = cap.times(upgradeEffect('dv', 71))
+	if (hasMilestone('dv', 10)) cap = cap.times(player.chess.points.max(1).ln().max(1).pow(5).pow(player.dv.milestones.length))
+	if (hasUpgrade('sbooster', 12)) cap = cap.pow(upgradeEffect('sbooster', 12))
+	if (hasUpgrade('sbooster', 15)) cap = cap.pow(1.05)
+	if (hasChallenge('chess', 24)) cap = cap.pow(1.05)
+	if (hasMilestone('dv', 8)) cap = cap.pow(1.05)
+	if (hasUpgrade('dv', 72)) cap = cap.pow(upgradeEffect('dv', 72))
+	cap = softcap(cap, new Decimal ("1e1000"), new Decimal (0.1))
+	return cap
 }
 function getPointDivider() {
 	let base = player.points.max(10).log(10).max(1).pow(2)
 	if (hasUpgrade('amogus', 22)) base = base.pow(0.5)
 	if (hasUpgrade('chess', 22)) base = base.pow(0.5)
-	if (hasChallenge('chess', 14)) base = base.pow(0.5)
+	if (hasMilestone('sbooster', 1)) base = base.pow(0.5)
 	base = base.pow(getPointDividerExpo1())
-	if (player.difficulty.dividerNerf) base = base.pow(0.75)
+	if (player.difficulty.dividerNerf) base = base.pow(1)
 	return base
 }
 function getPointDividerExpo1() {
@@ -124,6 +160,7 @@ function getPointDividerExpoMult() {
 function getPointDividerExpo2() {
 	let base = new Decimal (1)
 	if (player.points.gte("1.8e308")) base = player.points.div("1.8e308").max(0).add(1).log(10).add(10).log(10).pow(3)
+	if (hasUpgrade('dv', 22)) base = base.pow(0.8)
 	return base
 }
 
@@ -134,16 +171,20 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	() => "<br>If you found a bug Please contact MomentCookie#6268 on Discord.",
+	() => "<br>If you found a bug or find yourself stuck Please contact MomentCookie#6268 on Discord.",
+	"<br>",
+	() => (player.difficulty.gameStarted) ? "You have spent "+formatTime(player.runTime)+" in this run" : "",
 	"<br>",
 	() => (player.points.gte(10)&&(canGenPoints())) ? "Your point gain is divided by "+format(getPointDivider())+" (check PGN layer for infos)" : "",
+	"<br>",
+	() => (player.points.gte("6.9e420")&&(canGenPoints())) ? "Your point gain will be capped at "+format(getPointCap())+" (check PGN layer for infos)" : "",
 	"<br>",
 	() => player.keepGoing ? "You're past endgame. The Game may not balanced after this." : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return buyableEffect('chess', 11).MP.gte(42)
+	return player.dv.dedpow.gte("1.8e308")
 }
 
 

@@ -108,4 +108,4 @@ function invertOOM(x){
     x = new Decimal(10).pow(e).times(m)
 
     return x
-}s
+}
