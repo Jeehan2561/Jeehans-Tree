@@ -14,7 +14,18 @@ function getStartOptions() {
 		forceOneTab: false,
 		oldStyle: false,
 		tooltipForcing: true,
+		notation: "Scientific"
 	}
+}
+
+let notations = ["Scientific", "Engineering", "Logarithms"]
+
+function changeNotation() {
+	options.notation = notations[(notations.indexOf(options.notation) + 1) % notations.length]
+}
+
+function getNotations() {
+	return options.notation
 }
 
 function toggleOpt(name) {

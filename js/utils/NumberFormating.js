@@ -1,15 +1,18 @@
 
-function exponentialFormat(num, precision, mantissa = true) {
+function exponentialFormat(num, precision, mantissa = false) {
     let e = num.log10().floor()
+    let le = num.log10().toStringWithDecimalPlaces(precision)
+    let ee = num.log10().div(3).floor().times(3)
     let m = num.div(Decimal.pow(10, e))
+    let em = num.div(Decimal.pow(10, ee))
     if (m.toStringWithDecimalPlaces(precision) == 10) {
         m = decimalOne
         e = e.add(1)
     }
-    e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e.toStringWithDecimalPlaces(0)))
-    if (mantissa)
-        return m.toStringWithDecimalPlaces(precision) + "e" + e
-    else return "e" + e
+    e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
+    if (options.notation=="Scientific") return m.toStringWithDecimalPlaces(precision) + "e" + e
+    if (options.notation=="Engineering") return em.toStringWithDecimalPlaces(precision) + "e" + ee
+    return "e" + le
 }
 
 function commaFormat(num, precision) {
