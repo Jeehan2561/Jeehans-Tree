@@ -34,9 +34,6 @@ addLayer("difficulty", {
         ]
         }
     },
-    update(diff){
-        if (player.difficulty.gameStarted) player.runTime = player.runTime.add(diff)
-    },
     clickables: {
         11: {
             title: "GP Boost",
@@ -116,6 +113,25 @@ addLayer("difficulty", {
                 if(confirm("Restart the run?")) {
                     player.difficulty.gameStarted = false
                     player.points = modInfo.initialStartPoints
+                    layerDataReset("goal")
+                    layerDataReset("amogus")
+                    layerDataReset("booster")
+                    layerDataReset("sbooster")
+                    layerDataReset("chess")
+                    layerDataReset("dv")
+                    layerDataReset("infection")
+                    layerDataReset("antiamogus")
+                    layerDataReset("antip")
+                    player.infection.activeChallenge=null
+                    player.chess.activeChallenge=null
+                    player.amogus.unlocked = false
+                    player.booster.unlocked = false
+                    player.sbooster.unlocked = false
+                    player.chess.unlocked = false
+                    player.dv.unlocked = false
+                    player.infection.unlocked = false
+                    player.antiamogus.unlocked = false
+                    player.antip.unlocked = false
                     player.runTime = new Decimal (0)
                     player.keepGoing = false
                     tmp.gameEnded = false
@@ -127,18 +143,6 @@ addLayer("difficulty", {
                 return color
             }},
         },
-        update(diff) {
-            if (!player.difficulty.gameStarted) {
-                layerDataReset("goal")
-                layerDataReset("amogus")
-                layerDataReset("booster")
-                layerDataReset("sbooster")
-                layerDataReset("chess")
-                layerDataReset("dv")
-                layerDataReset("infection")
-                layerDataReset("antiamogus")
-            }
-        }
     }
 })
 addLayer("goal", {
@@ -200,6 +204,13 @@ addLayer("goal", {
             ["row", [["achievement", "P1181"],["achievement", "P1182"],["achievement", "P1183"],["achievement", "P1184"],["achievement", "P1185"]]],
             ["row", [["achievement", "P1191"],["achievement", "P1192"],["achievement", "P1193"],["achievement", "P1194"],["achievement", "P1195"]]],
             ["row", [["achievement", "P1201"],["achievement", "P1202"],["achievement", "P1203"],["achievement", "P1204"],["achievement", "P1205"]]],
+            "blank",
+            "blank",
+            ["row", [["achievement", "P1211"],["achievement", "P1212"],["achievement", "P1213"],["achievement", "P1214"],["achievement", "P1215"]]],
+            ["row", [["achievement", "P1221"],["achievement", "P1222"],["achievement", "P1223"],["achievement", "P1224"],["achievement", "P1225"]]],
+            ["row", [["achievement", "P1231"],["achievement", "P1232"],["achievement", "P1233"],["achievement", "P1234"],["achievement", "P1235"]]],
+            ["row", [["achievement", "P1241"],["achievement", "P1242"],["achievement", "P1243"],["achievement", "P1244"],["achievement", "P1245"]]],
+            ["row", [["achievement", "P1251"],["achievement", "P1252"],["achievement", "P1253"],["achievement", "P1254"],["achievement", "P1255"]]],
         ]
         }
     },
@@ -238,7 +249,7 @@ addLayer("goal", {
         },
         P115: {
             name: "P1A5",
-            tooltip() {return "Have 1.000e10 Points [1 GP]"},
+            tooltip() {return "Have "+format(1.000e10)+" Points [1 GP]"},
             done() {return player.points.gte(100000000) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
@@ -278,7 +289,7 @@ addLayer("goal", {
         },
         P125: {
             name: "P1B5",
-            tooltip() {return "Have 1.000e10 Amogus [1 GP]"},
+            tooltip() {return "Have "+format(1.000e10)+" Amogus [1 GP]"},
             done() {return player.amogus.points.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
@@ -398,7 +409,7 @@ addLayer("goal", {
         },
         P155: {
             name: "P1E5",
-            tooltip() {return "Have 1.000e10 🆎 [1 GP]"},
+            tooltip() {return "Have "+format(1.000e10)+" 🆎 [1 GP]"},
             done() {return player.amogus.AB.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
@@ -667,7 +678,7 @@ addLayer("goal", {
         },
         P1115: {
             name: "P1K5",
-            tooltip() {return "Have 1.000e10 Chess Points [3 GP]"},
+            tooltip() {return "Have "+format(1.000e10)+" Chess Points [3 GP]"},
             unlocked() {return player.chess.unlocked},
             done() {return player.chess.points.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
@@ -1118,7 +1129,7 @@ addLayer("pgn", {
                 if (player.points.gte("6.9e420")&&(canGenPoints())) return "Point gain will be capped at " + format(getPointCap())
             }],
             ["display-text", function() {
-                if (player.points.gte("1e1000")&&(canGenPoints())) return "The point gain cap will softcap after 1e1000."
+                if (player.points.gte("1e1000")&&(canGenPoints())) return "The point gain cap will softcap after "+ format("1e1000") +"."
             }],
         ],
         }
@@ -1191,7 +1202,7 @@ addLayer("amogus", {
     doReset(l) {
         if (!(layers[l].row > this.row)) return
         
-        let keep = []
+        let keep = ['milestones']
         if (hasMilestone('booster', 0)) keep.push('upgrades', 'buyables')
         
         layerDataReset(this.layer, keep)
@@ -1224,6 +1235,7 @@ addLayer("amogus", {
                 ["prestige-button", "", function (){ return hasMilestone("booster", 1) ? {'display': 'none'} : {}}],
                 "blank",
                 "resource-display",
+                "milestones",
                 "blank",
                 "blank",
                 ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15]]],
@@ -1245,7 +1257,7 @@ addLayer("amogus", {
                 "resource-display",
                 ["display-text",
                 function() {
-                    return "You have " + format(player.amogus.AB) + " 🆎, Translated to a x" + format(tmp.amogus.getABeffect) + " boost to point gain." + (player.amogus.AB.gte("1e1000") ? " (softcapped past 1.000e1000 🆎)" : "")
+                    return "You have " + format(player.amogus.AB) + " 🆎, Translated to a x" + format(tmp.amogus.getABeffect) + " boost to point gain." + (player.amogus.AB.gte("1e1000") ? " (softcapped past "+format("1.000e1000")+" 🆎)" : "")
                 }],
                 ["display-text",
                 function() {
@@ -1261,6 +1273,14 @@ addLayer("amogus", {
                 "blank",
                 ["row", [["clickable", 11], "blank", "blank", ["clickable", 12], "blank", "blank", ["clickable", 13]]],
             ]
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription() {return "1,000 🆎 Boosters, 🆎 Generators"},
+            unlocked() {return hasMilestone('infection', 6)},
+            done() {return (getBuyableAmount('amogus', 11).gte(1e3)&&getBuyableAmount('amogus', 12).gte(1e3))},
+            effectDescription() {return "Multiply DP gain by log<sub>20</sub>(🆎), Currently: "+format(player.amogus.AB.max(1).log(20).max(1))+"x"},
         },
     },
     upgrades: {
@@ -1553,6 +1573,7 @@ addLayer("amogus", {
                 if (hasUpgrade('chess', 14)) base = base.div(upgradeEffect('chess', 14))
                 return base.floor()
             },
+            purchaseLimit() {return new Decimal (1e3)},
             tooltip() {
                 return "Cost Formula:<br>1,000*4<sup>x<sup>1.250</sup></sup>/<b>Cost Dividers</b>"
             },
@@ -1600,6 +1621,7 @@ addLayer("amogus", {
                 if (hasUpgrade('chess', 14)) base = base.div(upgradeEffect('chess', 14))
                 return base.floor()
             },
+            purchaseLimit() {return new Decimal (1e3)},
             tooltip() {
                 return "Cost Formula:<br>1,000*4<sup>x<sup>1.250</sup></sup>/<b>Cost Dividers</b>"
             },
@@ -1767,6 +1789,7 @@ addLayer("amogus", {
                 if (hasUpgrade('dv', 61)) eff1 = eff1.times(upgradeEffect('dv', 61).AB)
                 if (hasUpgrade('dv', 65)) eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 72)) eff1 = eff1.times(6268)
+                if (hasMilestone('infection', 5)) eff1 = eff1.times(Decimal.pow(1e3, new Decimal(player.infection.milestones.length).sub(5).max(0)))
                 let eff2 = base2.pow(Decimal.pow(expo2, x.sub(1))).times(x.max(1).min(1))
                 eff2 = eff2.div(diveff2)
                 let lim = new Decimal (1).times(Decimal.pow(limbase, x)).times(x.max(1).min(1))
@@ -1944,6 +1967,7 @@ addLayer("booster", {
         if (hasUpgrade('booster', 12)) base = base.add(upgradeEffect('booster', 12))
         if (hasUpgrade('booster', 45)) base = base.add(upgradeEffect('booster', 45))
         base = base.add(buyableEffect('chess', 42).Ef)
+        base = base.add(tmp.antip.effect.bb)
         base = base.times(tmp.sbooster.effect.E)
         if (inChallenge('chess', 13)) base = base.sub(1)
         if (inChallenge('chess', 14)) base = base.sub(1.25)
@@ -2276,11 +2300,11 @@ addLayer("booster", {
        	},
         53: {
 	        title: "Booster Upgrade E3",
-        	description: "Unlock <b>Bean ?!?!?!?!</b> in crewmate layer [Coming soon], S-boosters effect caps at 25 SBs",
+        	description: "Unlock <b>Bean buyables and upgrades</b> in crewmate layer, S-boosters effect caps at 25 SBs",
             tooltip() {return "Must be in <b>Berolina Pawn</b> Challenge, The cost of the upgrade is multiplied by [SB]+1"},
          	cost() {
                 if (!inChallenge('chess', 23)) return Decimal.dInf
-                return new Decimal (1034).times(player.sbooster.points.max(0).add(1))},
+                return new Decimal (1031).times(player.sbooster.points.max(0).add(1))},
             unlocked() {return hasUpgrade('booster', 45)&&hasMilestone('sbooster', 2)}
        	},
         54: {
@@ -2305,7 +2329,7 @@ addLayer("booster", {
             tooltip() {return "Must be in <b>Amalgam</b> Challenge"},
          	cost() {
                 if (!inChallenge('chess', 25)) return Decimal.dInf
-                return new Decimal (1064)},
+                return new Decimal (1060)},
             effect() {
                 let base = new Decimal (1.04)
                 let expo = new Decimal (player.booster.upgrades.length)
@@ -2444,7 +2468,7 @@ addLayer("sbooster", {
        	},
         13: {
 	        title: "Super Booster Upgrade A3",
-        	description: "Divide B-Booster's Cost by 1e5 per S-Boosters",
+        	description: "Divide B-Booster's Cost by 100,000 per S-Boosters",
          	cost: new Decimal (4),
             effect() {
                 let base = new Decimal(1e5)
@@ -2471,7 +2495,7 @@ addLayer("sbooster", {
     milestones: {
         0: {requirementDescription: "3 Super Boosters",
                 done() {return player[this.layer].best.gte(3)}, // Used to determine when to give the milestone
-                effectDescription: "Multiply Point gain cap by 1e8 per super booster.",
+                effectDescription() {return "Multiply Point gain cap by "+ format(1e8) +" per super booster."},
             },
         1: {requirementDescription: "7 Super Boosters",
             done() {return player[this.layer].best.gte(7)}, // Used to determine when to give the milestone
@@ -2529,12 +2553,14 @@ addLayer("chess", {
         if (player.difficulty.staticResBoost) mult = mult.times(2)
         if (hasChallenge('chess', 21)) mult = mult.times(Decimal.pow(8, Object.values(player[this.layer].challenges).reduce((a,b) => a+b)))
         if (hasChallenge('chess', 25)) mult = mult.times(player.chess.points.max(1).ln().max(1).pow(Object.values(player[this.layer].challenges).reduce((a,b) => a+b)))
+        if (hasUpgrade('antiamogus', 42)) mult = mult.times(upgradeEffect('antiamogus', 42))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         let exp = new Decimal (1)
         if (hasUpgrade('dv', 15)) exp = exp.times(1.05)
         if (hasUpgrade('infection', 22)) exp = exp.times(1.05)
+        if (hasMilestone('antiamogus', 1)) exp = exp.times(1.05)
         return exp
     },
     row: 2, // Row the layer is in on the tree (0 is the first row)
@@ -2641,13 +2667,13 @@ addLayer("chess", {
                 toggles: [["booster", "autoreset"]]
             },
         1: {
-                requirementDescription: "1.000e12 chess points",
+                requirementDescription() {return format(1e12) +" chess points"},
                     done() {return player[this.layer].best.gte(1e12)}, // Used to determine when to give the milestone
                     tooltip() {return "Effect Formula:<br>(log<sub>2</sub>([Ex. Req.])+2)<sup>0.8</sup>"},
                     effectDescription() {return "Square root extracting Requirements, but Multiply Extracted 🆎 gain by "+format(tmp.chess.M1effect)+" (based on it)."},
                 },
         2: {
-                requirementDescription: "4.204e20 chess points",
+            requirementDescription() {return format(4.204e20) +" chess points"},
                     done() {return player[this.layer].best.gte(4.204e20)}, // Used to determine when to give the milestone
                     effectDescription: "Gain 10% of chess gain on reset per second.",
                 },
@@ -2828,7 +2854,7 @@ addLayer("chess", {
        	},
         41: {
 	        title: "Chess Upgrade D1",
-        	description: "Divide Booster's Cost based on total MP, Divide Chess reset's requirement by 1e6.",
+        	description: "Divide Booster's Cost based on total MP, Divide Chess reset's requirement by 1,000,000.",
             tooltip() {return "Effect Formula: ([MP]+2)<sup>(log<sub>2</sub>([MP]+1))<sup>0.75</sup>+2</sup>"},
          	cost: new Decimal (1e22),
             effect() {
@@ -3398,19 +3424,103 @@ addLayer("chess", {
                 }
             },
         },
+        71: {
+            title: "♔ White King",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFFFFF"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('antiamogus', 35)
+            },
+            cost(x) {
+                let base = new Decimal (50)
+                return base
+            },
+            tooltip() {
+                return "Effect Formula:<br>1.05<sup>[total MP]<sup>0.5</sup></sup>*([total MP]+2)"
+            },
+            display() {
+                return "Multiply DP by "+format(buyableEffect(this.layer, this.id).Ba)+" (based on total MP)<br>Cost: "+format(this.cost())+ " material points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/1<br>Effect: "+ format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return ((Decimal.sub(buyableEffect('chess', 11).MP, player[this.layer].spentMP)).gte(this.cost()))&&(getBuyableAmount(this.layer, this.id).lt(1))
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentMP = player[this.layer].spentMP.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (1.05).pow(buyableEffect('chess', 11).MP.max(0).pow(0.5)).times(buyableEffect('chess', 11).MP.max(0).add(2))
+                if (inChallenge('chess', 11)) base1 = new Decimal (1)
+                if (inChallenge('chess', 12)) base1 = new Decimal (1)
+                if (inChallenge('chess', 13)) base1 = new Decimal (1)
+                if (inChallenge('chess', 14)) base1 = new Decimal (1)
+                let expo = x
+                let eff1 = base1.pow(expo)
+                return {
+                    Ba: base1,
+                    Ef: eff1,
+                }
+            },
+        },
+        72: {
+            title: "♚ Black King",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#333333"
+                }
+            },
+            unlocked() {
+                return hasUpgrade('antiamogus', 35)
+            },
+            cost(x) {
+                let base = new Decimal (50)
+                return base
+            },
+            tooltip() {
+                return "Effect Formula:<br>1+[total MP]/250"
+            },
+            display() {
+                return "Multiply all DIEmensions' speed by "+format(buyableEffect(this.layer, this.id).Ba)+" (based on total MP)<br>Cost: "+format(this.cost())+ " material points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/1<br>Effect: "+ format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return ((Decimal.sub(buyableEffect('chess', 11).MP, player[this.layer].spentMP)).gte(this.cost()))&&(getBuyableAmount(this.layer, this.id).lt(1))
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentMP = player[this.layer].spentMP.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal(1).add(buyableEffect('chess', 11).MP.max(0).div(250))
+                if (inChallenge('chess', 11)) base1 = new Decimal (1)
+                if (inChallenge('chess', 12)) base1 = new Decimal (1)
+                if (inChallenge('chess', 13)) base1 = new Decimal (1)
+                if (inChallenge('chess', 14)) base1 = new Decimal (1)
+                let expo = x
+                let eff1 = base1.pow(expo)
+                return {
+                    Ba: base1,
+                    Ef: eff1,
+                }
+            },
+        },
     },
     challenges: {
         11: {
             name: "Soldier",
-            challengeDescription: "Divide point gain by 1.000e100, All pieces except pawns do nothing.",
-            goalDescription: "1.000e179 amogus",
+            challengeDescription() {return "Divide point gain by " + format(1e100) + ", All pieces except pawns do nothing."},
+            goalDescription() {return format(1e179) + " amogus"},
             rewardDescription() {return "Pawns are free, Raise Point gain to the 1.05th power outside challenges."},
             canComplete: function() {return player.amogus.points.gte(1e179)},
         },
         12: {
             name: "Dragon Knight",
-            challengeDescription: "Divide 🆎 gain by 1.000e15, All pieces except knights do nothing, Square root both Knights' effect.",
-            goalDescription: "1.000e320 🆎",
+            challengeDescription() {return "Divide 🆎 gain by "+ format(1e15) +", All pieces except knights do nothing, Square root both Knights' effect."},
+            goalDescription() {return format("1e320") + " 🆎"},
             rewardDescription() {return "You can get 1 more of each Knights, Third of each Knight costs 4 MP."},
             canComplete: function() {return player.amogus.AB.gte("1e320")},
             unlocked() {return hasChallenge('chess', 11)},
@@ -3418,7 +3528,7 @@ addLayer("chess", {
         13: {
             name: "Ferz",
             challengeDescription() {return "Decrease Booster's base by 1, All pieces except bishops do nothing, Divide amogus gain by "+ format(tmp.chess.AmogusDivinFerz)+" (Effect Formula: <br>10<sup>log<sub>10</sub>[amogus]<sup>0.6</sup></sup>)"},
-            goalDescription: "2.020e202 amogus",
+            goalDescription() {return format(2.02e202) + " amogus"},
             rewardDescription() {return "You can get 1 more of each Bishops, Third of each Bishop costs 4 MP."},
             canComplete: function() {return player.amogus.points.gte("2.02e202")},
             unlocked() {return hasChallenge('chess', 12)},
@@ -3426,15 +3536,15 @@ addLayer("chess", {
         14: {
             name: "Wazir",
             challengeDescription() {return "Raise your point gain base to the [# of Rooks]+1th power but Decrease Booster's base by 1.25, All pieces do nothing, Divide point gain by "+ format(tmp.chess.PointDivinWazir)+" (Effect Formula: <br>10<sup>log<sub>10</sub>[points]<sup>0.6</sup></sup>)"},
-            goalDescription: "2.900e290 points",
+            goalDescription() {return format(2.9e290) + " points"},
             rewardDescription() {return "Raise Both Rooks' by the [# of Rooks]+1th power, Square root the point gain nerf."},
             canComplete: function() {return player.points.gte("2.9e290")},
             unlocked() {return hasChallenge('chess', 13)},
         },
         15: {
             name: "Cheap Queen",
-            challengeDescription() {return "Divide Point gain by 1.000e150, Decrease Booster's base by 1.5, Square root Queens' effect, Pawns and Knights do nothing."},
-            goalDescription: "2.400e120 points",
+            challengeDescription() {return "Divide Point gain by " + format(1e150) + ", Decrease Booster's base by 1.5, Square root Queens' effect, Pawns and Knights do nothing."},
+            goalDescription() {return format(2.400e120) + " points"},
             rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 5, Ex. Req. scales less for each <b>🆎 Exors</b>"},
             canComplete: function() {return player.points.gte("2.4e120")},
             unlocked() {return hasChallenge('chess', 14)},
@@ -3442,7 +3552,7 @@ addLayer("chess", {
         21: {
             name: "King",
             challengeDescription() {return "Stuck in <b>Ferz</b> and <b>Wazir</b>, Square root your Point gain."},
-            goalDescription: "1.000e200 points",
+            goalDescription() {return format(1e200) + " points"},
             rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 4, Multiply chess gain by 8 per completed challenges"},
             canComplete: function() {return player.points.gte("1e200")},
             unlocked() {return hasUpgrade('dv', 21)},
@@ -3451,7 +3561,7 @@ addLayer("chess", {
         22: {
             name: "Silver General",
             challengeDescription() {return "Stuck in <b>Ferz</b> and <b>Pawn</b>, Square root your amogus gain."},
-            goalDescription: "1.000e145 amogus",
+            goalDescription() {return format(1e145) + " amogus"},
             rewardDescription() {return "Increase <b>🆎 Charged Boosters</b>' base by 0.05, Buying it doesn't consume your <b>🆎 Boosters</b>"},
             canComplete: function() {return player.amogus.points.gte("1e145")},
             unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 22)},
@@ -3460,7 +3570,7 @@ addLayer("chess", {
         23: {
             name: "Berolina Pawn",
             challengeDescription() {return "Stuck in <b>Pawn</b>, Pawns' effect is raised to the -1th power, Dilate Point gain by 0.6th power after nerf."},
-            goalDescription: "1.000e85 amogus",
+            goalDescription() {return format(1e85) + " amogus"},
             rewardDescription() {return "Raise chess effect to the 2nd power, Ex. Req. scales even less for each <b>🆎 Exors</b>"},
             canComplete: function() {return player.amogus.points.gte("1e85")},
             unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 23)},
@@ -3469,7 +3579,7 @@ addLayer("chess", {
         24: {
             name: "General",
             challengeDescription() {return "Stuck in <b>Dragon Knight</b>, <b>Ferz</b> and <b>Wazir</b>, Raise point gain to the 25th root"},
-            goalDescription: "1.000e29 points",
+            goalDescription() {return format(1e29) + " points"},
             rewardDescription() {return "Decrease <b>Material Points</b>' Cost base to 3, Raise Point gain cap to the 1.05th power"},
             canComplete: function() {return player.points.gte("1e29")},
             unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 24)},
@@ -3478,7 +3588,7 @@ addLayer("chess", {
         25: {
             name: "Amalgam",
             challengeDescription() {return "Stuck in First 5 Challenges, Raise point gain to the 25th root"},
-            goalDescription: "3.000e24 points",
+            goalDescription() {return format(3e24) + " points"},
             rewardDescription() {return "Multiply Chess gain by ln([chess points]) per challenge."},
             canComplete: function() {return player.points.gte("3e24")},
             unlocked() {return hasUpgrade('dv', 21)&&hasUpgrade('dv', 25)},
@@ -3577,6 +3687,19 @@ addLayer("dv", {
         if (hasUpgrade('infection', 32)) base = new Decimal (0.04)
         return base
     },
+    automate() {
+        if (hasUpgrade('antiamogus', 45)) {
+            buyBuyable(this.layer, 11)
+            buyBuyable(this.layer, 12)
+            buyBuyable(this.layer, 13)
+            buyBuyable(this.layer, 21)
+            buyBuyable(this.layer, 22)
+            buyBuyable(this.layer, 23)
+        }
+        if (hasMilestone('antip', 0)) {
+            buyBuyable(this.layer, 31)
+        }
+    },
     tabFormat: {
         "Upgrades": {
         unlocked(){return true},
@@ -3594,6 +3717,7 @@ addLayer("dv", {
             ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25]]],
             ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35]]],
             "blank",
+            "clickables"
         ]},
         "DIEmensions": {
             unlocked(){return hasUpgrade("dv", 35)},
@@ -3622,6 +3746,7 @@ addLayer("dv", {
                 ["row", [["upgrade", 51], ["upgrade", 52], ["upgrade", 53], ["upgrade", 54], ["upgrade", 55]]],
                 ["row", [["upgrade", 61], ["upgrade", 62], ["upgrade", 63], ["upgrade", 64], ["upgrade", 65]]],
                 ["row", [["upgrade", 71], ["upgrade", 72], ["upgrade", 73], ["upgrade", 74], ["upgrade", 75]]],
+                "clickables"
             ]},
     },
     resetsNothing() {return hasMilestone('dv', 6)},
@@ -4185,7 +4310,7 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd1 = player[this.layer].dd1.add(1)
+                player[this.layer].dd4 = player[this.layer].dd4.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
@@ -4197,6 +4322,7 @@ addLayer("dv", {
                 currmult = currmult.times(buyableEffect('dv', 32).pow(getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl)))
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
+                if (hasMilestone('amogus', 0)) eff1 = eff1.times(player.amogus.AB.max(1).log(20).max(1))
                 if (hasUpgrade('dv', 41)) eff1 = eff1.times(upgradeEffect('dv', 41))
                 if (hasUpgrade('dv', 42)) eff1 = eff1.times(upgradeEffect('dv', 42))
                 if (hasUpgrade('dv', 43)) eff1 = eff1.times(upgradeEffect('dv', 43).DP)
@@ -4215,10 +4341,16 @@ addLayer("dv", {
                 if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dedpow.max(1).log(2).max(1))
                 if (hasUpgrade('dv', 75)) eff1 = eff1.times(upgradeEffect('dv', 75).DP)
                 if (hasMilestone('dv', 8)) eff1 = eff1.times(Decimal.pow(1.25, player.dv.points))
+                if (hasMilestone('dv', 11)) eff1 = eff1.times(Decimal.pow(getBuyableAmount('dv', 33).add(1).max(1), getBuyableAmount('dv', 33).add(1).max(0)))
                 eff1 = eff1.times(tmp.infection.effect.D)
                 if (hasMilestone('infection', 0)) eff1 = eff1.times(Decimal.pow(2.5, new Decimal (player.infection.milestones.length)))
                 if (hasUpgrade('antiamogus', 15)) eff1 = eff1.times(upgradeEffect('antiamogus', 15))
+                if (hasUpgrade('antiamogus', 45)) eff1 = eff1.times(upgradeEffect('antiamogus', 45))
                 if (hasUpgrade('infection', 31)) eff1 = eff1.times(upgradeEffect('infection', 31))
+                eff1 = eff1.times(buyableEffect('chess', 71).Ef)
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                if (hasMilestone('infection', 6)) eff1 = eff1.times(getBuyableAmount('infection', 12).max(0).add(1))
+                if (hasMilestone('infection', 6)) eff1 = eff1.times(Decimal.pow(10, new Decimal(player.infection.milestones.length).max(0)))
                 if (inChallenge('infection', 11)) eff1 = new Decimal (0)
                 return {
                     Mult: currmult,
@@ -4255,7 +4387,7 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd2 = player[this.layer].dd2.add(1)
+                player[this.layer].dd4 = player[this.layer].dd4.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
@@ -4268,6 +4400,7 @@ addLayer("dv", {
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd1.max(1).log(2).max(1))
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4303,9 +4436,9 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd3 = player[this.layer].dd3.add(1)
+                player[this.layer].dd4 = player[this.layer].dd4.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
-            },
+        },
             effect(x) {
                 let prod = player[this.layer].dd3
                 let mult = new Decimal(2)
@@ -4316,6 +4449,7 @@ addLayer("dv", {
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd2.max(1).log(2).max(1))
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4339,7 +4473,7 @@ addLayer("dv", {
                 return base.times(base2.pow(x.pow(expo)))
             },
             tooltip() {
-                return "Cost Formula:<br>9e12*256<sup>x<sup>1.25</sup></sup>"
+                return "Cost Formula:<br>"+format(9e12)+"*256<sup>x<sup>1.25</sup></sup>"
             },
             display() {
                 return "Generating "+format(this.effect().Ef)+" 3rd Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd4) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
@@ -4364,6 +4498,7 @@ addLayer("dv", {
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd3.max(1).log(2).max(1))
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4387,7 +4522,7 @@ addLayer("dv", {
                 return base.times(base2.pow(x.pow(expo)))
             },
             tooltip() {
-                return "Cost Formula:<br>1e24*4,096<sup>x<sup>1.25</sup></sup>"
+                return "Cost Formula:<br>"+format(1e24)+"*4,096<sup>x<sup>1.25</sup></sup>"
             },
             display() {
                 return "Generating "+format(this.effect().Ef)+" 4th Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd5) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
@@ -4412,6 +4547,7 @@ addLayer("dv", {
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd4.max(1).log(2).max(1))
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4435,7 +4571,7 @@ addLayer("dv", {
                 return base.times(base2.pow(x.pow(expo)))
             },
             tooltip() {
-                return "Cost Formula:<br>2e53*131,072<sup>x<sup>1.25</sup></sup>"
+                return "Cost Formula:<br>"+format(2e53)+"*131,072<sup>x<sup>1.25</sup></sup>"
             },
             display() {
                 return "Generating "+format(this.effect().Ef)+" 5th Deadly Dimensions per second<br>Cost: "+format(this.cost())+" Deadly Power<br>Multiplier: " + format(this.effect().Mult)+"x<br>Amount: " + format(player[this.layer].dd6) + " (" + formatWhole(getBuyableAmount(this.layer, this.id)) + ")"
@@ -4460,6 +4596,7 @@ addLayer("dv", {
                 let eff1 = prod.times(currmult)
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd5.max(1).log(2).max(1))
+                eff1 = eff1.times(buyableEffect('chess', 72).Ef)
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4588,16 +4725,22 @@ addLayer("dv", {
             },
             cost(x) {
                 let base = new Decimal (6).add(x.pow(2))
+                if (hasMilestone('antiamogus', 0)) base = base.sub(1)
+                return base.floor()
+            },
+            purchaseLimit() {
+                let base = new Decimal (5)
+                if (hasMilestone('infection', 6)) base = base.add(getBuyableAmount('infection', 12).sub(5).max(0))
                 return base
             },
             tooltip() {
                 return "Cost Formula:<br>x<sup>2</sup>+6"
             },
             display() {
-                return "Reset Everything before this but upgrades in this tab Increase Accelerator's base"+" by "+format(this.effect().B)+"<br>Cost: "+formatWhole(this.cost())+" 6th DIEmemsions<br>Effect: +"+format(this.effect().M)+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+"/5"
+                return "Reset Everything before this but upgrades in this tab Increase Accelerator's base"+" by "+format(this.effect().B)+"<br>Cost: "+formatWhole(this.cost())+" 6th DIEmemsions<br>Effect: +"+format(this.effect().M)+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(this.purchaseLimit())
             },
             canAfford() {
-                return getBuyableAmount('dv', 23).gte(this.cost())&&(!getBuyableAmount(this.layer, this.id).gte(5))
+                return getBuyableAmount('dv', 23).gte(this.cost())&&(!getBuyableAmount(this.layer, this.id).gte(6))
             },
             buy() {
                 if (!hasMilestone('infection', 2)){player[this.layer].dedpow = new Decimal (0)
@@ -4619,6 +4762,7 @@ addLayer("dv", {
             },
             effect(x) {
                 let base = new Decimal (0.015)
+                if (hasMilestone('dv', 11)) base = base.add(getBuyableAmount('dv', 33).sub(5).max(0).div(1e3))
                 let mult = base.times(x)
                 return {
                     B: base,
@@ -4678,7 +4822,7 @@ addLayer("dv", {
                     effectDescription() {return "Multiply DP gain by 1.25 per DV, Raise Point gain cap to the 1.05th power"},
             },
         9: {
-                requirementDescription: "1.897e172 DP",
+                requirementDescription() {return format(1.897e172)+" DP"},
                     done() {return player[this.layer].dedpow.gte(1.897e172)},
                     unlocked() {return hasUpgrade('dv', 35)},
                     effectDescription() {return "Gain a free DS/DBs per Milestone"},
@@ -4690,6 +4834,12 @@ addLayer("dv", {
                     effectDescription() {return "Multiply Point gain cap by "+format(player.chess.points.max(1).ln().max(1).pow(5))+" (based on chess points) per Milestone, Reduce Decaying Rate to 5%"},
                     tooltip() {return "Formula: <br>ln[chess points]<sup>5</sup>"},
             },
+        11: {
+                requirementDescription: "6 Deadly Orbs",
+                    done() {return getBuyableAmount('dv', 33).gte(6)},
+                    unlocked() {return hasMilestone('infection', 6)},
+                    effectDescription() {return "Add 0.0010 to Deadly Orbs' base per Deadly Orbs starting at 6, Multiply DP by DO+1 per DO+1, Currently: +"+format(getBuyableAmount('dv', 33).sub(5).max(0).div(1e3))+", "+format(Decimal.pow(getBuyableAmount('dv', 33).max(1), getBuyableAmount('dv', 33).add(1).max(0)))+"x"},
+            },
     },
     bars: {
         1: {
@@ -4697,10 +4847,25 @@ addLayer("dv", {
             width: 500,
             height: 50,
             progress() {return player.dv.dedpow.max(1).log("1.8e308").min(1)},
-            display() {return "Progress till 1.800e308 DP<br>"+ format(player.dv.dedpow.max(1).log("1.8e308").times(100).min(100))+"%/100.000%"},
+            display() {return "Progress till "+format("1.8e308")+" DP<br>"+ format(player.dv.dedpow.max(1).log("1.8e308").times(100).min(100))+"%/100.000%"},
             instant: false,
             fillStyle: {'background-color' : "#000080"},
             baseStyle: {'background-color' : "#000000"},
+        },
+    },
+    clickables: {
+        11: {
+            title: "Hold to Do a deadly virus reset",
+            display(){
+                return ""
+            },
+            unlocked() {return true},
+            canClick() {return true},
+            onHold() {if (canReset(this.layer)) doReset(this.layer)},
+            style: {"background-color"(){
+                let color = "#000090"
+                return color
+            }},
         },
     },
     update(diff) {
@@ -4758,6 +4923,7 @@ addLayer("infection", {
         mult = mult.times(buyableEffect(this.layer, 11).Ef)
         if (hasUpgrade('booster', 55)) mult = mult.times(upgradeEffect('booster', 55))
         if (player.difficulty.staticResBoost) mult = mult.times(2)
+        mult = mult.times(buyableEffect('antiamogus', 22).Ef)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -4990,10 +5156,10 @@ addLayer("infection", {
                 return "Cost Formula:<br>1.000e1000<sup>1.1<sup>x<sup>1.250</sup></sup></sup>"
             },
             display() {
-                return "Raise amogus gain by + ^" + format(buyableEffect(this.layer, this.id).Ba) + "<br>Cost: " + format(this.cost())+ " amogus<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/5<br>Effect: ^" + format(buyableEffect(this.layer, this.id).Ef)
+                return "Raise amogus gain by + ^" + format(buyableEffect(this.layer, this.id).Ba) + "<br>Cost: " + format(this.cost())+ " amogus<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/6<br>Effect: ^" + format(buyableEffect(this.layer, this.id).Ef)
             },
             canAfford() {
-                return player.amogus.points.gte(this.cost())&&getBuyableAmount(this.layer, this.id).lt(5)
+                return player.amogus.points.gte(this.cost())&&getBuyableAmount(this.layer, this.id).lt(6)
             },
             buy() {
                 let cost = new Decimal (1)
@@ -5003,7 +5169,7 @@ addLayer("infection", {
             effect(x) {
                 let base1 = new Decimal (0.05)
                 let expo = x.add(this.freelevel())
-                let eff1 = base1.times(expo).max(0).add(1)
+                let eff1 = base1.times(expo).max(0).add(1).min(1.50)
                 return {
                     Ba: base1,
                     Ef: eff1}
@@ -5016,35 +5182,45 @@ addLayer("infection", {
     },
     milestones: {
         0: {
-            requirementDescription: "1 Total IP",
+            requirementDescription: "1 Total IP (1)",
             done() {return player[this.layer].total.gte(1)},
-            effectDescription: "Multiply DP by 2.5 per milestone, Unlock 3 IP Upgrades",
+            effectDescription() {return "Multiply DP by 2.5 per milestone, Unlock 3 IP Upgrades."},
             },
         1: {
-            requirementDescription: "2 Total IP",
+            requirementDescription: "2 Total IP (2)",
             done() {return player[this.layer].total.gte(2)},
-            effectDescription: "Multiply Point gain cap by GP per <b>🆎 Charged Boosters</b>, Buying DIEmensions and Accelertors Doesn't take away any DP",
+            effectDescription: "Multiply Point gain cap by 250 per <b>🆎 Charged Boosters</b>, Buying DIEmensions and Accelertors Doesn't take away any DP",
             },
         2: {
-            requirementDescription: "3 Total IP",
+            requirementDescription: "3 Total IP (3)",
             done() {return player[this.layer].total.gte(3)},
             effectDescription: "Buying DIEmension shifts or Deadly don't reset anything, You can buy max Deadly Virus.",
             },
         3: {
-            requirementDescription: "4 Total IP",
+            requirementDescription: "4 Total IP (4)",
             done() {return player[this.layer].total.gte(4)},
             effectDescription: "Unlock <b>the Decelerator</b> and <b>IP Multiplier</b>",
             },
         4: {
-                requirementDescription: "6 IP Upgrades",
+                requirementDescription: "6 IP Upgrades (5)",
                 done() {return new Decimal (player[this.layer].upgrades.length).gte(6)},
-                effectDescription: "Extend The Deadly Limit to 2e1024, Unlock more decelerated and IP upgrades.",
-                },
+                effectDescription() {return "Extend The Deadly Limit to "+ format("2e1024") +", Unlock more decelerated and IP upgrades."},
+            },
+        5: {
+                requirementDescription: "200 IP (6)",
+                done() {return player[this.layer].points.gte(200)},
+                effectDescription() {return "Fourth Point gain nerf caps at 15th power, Multiply Ex. 🆎 gain by 1,000 per milestone starting at 6."},
+            },
+        6: {
+                requirementDescription: "6 <b>Suspicious Exponents</b> (7)",
+                done() {return getBuyableAmount('infection', 12).gte(6)},
+                effectDescription() {return "Multiply DP gain by <b>Suspicious Exponents</b>+1, Add 1 to Deadly Orbs' Limit for each <b>Suspicious Exponents</b> starting at 6, Multiply DP gain by 10 per milestone."},
+            },
     },
     challenges: {
         11: {
             name: "The Decelerator",
-            challengeDescription: "Main Layer contents are disabled, Dilate point gain to the 0.5th power, While decelerated unlock new contents which also applies in main game.",
+            challengeDescription: "Most of the main layer contents are disabled, Dilate point gain to the 0.5th power, While decelerated unlock new contents which also applies in main game.",
             goalDescription: "????",
             rewardDescription() {return "???"},
             canComplete: function() {return false},
@@ -5061,11 +5237,16 @@ addLayer('antiamogus', {
         unlocked: false,
 		points: new Decimal(0),
         best: new Decimal (0),
-        beans: new Decimal (0)
+        beans: new Decimal (0),
+        level: new Decimal (1),
+        spentperks: new Decimal (0),
+        levelin: false
     }},
     tooltip() {
        let base = formatWhole(player.antiamogus.points)+" crewmates"
-       if (hasUpgrade('amogus', 54)) base = base + "<br>" + format(player.antiamogus.beans)+" beans"
+       if (hasMilestone('antiamogus', 2)) base = base + "<br>" + "Bean Level "+ formatWhole(player.antiamogus.level)
+       if (hasUpgrade('amogus', 54)) base = base + "<br>" + format(player.antiamogus.beans) + (hasUpgrade('antiamogus', 41) ? "/"+format(upgradeEffect('antiamogus', 41)) : "") + " beans"
+       if (hasMilestone('antiamogus', 2)) base = base + "<br>" + + format(player.antiamogus.level.sub(1).sub(player.antiamogus.spentperks).max(0)) + "/" + formatWhole(player.antiamogus.level.sub(1).max(0)) + " perks"
        return base
     },
     color: "#00FF00",
@@ -5081,6 +5262,7 @@ addLayer('antiamogus', {
         if (hasUpgrade(this.layer, 21)) mult = mult.times(upgradeEffect(this.layer, 21))
         if (hasUpgrade(this.layer, 22)) mult = mult.times(upgradeEffect(this.layer, 22))
         if (player.difficulty.staticResBoost) mult = mult.times(2)
+        mult = mult.times(buyableEffect(this.layer, 12).Ef)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -5091,6 +5273,19 @@ addLayer('antiamogus', {
         if (!hasUpgrade('amogus', 54)) return new Decimal (0)
         let base = new Decimal (1)
         if (hasUpgrade('booster', 54)) base = base.times(upgradeEffect('booster', 54))
+        if (player.difficulty.staticResBoost) base = base.times(2)
+        base = base.times(buyableEffect(this.layer, 11).Ef)
+        base = base.times(buyableEffect(this.layer, 31).Ef)
+        if (hasUpgrade(this.layer, 31)) base = base.times(upgradeEffect(this.layer, 31))
+        if (hasUpgrade(this.layer, 32)) base = base.times(upgradeEffect(this.layer, 32))
+        if (hasUpgrade(this.layer, 33)) base = base.times(upgradeEffect(this.layer, 33))
+        if (hasUpgrade(this.layer, 34)) base = base.times(upgradeEffect(this.layer, 34))
+        if (hasUpgrade(this.layer, 35)) base = base.times(upgradeEffect(this.layer, 35))
+        if (hasUpgrade(this.layer, 44)) base = base.times(upgradeEffect(this.layer, 44))
+        if (hasMilestone(this.layer, 2)) base = base.times(Decimal.add(1, getBuyableAmount('infection', 11).max(0).div(4)))
+        base = base.times(tmp.antip.effect.be)
+        if (hasMilestone('antip', 0)) base = base.times(Decimal.pow(1.2, player.antip.milestones.length))
+        if (hasMilestone('antiamogus', 4)) base = base.times(Decimal.add(1, player.antiamogus.level.sub(50).max(0).div(100)))
         if (player[this.layer].best.gte(2.5e4)) return base
         return new Decimal (0)
     },
@@ -5102,8 +5297,12 @@ addLayer('antiamogus', {
         return inChallenge('infection', 11)
     },
     doReset(l) {
-        if (!(layers[l].row > this.row)&&(!(layers[l].symbol))=='INF'){let keep = []
-            if (!inChallenge('infection', 11)) {layerDataReset(this.layer, keep)}}
+        if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
+        {
+        let keep = ['milestones']
+        if (!inChallenge('infection', 11)) {}
+        if (inChallenge('infection', 11)) {layerDataReset(this.layer, keep)}
+    }
     },
     tabFormat: {
         "Upgrades": {
@@ -5114,10 +5313,13 @@ addLayer('antiamogus', {
                 ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
                 "blank",
                 "resource-display",
+                "milestones",
                 "blank",
                 "blank",
                 ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15]]],
                 ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25]]],
+                ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35]]],
+                ["row", [["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44], ["upgrade", 45]]],
                 "blank",
             ]
         },
@@ -5137,15 +5339,85 @@ addLayer('antiamogus', {
                 }],
                 ["display-text",
                 function() {
-                    return "You have " + format(player.antiamogus.beans) + " Beans, Translated to a x" + format(tmp.antiamogus.Beaneffect) + " boost to point gain and point gain cap after everything."
+                    a = ""
+                    if (hasUpgrade('antiamogus', 41)) a = "/"+format(upgradeEffect('antiamogus', 41))
+                    return "You have " + format(player.antiamogus.beans) + a + " Beans, Translated to a x" + format(tmp.antiamogus.Beaneffect) + " boost to point gain and point gain cap after everything."
                 }],
                 ["display-text",
                 function() {
-                    return "You are generating " + format(tmp.antiamogus.Beangain) + " Beans per second"
+                    if (getBuyableAmount('antiamogus', 21).gte(1)) return "Bean gain: " + format(tmp.antiamogus.Beangain)
+                }],
+                ["display-text",
+                function() {
+                    return "You are generating " + format(tmp.antiamogus.Beangain.times(tmp.antiamogus.getBeansSpeed)) + " Beans per second"
                 }],
                 "blank",
+                ["row", [["buyable", 11], ["buyable", 12], ["buyable", 13]]],
+                ["row", [["buyable", 21], ["buyable", 22], ["buyable", 23]]],
+                "blank",
+                ["row", [["bar", 1], ["clickable", 11]]],
+                ["display-text",
+                function() {
+                    if(hasMilestone('antiamogus', 2)) return "Bean Level's requirement cannot go below "+format(1e11)+" beans."
+                }],
             ]
         },
+        "Perks": {
+            unlocked(){return player.antiamogus.level.gte(6)||hasMilestone('antip', 1)},
+            content:[
+                "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                "blank",
+                "blank",
+                ["display-text",
+                function() {
+                    return "You have "+formatWhole(player.antiamogus.level.sub(1).sub(player.antiamogus.spentperks).max(0))+" perks to spent. [You gain a perk per level starting at 2]"
+                }],
+                "blank",
+                ["row", [["buyable", 31], ["buyable", 32], ["buyable", 33]]],
+                ["row", [["buyable", 41], ["buyable", 42], ["buyable", 43]]],
+                "blank",
+                ["row", [["bar", 1], ["clickable", 11]]],
+                ["display-text",
+                function() {
+                    if(hasMilestone('antiamogus', 2)) return "Bean Level's requirement cannot go below "+format(1e11)+" beans."
+                }],
+            ]
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription() {return format(1e9)+" Crewmates"},
+            done() {return player[this.layer].points.gte(1e9)},
+            effectDescription: "Square root point gain nerf while decelerating, Raise point gain base to the 1.05th power, Decrease DO's cost by 1.",
+        },
+        1: {
+            requirementDescription() {return format(1e9)+" Decelerated points"},
+            done() {return player.points.gte(1e9)&&inChallenge('infection', 11)},
+            effectDescription() {return "Raise Point gain nerf to the 1.05th root, Raise chess gain to the 1.05th power, Your decelerated points caps at "+format(new Decimal (1e9))+". (for now...)"},
+        },
+        2: {
+            requirementDescription() {return format(5e10)+" Beans"},
+            done() {return player[this.layer].beans.gte(5e10)},
+            effectDescription: "Unlock Bean's level, Increase bean gain by +25% per <b>IP Multiplier</b>, You will unlock <b>Perks</b> at Bean Level 6.",
+        },
+        3: {
+            requirementDescription() {return "Bean Level 50"},
+            done() {return player[this.layer].level.gte(50)},
+            effectDescription: "Unlock Prestige.",
+        },
+        4: {
+            requirementDescription() {return format(1e12)+" Crewmates"},
+            done() {return player[this.layer].points.gte(1e12)},
+            effectDescription() {return "Your crewmates stuck at "+format(1e12)+", Increase bean gain by +1% per bean level starting at 51."},
+        },
+    },
+    passiveGeneration() {
+        if (hasMilestone('antip', 2)&&inChallenge('infection', 11)) return new Decimal (0.1)
+        return 0
     },
     upgrades: {
         11: {
@@ -5184,7 +5456,7 @@ addLayer('antiamogus', {
         },
         14: {
             title: "Crewmate Upgrade A4",
-        	description: "Multiply point gain cap after everything based on point gain cap, Multiply point gain by log<sub>10</sub>[point gain cap].",
+        	description: "Multiply point gain cap after everything based on point gain cap, Multiply point gain by log<sub>2</sub>[point gain cap].",
             tooltip: "Formula: (log<sub>2</sub>([point gain cap])<sup>4</sup>",
          	cost: new Decimal (25),
              effect() {
@@ -5232,7 +5504,7 @@ addLayer('antiamogus', {
             title: "Crewmate Upgrade B3",
         	description: "Multiply point gain based on points.",
          	cost: new Decimal (1250),
-             tooltip: "Formula: (log<sub>2</sub>([points]+1)+1)<sup>0.8</sup>",
+            tooltip: "Formula: (log<sub>2</sub>([points]+1)+1)<sup>0.8</sup>",
             effect() {
                 return player.points.max(1).log(2).add(1).pow(0.8)
             },
@@ -5262,10 +5534,626 @@ addLayer('antiamogus', {
             effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
             unlocked() {return hasUpgrade(this.layer, 24)&&hasMilestone('infection', 4)}
         },
+        31: {
+            title: "Beans Upgrade A1",
+        	description: "Multiply bean gain based on points",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: (ln([points]+1)+1)<sup>0.75</sup>",
+         	cost: new Decimal (5555),
+             effect() {
+                let base = player.points.max(0).add(1).ln().add(1)
+                let pow = new Decimal (0.75)
+                return base.pow(pow).min(10)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 25)&&hasUpgrade('booster', 53)}
+        },
+        32: {
+            title: "Beans Upgrade A2",
+        	description: "Multiply bean gain based on best crewmates",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: (ln([Crewmates]+1)+1)<sup>0.5</sup>",
+         	cost: new Decimal (24576),
+             effect() {
+                let base = player.antiamogus.points.max(0).add(1).ln().add(1)
+                let pow = new Decimal (0.5)
+                return base.pow(pow).min(5)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 31)&&hasUpgrade('booster', 53)}
+        },
+        33: {
+            title: "Beans Upgrade A3",
+        	description: "Multiply bean gain by 1.1 per ln[best IP]",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+         	cost: new Decimal (2e5),
+             effect() {
+                let base = new Decimal (1.1)
+                let pow = player.infection.best.max(1).ln().max(0)
+                return base.pow(pow).min(2)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 32)&&hasUpgrade('booster', 53)}
+        },
+        34: {
+            title: "Beans Upgrade A4",
+        	description: "Multiply Beans gain based on [Beanier Gain]'s level",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: ([BG]+1)<sup>0.4</sup>",
+         	cost: new Decimal (8e5),
+             effect() {
+                let base = new Decimal (getBuyableAmount(this.layer, 11)).max(0).add(1)
+                let pow = new Decimal (0.4)
+                return base.pow(pow).min(10)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 33)&&hasUpgrade('booster', 53)}
+        },
+        35: {
+            title: "Beans Upgrade A5",
+        	description: "Unlock 2 new chess pieces, Multiply Beans gain by 1.15 per upgrade",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+         	cost: new Decimal (3e6),
+             effect() {
+                let base = new Decimal (1.15)
+                let pow = new Decimal (player.antiamogus.upgrades.length)
+                return base.pow(pow)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 34)&&hasUpgrade('booster', 53)}
+        },
+        41: {
+            title: "Beans Upgrade B1",
+        	description: "Unlock a new bean buyable, But your beans cap at 300 seconds of bean gain.",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+         	cost: new Decimal (1e9),
+             effect() {
+                let base = new Decimal (300)
+                let pow = new Decimal (tmp.antiamogus.Beangain)
+                return base.times(pow)
+            },
+            effectDisplay() { return format(player.antiamogus.beans)+"/"+format(upgradeEffect(this.layer, this.id))},
+            unlocked() {return hasUpgrade(this.layer, 35)&&hasUpgrade('booster', 53)}
+        },
+        42: {
+            title: "Beans Upgrade B2",
+        	description: "Multiply chess gain by Beans, Increase Point gain base by 1 per upgrade",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+         	cost: new Decimal (5.25e9),
+            effect() {
+                let base = player.antiamogus.beans.max(1)
+                let pow = new Decimal (1)
+                return base.times(pow)
+            },
+            effectDisplay() { return format(player.antiamogus.beans)+"x, +"+format(player.antiamogus.upgrades.length)},
+            unlocked() {return hasUpgrade(this.layer, 41)&&hasUpgrade('booster', 53)}
+        },
+        43: {
+            title: "Beans Upgrade B3",
+        	description: "Multiply Bean generating speed based on Beans' cap and amount",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: 2-([Cap]/[Amount])",
+         	cost: new Decimal (1e10),
+            effect() {
+                let max = new Decimal (2)
+                let base = player.antiamogus.beans.max(0).div(upgradeEffect(this.layer, 41).max(1)).max(0).min(1)
+                let decay = new Decimal (1)
+                return max.sub(base.times(decay))
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 42)&&hasUpgrade('booster', 53)}
+        },
+        44: {
+            title: "Beans Upgrade B4",
+        	description: "Unlock another bean buyable, Multiply bean gain based on bean gain",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: 1.15<sup>log<sub>2</sub>(log<sub>2</sub>[gain])</sup>",
+         	cost: new Decimal (1.3e10),
+            effect() {
+                let base = new Decimal (1.15)
+                let pow = tmp.antiamogus.Beangain.max(1).log2().max(1).log2()
+                return base.pow(pow)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 43)&&hasUpgrade('booster', 53)}
+        },
+        45: {
+            title: "Beans Upgrade B5",
+        	description: "Automatically buy All 6 <b>Deadly DIEmensions</b>, Multiply DP gain based on Beans.",
+            currencyDisplayName: "beans",
+            currencyLayer: "antiamogus",
+            currencyInternalName: "beans",
+            currencyLocation() {return player.antiamogus},
+            tooltip: "Formula: 2.5<sup>log<sub>2</sub>(log<sub>2</sub>[beans])</sup>",
+         	cost: new Decimal (3.4e10),
+            effect() {
+                let base = new Decimal (2.5)
+                let pow = player.antiamogus.beans.max(1).log2().max(1).log2()
+                return base.pow(pow)
+            },
+            effectDisplay() { return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasUpgrade(this.layer, 44)&&hasUpgrade('booster', 53)}
+        },
+    },
+    buyables: {
+        11: {
+            title: "Beanier Gain",
+            unlocked() {
+                return hasUpgrade('booster', 53)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFA500"
+                }
+            },
+            cost(x) {
+                let base = Decimal.pow(1.12, x).times(10)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>10*1.12<sup>x</sup>"
+            },
+            display() {
+                return "Increase Bean gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level,<br>Increase this boost by 25% per 25 level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.2)
+                let levels = x.add(this.freelevel())
+                let boostbase = new Decimal (1.25)
+                let boostamt = x.div(25).floor()
+                let eff1 = new Decimal(1).add(base1.times(levels)).times(Decimal.pow(boostbase, boostamt))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        12: {
+            title: "Crewtive Bean",
+            unlocked() {
+                return hasUpgrade('booster', 53)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.16, x).times(25)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>25*1.16<sup>x</sup>"
+            },
+            display() {
+                return "Increase Crewmate gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level,<br>Increase this boost by 25% per 25 level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.1)
+                let levels = x.add(this.freelevel())
+                let boostbase = new Decimal (1.25)
+                let boostamt = x.div(25).floor()
+                let eff1 = new Decimal(1).add(base1.times(levels)).times(Decimal.pow(boostbase, boostamt))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        13: {
+            title: "Pointy Bean",
+            unlocked() {
+                return hasUpgrade('booster', 53)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFFFFF"
+                }
+            },
+            cost(x) {
+                let base = Decimal.pow(1.35, x).times(100)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>100*1.35<sup>x</sup>"
+            },
+            display() {
+                return "Increase Point gain after everything and its cap after everything by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level,<br>Increase this boost by 50% per 25 level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.1)
+                let levels = x.add(this.freelevel())
+                let boostbase = new Decimal (1.5)
+                let boostamt = x.div(25).floor()
+                let eff1 = new Decimal(1).add(base1.times(levels)).times(Decimal.pow(boostbase, boostamt))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        21: {
+            title: "Bean Speed",
+            unlocked() {
+                return hasUpgrade('antiamogus', 41)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFFFFF"
+                }
+            },
+            cost(x) {
+                let base = Decimal.pow(2.5, x).times(10000)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>10,000*2.5<sup>x</sup>"
+            },
+            display() {
+                return "Increase Bean generating speed by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.1)
+                let levels = x.add(this.freelevel())
+                let eff1 = new Decimal(1).add(base1.times(levels))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        22: {
+            title: "Bean Infection",
+            unlocked() {
+                return hasUpgrade('antiamogus', 44)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#0000D0"
+                }
+            },
+            cost(x) {
+                let base = Decimal.pow(7, x).times(2000)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>2,000*7<sup>x</sup>"
+            },
+            display() {
+                return "Increase infection gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/10<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            purchaseLimit() {return new Decimal (10)},
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.1)
+                let levels = x.add(this.freelevel())
+                let eff1 = new Decimal(1).add(base1.times(levels))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        23: {
+            title: "Bean XP",
+            unlocked() {
+                return hasMilestone('antip', 2)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#00FFFF"
+                }
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(1000)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>1,000*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Increase Bean XP gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level,<br>Increase this boost by 4% per 25 level<br>Cost: " + format(this.cost())+ " Beans<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].beans.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.04)
+                let levels = x.add(this.freelevel())
+                let boostbase = new Decimal (1.04)
+                let boostamt = x.div(25).floor()
+                let eff1 = new Decimal(1).add(base1.times(levels)).times(Decimal.pow(boostbase, boostamt))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        31: {
+            title: "Bean Perk",
+            unlocked() {
+                return player[this.layer].level.gte(1)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFA500"
+                }
+            },
+            cost(x) {
+                let base = new Decimal (1)
+                return base.floor()
+            },
+            purchaseLimit() {return new Decimal (50)},
+            display() {
+                return "Increase Bean gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level multiplied by bean's level<br>Cost: " + formatWhole(this.cost())+ " Perks<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/50<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return player[this.layer].level.sub(1).sub(player[this.layer].spentperks).max(0).gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentperks = player[this.layer].spentperks.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.1)
+                let levels = x.add(this.freelevel()).max(0)
+                let eff1 = new Decimal(1).add(base1.times(levels).times(player[this.layer].level.max(0)))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        32: {
+            title: "Speed Perk",
+            unlocked() {
+                return player[this.layer].level.gte(1)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#FFFFFF"
+                }
+            },
+            cost(x) {
+                let base = new Decimal (1)
+                return base.floor()
+            },
+            purchaseLimit() {return new Decimal (10)},
+            display() {
+                return "Increase Bean generating speed by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + formatWhole(this.cost())+ " Perks<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/10<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return player[this.layer].level.sub(1).sub(player[this.layer].spentperks).max(0).gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentperks = player[this.layer].spentperks.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.25)
+                let levels = x.add(this.freelevel()).max(0)
+                let eff1 = new Decimal(1).add(base1.times(levels))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+    },
+    LVLReq() {
+        let base = new Decimal(1e11).times(Decimal.pow(1.05, player.antiamogus.level.sub(1).max(0).pow(1.25))).floor()
+        if (hasMilestone('antip', 1)) base = base.div(2)
+        base = base.div(buyableEffect(this.layer, 23).Ef)
+        if (player.difficulty.staticResBoost) base = base.div(2)
+        return base.max(1e11)
+    },
+    clickables: {
+        11: {
+            title() {return "Allow Level up: " + (player.antiamogus.levelin ? "ON" : "OFF")},
+            unlocked() {return hasMilestone('antiamogus', 2)},
+            canClick() {return true},
+            onClick() {player.antiamogus.levelin = !player.antiamogus.levelin},
+            style: {"background-color"(){
+                if (!player.antiamogus.levelin) return '#FFFFFF'
+                if (player.antiamogus.levelin) return "#00CFCF"
+            }},
+        },
+    },
+    bars: {
+        1: {
+            direction: RIGHT,
+            width: 500,
+            height: 50,
+            progress() {return player.antiamogus.beans.max(0).div(tmp.antiamogus.LVLReq).min(1)},
+            display() {return "Bean Level: "+formatWhole(player.antiamogus.level)+"<br> Progress: "+format(player.antiamogus.beans)+"/"+format(tmp.antiamogus.LVLReq)+" Beans"},
+            instant: false,
+            fillStyle: {'background-color' : "#00CFCF"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+    },
+    getBeansSpeed() {
+        let speed = new Decimal (1)
+        speed = speed.times(buyableEffect('antiamogus', 21).Ef)
+        speed = speed.times(buyableEffect('antiamogus', 32).Ef)
+        if (hasUpgrade('antiamogus', 43)) speed = speed.times(upgradeEffect('antiamogus', 43))
+        return speed
     },
     update(diff) {
+        player.antiamogus.points = player.antiamogus.points.min(1e12)
+        player.antiamogus.best = player.antiamogus.best.min(1e12)
+        player.antiamogus.total = player.antiamogus.total.min(1e12)
         if (hasUpgrade('amogus', 54)&&inChallenge('infection', 11)) {
-            player.antiamogus.beans = player.antiamogus.beans.add(tmp.antiamogus.Beangain.times(diff))
+            cap = Decimal.dInf
+            if (hasUpgrade('antiamogus', 41)) cap = upgradeEffect('antiamogus', 41)
+            player.antiamogus.beans = player.antiamogus.beans.add(tmp.antiamogus.Beangain.times(diff).times(tmp.antiamogus.getBeansSpeed)).min(cap)
         }
+        if (player.antiamogus.levelin) {
+            if (player.antiamogus.beans.gte(tmp.antiamogus.LVLReq)) {
+                player.antiamogus.beans = player.antiamogus.beans.sub(tmp.antiamogus.LVLReq).max(0)
+                player.antiamogus.level = player.antiamogus.level.add(1)
+            }
+        }
+    },
+})
+addLayer('antip', {
+    name: "anti-prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "PP", // ඞ This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        best: new Decimal (0),
+    }},
+    tooltip() {
+       let base = formatWhole(player.antip.points)+" prestige points"
+       return base
+    },
+    color: "#31AEB0",
+    requires: new Decimal ("50"), // Can be a function that takes requirement increases into account
+    resource: "prestige points", // Name of prestige currency
+    baseResource: "bean levels", // Name of resource prestige is based on
+    baseAmount() {return player.antiamogus.level}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal (1)
+        if (player.difficulty.staticResBoost) mult = mult.times(2)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        expo = new Decimal (1)
+        return expo
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+    layerShown() {
+        return inChallenge('infection', 11)&&(hasMilestone('antiamogus', 3))
+    },
+    branches: ['antiamogus'],
+    getResetGain() {
+        if (player.antiamogus.level.lt(tmp.antip.requires)) return new Decimal (0)
+        return Decimal.pow(tmp.antip.Gainbase, player.antiamogus.level.sub(tmp.antip.requires).div(10).max(0)).times(tmp.antip.gainMult).pow(tmp.antip.gainExp).floor()
+    },
+    getNextAt(canMax=false) {return Decimal.add(tmp.antip.requires, tmp.antip.getResetGain.add(1).pow(Decimal.div(1, tmp.antip.gainExp)).div(tmp.antip.gainMult).log(tmp.antip.Gainbase).times(10))},
+    doReset(l) {
+        if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
+        {
+        let keep = ['milestones']
+        if (!inChallenge('infection', 11)) {}
+        if (inChallenge('infection', 11)) {layerDataReset(this.layer, keep)}
+    }},
+    Gainbase() {return new Decimal (1.3)},
+    effect() {
+        return {
+            be: Decimal.add(1, player[this.layer].best.pow(0.4).div(25)),
+            bb: player[this.layer].best.add(1).max(1).log(20).pow(0.2).min(2)}
+    },
+    effectDescription() {return "translated to a "+format(tmp.antip.effect.be)+"x boost to bean gain and a +"+format(tmp.antip.effect.bb)+" to B-Booster's base"},
+    milestones: {
+        0: {
+            requirementDescription: "1 Total PP (1)",
+            done() {return player[this.layer].total.gte(1)},
+            effectDescription() {return "Multiply Bean gain by 1.2 per milestone, Automatically buy <b>accelerators</b>"},
+            },
+        1: {
+                requirementDescription: "2 Total PP (2)",
+                done() {return player[this.layer].total.gte(2)},
+                effectDescription() {return "Perks always unlocked, Double Bean XPerience gain. [Basically Divide Bean Level's Requirement by 2]"},
+            },
+        2: {
+                requirementDescription: "3 Total PP (3)",
+                done() {return player[this.layer].total.gte(3)},
+                effectDescription() {return "Unlock Bean XP buyable, Gain 10% of crewmate gain on reset per second"},
+            },
     },
 })

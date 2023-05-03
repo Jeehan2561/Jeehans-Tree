@@ -1,5 +1,5 @@
 // ************ Themes ************
-var themes = ["default", "aqua"]
+var themes = ["default", "aqua", "light"]
 
 var colors = {
 	default: {
@@ -23,14 +23,14 @@ var colors = {
 		background_tooltip: "rgba(0, 15, 31, 0.75)",
 	},
 	light: {
-		1: "#ffffff",//Branch color 1
-		2: "#bfbfbf",//Branch color 2
+		1: "#0f0f0f",//Branch color 1
+		2: "#dfdfdf",//Branch color 2
 		3: "#7f7f7f",//Branch color 3
-		color: "#dfdfdf",
-		points: "#ffffff",
+		color: "#4f4f4f",
+		points: "#000000",
 		locked: "#bf8f8f",
-		background: "#0f0f0f",
-		background_tooltip: "rgba(0, 0, 0, 0.75)",
+		background: "#aaaaaa",
+		background_tooltip: "rgba(240, 240, 240, 0.75)",
 	},
 }
 function changeTheme() {

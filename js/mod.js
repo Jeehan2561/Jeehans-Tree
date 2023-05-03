@@ -5,7 +5,7 @@ let modInfo = {
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
-	discordName: "JeehanMoment's Modded stuffs",
+	discordName: "MomentCookie's Modded stuffs",
 	discordLink: "https://discord.gg/ccbBZHYsTv",
 	initialStartPoints: new Decimal (10), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4",
-	name: "Infecting Death",
+	num: "1.4a",
+	name: "The Decelerated Realm",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -65,7 +65,15 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 2 notations<br>
 		- Added 5 milestones.<br>
 		- Added a challenge<br>
-		Endgame: - 237 DV and B-U E3<br><br>`
+		Endgame: - 237 DV and B-U E3<br><br>
+	<h3>V1.4a - The Decelerated Realm</h3><br>
+		- Added a prestige layer [semi-finished]<br>
+		- Added a new theme (Just a little testing =])<br>
+		- Added 10 upgrades<br>
+		- Added 12 buyables<br>
+		- Added 3 notations<br>
+		- Added 12 milestones.<br>
+		Endgame: - Bean Level 80<br><br>`
 	
 
 let winText = "Congratulations! You have reached the end and beaten this game, I know this is too boring, but for now, You can join my discord server."
@@ -91,7 +99,9 @@ function getPointGen() {
 
 	let gain = new Decimal (1)
 	gain = gain.add(buyableEffect('amogus', 24).Ef2)
+	if (hasUpgrade('antiamogus', 42)) gain = gain.add(player.antiamogus.upgrades.length)
 	gain = gain.pow(buyableEffect('chess', 62).Ef)
+	if (hasMilestone('antiamogus', 0)) gain = gain.pow(1.05)
 	if (inChallenge('chess', 14)) gain = gain.pow(getBuyableAmount('chess', 51).add(getBuyableAmount('chess', 52)).add(1))
 	if (hasUpgrade('amogus', 12)) gain = gain.times(upgradeEffect('amogus', 12))
 	if (hasUpgrade('amogus', 13)) gain = gain.times(upgradeEffect('amogus', 13))
@@ -114,6 +124,7 @@ function getPointGen() {
 	if (hasUpgrade('dv', 11)) gain = gain.times(upgradeEffect('dv', 11))
 	if (hasUpgrade('dv', 15)) gain = gain.times(upgradeEffect('dv', 15))
 	if (inChallenge('infection', 11)) gain = new Decimal (1)
+	if (hasUpgrade('antiamogus', 42)&&inChallenge('infection', 11)) gain = gain.add(player.antiamogus.upgrades.length)
 	gain = gain.times(tmp.antiamogus.Beaneffect)
 	if (hasUpgrade('antiamogus', 11)) gain = gain.times(5).times(upgradeEffect('antiamogus', 11))
 	if (hasUpgrade('antiamogus', 13)) gain = gain.times(upgradeEffect('antiamogus', 13))
@@ -129,6 +140,7 @@ function getPointGen() {
 	if (!player.difficulty.gameStarted) gain = new Decimal (0)
 	if (inChallenge('chess', 23)) gain = Decimal.pow(10, gain.max(1).log(10).pow(0.6))
 	if (inChallenge('infection', 11)) gain = Decimal.pow(10, gain.max(1).log(10).pow(0.5))
+	gain = gain.times(buyableEffect('antiamogus', 13).Ef)
 	gain = gain.div(getPointDivider())
 	return gain.min(getPointCap())
 }
@@ -144,7 +156,7 @@ function getPointCap() {
 	if (hasUpgrade('dv', 63)) cap = cap.times(upgradeEffect('dv', 63))
 	if (hasUpgrade('dv', 71)) cap = cap.times(upgradeEffect('dv', 71))
 	if (hasMilestone('dv', 10)) cap = cap.times(player.chess.points.max(1).ln().max(1).pow(5).pow(player.dv.milestones.length))
-	if (hasMilestone('infection', 1)) cap = cap.times(player.goal.points.max(1).pow(getBuyableAmount('amogus', 21)))
+	if (hasMilestone('infection', 1)) cap = cap.times(Decimal.pow(250, getBuyableAmount('amogus', 21)))
 	if (hasUpgrade('sbooster', 12)) cap = cap.pow(upgradeEffect('sbooster', 12))
 	if (hasUpgrade('infection', 11)) cap = cap.times(upgradeEffect('infection', 11))
 	if (hasUpgrade('sbooster', 15)&&(player.infection.activeChallenge==null)) cap = cap.pow(1.05)
@@ -159,6 +171,7 @@ function getPointCap() {
 	if (hasUpgrade('antiamogus', 25)) cap = cap.times(upgradeEffect('antiamogus', 25))
 	if (hasUpgrade('booster', 54)&&(player.infection.activeChallenge==null)) cap = cap.times(player.antiamogus.beans.max(2).log(2).pow(5))
 	cap = cap.times(tmp.antiamogus.Beaneffect)
+	cap = cap.times(buyableEffect('antiamogus', 13).Ef)
 	return cap
 }
 function getPointDivider() {
@@ -168,6 +181,8 @@ function getPointDivider() {
 	if (hasMilestone('sbooster', 1)) base = base.pow(0.5)}
 	base = base.pow(getPointDividerExpo1())
 	if (player.difficulty.dividerNerf) base = base.pow(1)
+	if (hasMilestone('antiamogus', 1)) base = base.pow(1/1.05)
+	if (hasMilestone('antiamogus', 0)&&inChallenge('infection', 11)) base = base.pow(0.5)
 	base = base.min("1e10000")
 	return base
 }
@@ -189,6 +204,7 @@ function getPointDividerExpo2() {
 	let base = new Decimal (1)
 	if (player.points.gte("1.8e308")) base = player.points.div("1.8e308").max(0).add(1).log(10).add(10).log(10).pow(3)
 	if (hasUpgrade('dv', 22)) base = base.pow(0.8)
+	if (hasMilestone('infection', 5)) base = base.min(15)
 	return base
 }
 
@@ -212,7 +228,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.dv.points.gte("237")&&hasUpgrade('booster', 53)
+	return player.antiamogus.level.gte(80)
 }
 
 

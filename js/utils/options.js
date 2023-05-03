@@ -18,7 +18,7 @@ function getStartOptions() {
 	}
 }
 
-let notations = ["Scientific", "Engineering", "Logarithms"]
+let notations = ["Scientific", "Engineering", "Logarithms", "True Scientific", "True Engineering", "True Logarithms"]
 
 function changeNotation() {
 	options.notation = notations[(notations.indexOf(options.notation) + 1) % notations.length]

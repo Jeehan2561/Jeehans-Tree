@@ -10,9 +10,18 @@ function exponentialFormat(num, precision, mantissa = false) {
         e = e.add(1)
     }
     e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
-    if (options.notation=="Scientific") return m.toStringWithDecimalPlaces(precision) + "e" + e
-    if (options.notation=="Engineering") return em.toStringWithDecimalPlaces(precision) + "e" + ee
-    return "e" + le
+    let SR = m.toStringWithDecimalPlaces(precision) + "e" + e
+    let ER = em.toStringWithDecimalPlaces(precision) + "e" + ee
+    let LR = "e" + le
+    let TSR = m.toStringWithDecimalPlaces(precision) + "x10^" + e
+    let TER = em.toStringWithDecimalPlaces(precision) + "x10^" + ee
+    let TLR = "10^" + le
+    if (options.notation=="Scientific") return SR
+    if (options.notation=="Engineering") return ER
+    if (options.notation=="Logarithms") return LR
+    if (options.notation=="True Scientific") return TSR
+    if (options.notation=="True Engineering") return TER
+    if (options.notation=="True Logarithms") return TLR
 }
 
 function commaFormat(num, precision) {

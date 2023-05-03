@@ -337,7 +337,9 @@ function gameLoop(diff) {
 			diff = limit
 	}
 	addTime(diff)
-	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
+	if (player.difficulty.gameStarted) player.runTime = player.runTime.add(diff)
+	if (inChallenge('infection', 11)) player.points = player.points.add(tmp.pointGen.times(diff)).max(0).min(1e9)
+	if (!inChallenge('infection', 11)) player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
 
 	for (let x = 0; x <= maxRow; x++){
 		for (item in TREE_LAYERS[x]) {
