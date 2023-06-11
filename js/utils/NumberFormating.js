@@ -10,12 +10,15 @@ function exponentialFormat(num, precision, mantissa = false) {
         e = e.add(1)
     }
     e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
-    let SR = m.toStringWithDecimalPlaces(precision) + "e" + e
-    let ER = em.toStringWithDecimalPlaces(precision) + "e" + ee
-    let LR = "e" + le
-    let TSR = m.toStringWithDecimalPlaces(precision) + "x10^" + e
-    let TER = em.toStringWithDecimalPlaces(precision) + "x10^" + ee
-    let TLR = "10^" + le
+    let SR = m.toStringWithDecimalPlaces(precision) + "e" + formatWhole(e)
+    let ER = em.toStringWithDecimalPlaces(precision) + "e" + formatWhole(ee)
+    let LR = "e" + formatWhole(le)
+    if (Decimal.gte(e, 1e9)) SR = LR
+    let TSR = m.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(e)
+    let TER = em.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(ee)
+    let TLR = "10^" + formatWhole(le)
+    if (Decimal.gte(e, 1e9)) TSR = TLR
+
     if (options.notation=="Scientific") return SR
     if (options.notation=="Engineering") return ER
     if (options.notation=="Logarithms") return LR
@@ -61,12 +64,11 @@ function format(decimal, precision = 3, small) {
     }
     if (decimal.sign < 0) return "-" + format(decimal.neg(), precision, small)
     if (decimal.mag == Number.POSITIVE_INFINITY) return "Infinity"
-    if (decimal.gte("eeee1000")) {
+    if (decimal.gte("ee1000")) {
         var slog = decimal.slog()
         if (slog.gte(1e6)) return "F" + format(slog.floor())
         else return Decimal.pow(10, slog.sub(slog.floor())).toStringWithDecimalPlaces(4) + "F" + commaFormat(slog.floor(), 0)
     }
-    else if (decimal.gte("1e1000000")) return exponentialFormat(decimal, 0, false)
     else if (decimal.gte("1e10000")) return exponentialFormat(decimal, 0)
     else if (decimal.gte(1e9)) return exponentialFormat(decimal, precision)
     else if (decimal.gte(1e3)) return commaFormat(decimal, 0)

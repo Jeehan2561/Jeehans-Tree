@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4a",
-	name: "The Decelerated Realm",
+	num: "1.5",
+	name: "The Decelerated References",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -73,7 +73,18 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 12 buyables<br>
 		- Added 3 notations<br>
 		- Added 12 milestones.<br>
-		Endgame: - Bean Level 80<br><br>`
+		Endgame: - Bean Level 80<br><br>
+	<h3>V1.5 - The Decelerated References</h3><br>
+		- Added more content to previous prestige layer<br>
+		- Added 2 new prestige layer<br>
+		- Added 10 upgrades<br>
+		- Added a buyable<br>
+		- Added 26 milestones.<br>
+		- Added 10 achievements.<br>
+		- Added some more QoLs and Automations.<br>
+		- Decreased some upgrade and milestone's cost.<br>
+		- Reworded some upgrades, buyables and milestones<br>
+		Endgame: - GH? 8<br><br>`
 	
 
 let winText = "Congratulations! You have reached the end and beaten this game, I know this is too boring, but for now, You can join my discord server."
@@ -228,7 +239,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.antiamogus.level.gte(80)
+	return player.antigh.best.gte(8)
 }
 
 
