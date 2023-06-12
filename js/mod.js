@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5",
-	name: "The Decelerated References",
+	num: "1.5.1",
+	name: "The Decelerated Patched",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -84,6 +84,10 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added some more QoLs and Automations.<br>
 		- Decreased some upgrade and milestone's cost.<br>
 		- Reworded some upgrades, buyables and milestones<br>
+		Endgame: - GH? 8<br><br>
+		<h3>V1.5.1 - The Decelerated Patch</h3><br>
+		- Fixed Bulk Buying Bean Buyables?
+		- Fixed Bulk Leveling up
 		Endgame: - GH? 8<br><br>`
 	
 

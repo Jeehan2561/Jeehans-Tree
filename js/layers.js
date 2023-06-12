@@ -257,7 +257,7 @@ addLayer("goal", {
         P115: {
             name: "P1A5",
             tooltip() {return "Have "+format(1.000e10)+" Points [1 GP]"},
-            done() {return player.points.gte(100000000) && player.difficulty.gameStarted},
+            done() {return player.points.gte(1e10) && player.difficulty.gameStarted},
             onComplete() {
                 player[this.layer].points = player[this.layer].points.add(1)
             }
@@ -5823,7 +5823,10 @@ addLayer('antiamogus', {
         spentperks: new Decimal (0),
         tier: new Decimal (1),
         levelin: false,
-        tierin: false
+        tierin: false,
+        bulkb: false,
+        bulkl: false,
+        bulkt: false,
     }},
     tooltip() {
        let base = formatWhole(player.antiamogus.points)+" crewmates"
@@ -5898,7 +5901,7 @@ addLayer('antiamogus', {
     doReset(l) {
         if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
         {
-        let keep = ['milestones', 'tierin', 'levelin']
+        let keep = ['milestones', 'tierin', 'levelin', 'bulkb', 'bulkl', 'bulkt']
         if (hasMilestone('antip', 3)) keep.push('upgrades')
         if (layers[l].row==1) keep.push('tier')
         if (!inChallenge('infection', 11)) {}
@@ -5959,6 +5962,7 @@ addLayer('antiamogus', {
                 "blank",
                 ["row", [["bar", 1], ["clickable", 11]]],
                 ["row", [["bar", 2], ["clickable", 12]]],
+                ["row", [["clickable", 21], ["clickable", 22], ["clickable", 23]]],
                 ["display-text",
                 function() {
                     if(hasMilestone('antip', 3)) return "Your bean tier is currently multiplying your bean gain and XP by "+format(tmp.antiamogus.TierEff.E)+" (Next: "+format(tmp.antiamogus.TierEff.N)+"x)"
@@ -6391,11 +6395,12 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                if (hasUpgrade('antiamogus', 51)){
-                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(10).max(1).log(1.12).add(1))
-                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(10).log(1.12).max(0).floor())
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
                 }
             },
             effect(x) {
@@ -6434,12 +6439,13 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                    if (hasUpgrade('antiamogus', 51)){
-                        setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(25).max(1).log(1.16).add(1))
-                        player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    }
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(25).log(1.16).max(0).floor())
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                }
             },
             effect(x) {
                 let base1 = new Decimal (0.1)
@@ -6482,12 +6488,13 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                    if (hasUpgrade('antiamogus', 51)){
-                        setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(100).max(1).log(1.35).add(1))
-                        player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    }
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(100).log(1.35).max(0).floor())
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                }
             },
             effect(x) {
                 let base1 = new Decimal (0.1)
@@ -6530,12 +6537,13 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                    if (hasUpgrade('antiamogus', 51)){
-                        setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(1e4).max(1).log(2.5).add(1))
-                        player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    }
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(1e4).log(2.5).max(0).floor())
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                }
             },
             effect(x) {
                 let base1 = new Decimal (0.1)
@@ -6577,12 +6585,13 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                    if (hasUpgrade('antiamogus', 51)){
-                        setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(2000).max(1).log(7).add(1).min(10))
-                        player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    }
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(2000).log(7).max(0).floor().min(9))
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1).min(10))
+                }
             },
             effect(x) {
                 let base1 = new Decimal (0.1)
@@ -6623,12 +6632,13 @@ addLayer('antiamogus', {
             buy() {
                 let cost = new Decimal (1)
                 if (hasMilestone('antigh', 5)) cost = new Decimal (0)
-                if (!hasUpgrade('antiamogus', 51)){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
-                    if (hasUpgrade('antiamogus', 51)){
-                        setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(1e3).max(1).log(1.2).add(1))
-                        player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost))
-                    }
+                if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
+                if (player.antiamogus.bulkb){
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(1000).log(1.2).max(0).floor())
+                    player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                }
             },
             effect(x) {
                 let base1 = new Decimal (0.04)
@@ -6779,10 +6789,13 @@ addLayer('antiamogus', {
         return base
     },
     LVLReq() {
-        let base = new Decimal(1e11).times(Decimal.pow(1.05, player.antiamogus.level.sub(1).max(0).pow(1.25)))
-        if (inChallenge('antip', 13)) base = new Decimal(1e11).times(Decimal.pow(1.1, player.antiamogus.level.sub(1).max(0).pow(1.25)))
+        let base = new Decimal(1e11).times(Decimal.pow(tmp.antiamogus.PC3Eff, player.antiamogus.level.sub(1).max(0).pow(1.25)))
         base = base.div(tmp.antiamogus.XPMult)
         return base.max(1e11).floor()
+    },
+    PC3Eff() {
+        if (inChallenge('antip', 13)) return new Decimal (1.1)
+        return new Decimal (1.05)
     },
     TierReq() {
         let base = new Decimal (50).add(Decimal.times(5, player.antiamogus.tier.pow(2).sub(player.antiamogus.tier).div(2)))
@@ -6817,6 +6830,36 @@ addLayer('antiamogus', {
             style: {"background-color"(){
                 if (!player.antiamogus.tierin) return '#FFFFFF'
                 if (player.antiamogus.tierin) return "#CFCF00"
+            }},
+        },
+        21: {
+            title() {return "Bulk Bean buyables: " + (player.antiamogus.bulkb ? "ON" : "OFF")},
+            unlocked() {return hasUpgrade('antiamogus', 51)},
+            canClick() {return true},
+            onClick() {player.antiamogus.bulkb = !player.antiamogus.bulkb},
+            style: {"background-color"(){
+                if (!player.antiamogus.bulkb) return '#FFFFFF'
+                if (player.antiamogus.bulkb) return "#FFA500"
+            }},
+        },
+        22: {
+            title() {return "Bulk Leveling up: " + (player.antiamogus.bulkl ? "ON" : "OFF")},
+            unlocked() {return hasUpgrade('antiamogus', 52)},
+            canClick() {return true},
+            onClick() {player.antiamogus.bulkl = !player.antiamogus.bulkl},
+            style: {"background-color"(){
+                if (!player.antiamogus.bulkl) return '#FFFFFF'
+                if (player.antiamogus.bulkl) return "#00CFCF"
+            }},
+        },
+        23: {
+            title() {return "Bulk Tiering up: " + (player.antiamogus.bulkt ? "ON" : "OFF")},
+            unlocked() {return hasUpgrade('antiamogus', 53)},
+            canClick() {return true},
+            onClick() {player.antiamogus.bulkt = !player.antiamogus.bulkt},
+            style: {"background-color"(){
+                if (!player.antiamogus.bulkt) return '#FFFFFF'
+                if (player.antiamogus.bulkt) return "#CFCF00"
             }},
         },
     },
@@ -6867,23 +6910,28 @@ addLayer('antiamogus', {
         if (hasUpgrade('amogus', 54)&&inChallenge('infection', 11)) {
             cap = Decimal.dInf
             if (hasUpgrade('antiamogus', 41)) cap = upgradeEffect('antiamogus', 41)
-            player.antiamogus.beans = player.antiamogus.beans.add(tmp.antiamogus.Beangain.times(diff).times(tmp.antiamogus.getBeansSpeed)).min(cap)
+            player.antiamogus.beans = player.antiamogus.beans.add(tmp.antiamogus.Beangain.times(diff).times(tmp.antiamogus.getBeansSpeed)).min(cap).max(0)
         }
         if (player.antiamogus.levelin) {
             if (player.antiamogus.beans.gte(tmp.antiamogus.LVLReq)) {
-                if (!hasUpgrade('antiamogus', 52)){if (!hasMilestone('antigh', 3)){player.antiamogus.beans = player.antiamogus.beans.sub(tmp.antiamogus.LVLReq).max(0)}
+                if (!player.antiamogus.bulkl){if (!hasMilestone('antigh', 3)){player.antiamogus.beans = player.antiamogus.beans.sub(tmp.antiamogus.LVLReq).max(0)}
                 player.antiamogus.level = player.antiamogus.level.add(1)}
-                if (hasUpgrade('antiamogus', 52)){ player.antiamogus.level = player.antiamogus.beans.times(tmp.antiamogus.XPMult).div(1e11).log(1.05).pow(0.8).add(2).floor()
-                    if (!hasMilestone('antigh', 3)){player.antiamogus.beans = player.antiamogus.beans.sub(tmp.antiamogus.LVLReq).max(0)}}
+                if (player.antiamogus.bulkl){
+                    player.antiamogus.level = player.antiamogus.beans.times(tmp.antiamogus.XPMult).div(1e11).log(tmp.antiamogus.PC3Eff).pow(0.8).add(1).max(0).floor()
+                    if (!hasMilestone('antigh', 3)){player.antiamogus.beans = player.antiamogus.beans.sub(tmp.antiamogus.LVLReq).max(0)}
+                    player.antiamogus.level = player.antiamogus.level.add(1)
+                }
             }
         }
         if (player.antiamogus.tierin) {
             if (player.antiamogus.level.gte(tmp.antiamogus.TierReq)) {
-                if (!hasUpgrade('antiamogus', 53)){if (!hasMilestone('antigh', 2)){player.antiamogus.level = player.antiamogus.level.sub(tmp.antiamogus.TierReq).max(1)}
+                if (!player.antiamogus.bulkt){if (!hasMilestone('antigh', 2)){player.antiamogus.level = player.antiamogus.level.sub(tmp.antiamogus.TierReq).max(1)}
                 player.antiamogus.tier = player.antiamogus.tier.add(1)}
-                if (hasUpgrade('antiamogus', 53)){
-                    player.antiamogus.tier = Decimal.sub(player.antiamogus.level,50).times(1.6).add(1).pow(0.5).add(3).div(2).floor()
-                    if (!hasMilestone('antigh', 2)){player.antiamogus.level = player.antiamogus.level.sub(tmp.antiamogus.TierReq).max(1)}}
+                if (player.antiamogus.bulkt){
+                    player.antiamogus.tier = Decimal.sub(player.antiamogus.level,50).times(1.6).add(1).pow(0.5).add(1).div(2).floor()
+                    if (!hasMilestone('antigh', 2)){player.antiamogus.level = player.antiamogus.level.sub(tmp.antiamogus.TierReq).max(1)}
+                    player.antiamogus.tier = player.antiamogus.tier.add(1)
+                }
             }
         }
     },
