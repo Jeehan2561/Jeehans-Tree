@@ -54,12 +54,13 @@
 			<h2>{{VERSION.withName}}</h2><br><br>
 			<h3 v-html="modInfo.winText"></h3><br>
 			<h3>Please check the Discord to see if there are new content updates!</h3><br><br>
-			<div v>You spent {{formatTime(player.runTime)}} to beat the run.</div>
 			<div v-if="!player.timePlayedReset">You have played this mod for {{formatTime(player.timePlayed)}}.</div>
 			<br>
 			<button class="longUpg can" onclick="hardReset(true)">Play Again</button>&nbsp;&nbsp;&nbsp;&nbsp;<button
 				class="longUpg can" onclick="keepGoing()">Keep Going</button>
 			<br><br><br>
+			<a class="link" href="https://raw.githack.com/new42ur3jeans/Incremental-Adventure-Trees/elevator/index.html" target="_blank" v-bind:style="{'font-size': '16px'}">Main
+				The Scaling Elevator</a><br>
 			<span v-if="modInfo.discordLink"><a class="link" v-bind:href="modInfo.discordLink"
 					target="_blank">{{modInfo.discordName}}</a><br></span>
 			<a class="link" href="https://discord.gg/F3xveHV" target="_blank"

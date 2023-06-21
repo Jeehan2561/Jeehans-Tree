@@ -307,7 +307,7 @@ function completeChallenge(layer, x) {
 	updateChallengeTemp(layer)
 }
 
-VERSION.withoutName = "Le Boring Tree v" + VERSION.num + (VERSION.pre ? " Pre-Release " + VERSION.pre : VERSION.pre ? " Beta " + VERSION.beta : "")
+VERSION.withoutName = "Le Scaling Evelator v" + VERSION.num + (VERSION.pre ? " Pre-Release " + VERSION.pre : VERSION.pre ? " Beta " + VERSION.beta : "")
 VERSION.withName = VERSION.withoutName + (VERSION.name ? ": " + VERSION.name : "")
 
 
@@ -337,9 +337,7 @@ function gameLoop(diff) {
 			diff = limit
 	}
 	addTime(diff)
-	if (player.difficulty.gameStarted) player.runTime = player.runTime.add(diff)
-	if (inChallenge('infection', 11)) player.points = player.points.add(tmp.pointGen.times(diff)).max(0).min(tmp.infection.DePtsCap)
-	if (!inChallenge('infection', 11)) player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
+	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
 
 	for (let x = 0; x <= maxRow; x++){
 		for (item in TREE_LAYERS[x]) {
