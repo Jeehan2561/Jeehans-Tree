@@ -115,6 +115,7 @@ function getPointGen() {
 	let gain = new Decimal (1)
 	gain = gain.add(buyableEffect('amogus', 24).Ef2)
 	if (hasUpgrade('antiamogus', 42)) gain = gain.add(player.antiamogus.upgrades.length)
+	if (hasMilestone('antigh', 23)) gain = gain.add(player.antigh.points.max(0))
 	gain = gain.pow(buyableEffect('chess', 62).Ef)
 	if (hasMilestone('antiamogus', 0)) gain = gain.pow(1.05)
 	if (inChallenge('chess', 14)) gain = gain.pow(getBuyableAmount('chess', 51).add(getBuyableAmount('chess', 52)).add(1))
@@ -139,6 +140,7 @@ function getPointGen() {
 	if (hasUpgrade('dv', 11)) gain = gain.times(upgradeEffect('dv', 11))
 	if (hasUpgrade('dv', 15)) gain = gain.times(upgradeEffect('dv', 15))
 	if (inChallenge('infection', 11)) gain = new Decimal (1)
+	if (hasMilestone('antigh', 23)&&inChallenge('infection', 11)) gain = gain.add(player.antigh.points.max(0))
 	if (hasUpgrade('antiamogus', 42)&&inChallenge('infection', 11)) gain = gain.add(player.antiamogus.upgrades.length)
 	gain = gain.times(tmp.antiamogus.Beaneffect)
 	if (hasUpgrade('antiamogus', 11)) gain = gain.times(5).times(upgradeEffect('antiamogus', 11))
@@ -156,6 +158,7 @@ function getPointGen() {
 	if (inChallenge('chess', 23)) gain = Decimal.pow(10, gain.max(1).log(10).pow(0.6))
 	if (inChallenge('infection', 11)) gain = Decimal.pow(10, gain.max(1).log(10).pow(0.5))
 	gain = gain.times(buyableEffect('antiamogus', 13).Ef)
+	if (hasMilestone('antigh', 12)) gain = gain.times(tmp.antigh.milestones[12].effect)
 	gain = gain.div(getPointDivider())
 	return gain.min(getPointCap())
 }
@@ -187,6 +190,7 @@ function getPointCap() {
 	if (hasUpgrade('booster', 54)&&(player.infection.activeChallenge==null)) cap = cap.times(player.antiamogus.beans.max(2).log(2).pow(5))
 	cap = cap.times(tmp.antiamogus.Beaneffect)
 	cap = cap.times(buyableEffect('antiamogus', 13).Ef)
+	if (hasMilestone('antigh', 17)) cap = cap.times(tmp.antigh.milestones[17].effect)
 	return cap
 }
 function getPointDivider() {

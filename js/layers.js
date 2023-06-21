@@ -1637,6 +1637,7 @@ addLayer("amogus", {
         if (hasUpgrade('dv', 14)) mult = mult.times(upgradeEffect('dv', 14))
         if (hasUpgrade('dv', 75)) mult = mult.times(upgradeEffect('dv', 75).AM)
         if (hasUpgrade('antiamogus', 12)) mult = mult.times(upgradeEffect('antiamogus', 12))
+        if (hasMilestone('antigh', 21)) mult = mult.times(buyableEffect('antiamogus', 12).Ef)
         if (player.difficulty.staticResBoost) mult = mult.times(2)
         mult = mult.times(tmp.chess.effect)
         mult = mult.times(buyableEffect('chess', 22).Ef)
@@ -2355,6 +2356,7 @@ addLayer("amogus", {
             },
             effect(x) {
                 let base1 = new Decimal (2.5)
+                if (hasMilestone('antigh', 23)) base1 = base1.times(player.antigh.points.max(1))
                 let base2 = new Decimal (1)
                 let eff1 = base1.times(x.add(1).min(1)).pow(x)
                 let eff2 = base2.times(x)
@@ -4804,7 +4806,7 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd4 = player[this.layer].dd4.add(1)
+                player[this.layer].dd1 = player[this.layer].dd1.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
@@ -4849,6 +4851,8 @@ addLayer("dv", {
                 if (hasMilestone('infection', 6)) eff1 = eff1.times(getBuyableAmount('infection', 12).max(0).add(1))
                 if (hasMilestone('infection', 6)) eff1 = eff1.times(Decimal.pow(10, new Decimal(player.infection.milestones.length).max(0)))
                 eff1 = eff1.times(tmp.antigh.effect.D)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 if (inChallenge('infection', 11)) eff1 = new Decimal (0)
                 return {
                     Mult: currmult,
@@ -4885,7 +4889,7 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd4 = player[this.layer].dd4.add(1)
+                player[this.layer].dd1 = player[this.layer].dd1.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
@@ -4899,6 +4903,8 @@ addLayer("dv", {
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd1.max(1).log(2).max(1))
                 eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4934,7 +4940,7 @@ addLayer("dv", {
                 let cost = new Decimal (1)
                 if (hasMilestone('infection', 1)) cost = new Decimal (0)
                 player[this.layer].dedpow = player[this.layer].dedpow.sub(this.cost().times(cost))
-                player[this.layer].dd4 = player[this.layer].dd4.add(1)
+                player[this.layer].dd1 = player[this.layer].dd1.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
         },
             effect(x) {
@@ -4948,6 +4954,8 @@ addLayer("dv", {
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 73)) eff1 = eff1.times(player.dv.dd2.max(1).log(2).max(1))
                 eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 return {
                     Mult: currmult,
                     Ef: eff1,
@@ -4997,6 +5005,8 @@ addLayer("dv", {
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd3.max(1).log(2).max(1))
                 eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 if (!getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(1)) eff1 = new Decimal (0)
                 return {
                     Mult: currmult,
@@ -5047,6 +5057,8 @@ addLayer("dv", {
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd4.max(1).log(2).max(1))
                 eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 if (!getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(2)) eff1 = new Decimal (0)
                 return {
                     Mult: currmult,
@@ -5097,6 +5109,8 @@ addLayer("dv", {
                 eff1 = eff1.times(buyableEffect('dv', 31).Ef)
                 if (hasUpgrade('dv', 74)) eff1 = eff1.times(player.dv.dd5.max(1).log(2).max(1))
                 eff1 = eff1.times(buyableEffect('chess', 72).Ef)
+                eff1 = eff1.times(tmp.antisteel.effect.D)
+                if (hasMilestone('antigh', 18)) eff1 = eff1.times(player.antigh.best.max(1))
                 if (!getBuyableAmount('dv', 32).add(tmp.dv.buyables[32].freelvl).gte(3)) eff1 = new Decimal (0)
                 return {
                     Mult: currmult,
@@ -5178,6 +5192,7 @@ addLayer("dv", {
                 let freelvl = this.freelvl()
                 let limit = new Decimal (10)
                 if (hasUpgrade('amogus', 55)) limit = limit.add(5)
+                if (hasMilestone('antigh', 15)) limit = limit.add(player.antigh.points.sub(15).max(0).min(5))
                 if (this.freelvl().gte(1)) return "Reset DIEmensions and Accerlerators, Multiply DIEmension 1"+lengthdim+" by "+format(this.effect())+"<br>"+unlock+"Cost: "+formatWhole(this.cost())+" "+dimtype+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+"+"+formatWhole(freelvl)+" (Can only be bought "+ formatWhole(limit) +" times)"
                 return "Reset DIEmensions and Accerlerators, Multiply DIEmension 1"+lengthdim+" by "+format(this.effect())+"<br>"+unlock+"Cost: "+formatWhole(this.cost())+" "+dimtype+"<br>Amount: " + formatWhole(getBuyableAmount(this.layer, this.id))+" (Can only be bought "+ formatWhole(limit) +" times)"
             },
@@ -5185,6 +5200,7 @@ addLayer("dv", {
                 let dimtype = [getBuyableAmount('dv', 13), getBuyableAmount('dv', 21), getBuyableAmount('dv', 22), getBuyableAmount('dv', 23)][getBuyableAmount(this.layer, this.id).min(3)]
                 let limit = new Decimal (10)
                 if (hasUpgrade('amogus', 55)) limit = limit.add(5)
+                if (hasMilestone('antigh', 15)) limit = limit.add(player.antigh.best.sub(15).max(0).min(5))
                 return dimtype.gte(this.cost())&&(!getBuyableAmount(this.layer, this.id).gte(limit))
             },
             freelvl(){
@@ -5421,6 +5437,7 @@ addLayer("infection", {
         if (player.difficulty.staticResBoost) mult = mult.times(2)
         mult = mult.times(buyableEffect('antiamogus', 22).Ef)
         if (hasMilestone('infection', 12)) mult = mult.times(getBuyableAmount('dv', 33).max(0).add(1))
+        if (hasMilestone('antigh', 10)) mult = mult.times(tmp.antigh.milestones[10].effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -5678,10 +5695,10 @@ addLayer("infection", {
                 return "Cost Formula:<br>"+format("1.000e1000")+"<sup>1.1<sup>x<sup>1.250</sup></sup></sup>"
             },
             display() {
-                return "Raise amogus gain by + ^" + format(buyableEffect(this.layer, this.id).Ba) + "<br>Cost: " + format(this.cost())+ " amogus<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/6<br>Effect: ^" + format(buyableEffect(this.layer, this.id).Ef)
+                return "Raise amogus gain by + ^" + format(buyableEffect(this.layer, this.id).Ba) + "<br>Cost: " + format(this.cost())+ " amogus<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/7<br>Effect: ^" + format(buyableEffect(this.layer, this.id).Ef)
             },
             canAfford() {
-                return player.amogus.points.gte(this.cost())&&getBuyableAmount(this.layer, this.id).lt(6)
+                return player.amogus.points.gte(this.cost())&&getBuyableAmount(this.layer, this.id).lt(7)
             },
             buy() {
                 let cost = new Decimal (1)
@@ -5832,7 +5849,7 @@ addLayer('antiamogus', {
        let base = formatWhole(player.antiamogus.points)+" crewmates"
        if (hasMilestone('antiamogus', 2)) base = base + "<br>" + "Bean Level "+ formatWhole(player.antiamogus.level)
        if (hasUpgrade('amogus', 54)) base = base + "<br>" + format(player.antiamogus.beans) + (hasUpgrade('antiamogus', 41) ? "/"+format(upgradeEffect('antiamogus', 41)) : "") + " beans"
-       if (hasMilestone('antiamogus', 2)) base = base + "<br>" + + formatWhole(player.antiamogus.perks.sub(player.antiamogus.spentperks).max(0)) + "/" + formatWhole(player.antiamogus.perks.max(0)) + " perks"
+       if (hasMilestone('antiamogus', 2)) base = base + "<br>" + formatWhole(player.antiamogus.perks.sub(player.antiamogus.spentperks).max(0)) + "/" + formatWhole(player.antiamogus.perks.max(0)) + " perks"
        return base
     },
     color: "#00FF00",
@@ -5851,6 +5868,9 @@ addLayer('antiamogus', {
         mult = mult.times(buyableEffect(this.layer, 12).Ef)
         if (hasUpgrade('antip', 11)) mult = mult.times(upgradeEffect('antip', 11))
         mult = mult.times(challengeEffect('antip', 11))
+        mult = mult.times(challengeEffect('antic', 11))
+        mult = mult.times(challengeEffect('antisteel', 12))
+        if (hasMilestone('antigh', 13)) mult = mult.times(tmp.antigh.milestones[13].effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -5877,6 +5897,7 @@ addLayer('antiamogus', {
         if (hasMilestone(this.layer, 2)) base = base.times(Decimal.add(1, getBuyableAmount('infection', 11).max(0).times(0.3)))
         base = base.times(tmp.antip.effect.be)
         base = base.times(tmp.antic.effect.be)
+        base = base.times(tmp.antisteel.effect.be)
         base = base.times(tmp.antiamogus.TierEff.E)
         if (hasMilestone('antip', 0)) base = base.times(Decimal.pow(1.2, player.antip.milestones.length))
         if (hasMilestone('antip', 5)) base = base.times(player.antiamogus.tier.max(1))
@@ -5885,9 +5906,16 @@ addLayer('antiamogus', {
         if (hasMilestone('infection', 8)) base = base.times(Decimal.pow(2, Decimal.sub(10, player.infection.ad.max(0).min(10))))
         if (hasMilestone('antic', 1)) base = base.times(5)
         base = base.times(challengeEffect('antip', 11))
+        base = base.times(challengeEffect('antic', 11))
+        base = base.times(challengeEffect('antisteel', 12))
         if (hasMilestone('infection', 12)) base = base.times(buyableEffect('chess', 11).MP.pow(0.5))
         if (hasMilestone('antigh', 0)) base = base.times(tmp.antigh.milestones[0].effect)
+        if (hasMilestone('antigh', 22)) base = base.times(buyableEffect(this.layer, 21).Ef)
+        if (hasMilestone('antisteel', 1)) base = base.times(tmp.antisteel.FoundrySpeed)
+        if (hasMilestone('antisteel', 3)) base = base.times(tmp.antisteel.ChargerBonus.bean)
         if (inChallenge('antip', 12)) base = base.pow(0.8)
+        if (inChallenge('antic', 12)) base = base.pow(0.8)
+        if (inChallenge('antisteel', 12)) base = base.pow(0.8)
         if (player[this.layer].best.gte(2.5e4)) return base
         return new Decimal (0)
     },
@@ -6243,6 +6271,7 @@ addLayer('antiamogus', {
              effect() {
                 let base = new Decimal (300)
                 if (hasMilestone('antip', 5)) base = base.times(6)
+                if (hasMilestone('antigh', 9)) base = base.times(tmp.antigh.milestones[9].effect)
                 let gain = new Decimal (tmp.antiamogus.Beangain)
                 return base.times(gain)
             },
@@ -6379,6 +6408,7 @@ addLayer('antiamogus', {
                     "background-color": "#FFA500"
                 }
             },
+            purchaseLimit() {return new Decimal (1e3)},
             cost(x) {
                 let base = Decimal.pow(1.12, x).times(10)
                 return base.floor()
@@ -6398,9 +6428,9 @@ addLayer('antiamogus', {
                 if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
                 if (player.antiamogus.bulkb){
-                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(10).log(1.12).max(0).floor())
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(10).log(1.12).max(0).floor().min(1e3))
                     player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1).min(1e3))
                 }
             },
             effect(x) {
@@ -6423,6 +6453,7 @@ addLayer('antiamogus', {
             unlocked() {
                 return hasUpgrade('booster', 53)
             },
+            purchaseLimit() {return new Decimal (1e3)},
             cost(x) {
                 let base = Decimal.pow(1.16, x).times(25)
                 return base.floor()
@@ -6442,9 +6473,9 @@ addLayer('antiamogus', {
                 if (!player.antiamogus.bulkb){player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))}
                 if (player.antiamogus.bulkb){
-                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(25).log(1.16).max(0).floor())
+                    setBuyableAmount(this.layer, this.id, player.antiamogus.beans.div(25).log(1.16).max(0).floor().min(999))
                     player[this.layer].beans = player[this.layer].beans.sub(this.cost().mul(cost)).max(0)
-                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+                    setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1).min(1e3))
                 }
             },
             effect(x) {
@@ -6749,7 +6780,85 @@ addLayer('antiamogus', {
             },
             purchaseLimit() {return new Decimal (50)},
             display() {
+                return "Increase Prestige gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + formatWhole(this.cost())+ " Perks<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/50<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return player[this.layer].perks.sub(player[this.layer].spentperks).max(0).gte(this.cost())&&(!inChallenge('antip', 14))
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentperks = player[this.layer].spentperks.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.05)
+                let levels = x.add(this.freelevel()).max(0)
+                let eff1 = new Decimal(1).add(base1.times(levels))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        41: {
+            title: "Prestige Perk",
+            unlocked() {
+                return hasMilestone('antisteel', 0)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#31AEB0"
+                }
+            },
+            cost(x) {
+                let base = new Decimal (2)
+                return base.floor()
+            },
+            purchaseLimit() {return new Decimal (50)},
+            display() {
                 return "Increase Bean XP gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + formatWhole(this.cost())+ " Perks<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/50<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
+            },
+            canAfford() {
+                return player[this.layer].perks.sub(player[this.layer].spentperks).max(0).gte(this.cost())&&(!inChallenge('antip', 14))
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].spentperks = player[this.layer].spentperks.add(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.05)
+                let levels = x.add(this.freelevel()).max(0)
+                let eff1 = new Decimal(1).add(base1.times(levels))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        42: {
+            title: "Crystal Perk",
+            unlocked() {
+                return hasMilestone('antigh', 10)
+            },
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color": "#A020F0"
+                }
+            },
+            cost(x) {
+                let base = new Decimal (4)
+                return base.floor()
+            },
+            purchaseLimit() {return new Decimal (50)},
+            display() {
+                return "Increase Crystal gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + formatWhole(this.cost())+ " Perks<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/50<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef)+"x"
             },
             canAfford() {
                 return player[this.layer].perks.sub(player[this.layer].spentperks).max(0).gte(this.cost())&&(!inChallenge('antip', 14))
@@ -6784,8 +6893,10 @@ addLayer('antiamogus', {
         if (player.difficulty.staticResBoost) base = base.times(2)
         base = base.times(tmp.antiamogus.TierEff.E)
         base = base.times(challengeEffect('antip', 12))
+        base = base.times(challengeEffect('antic', 12))
         if (hasMilestone('antip', 6)) base = base.times(player.antiamogus.tier.max(1))
         if (hasMilestone('antigh', 1)) base = base.times(tmp.antigh.milestones[1].effect)
+        if (hasMilestone('antisteel', 4)) base = base.times(tmp.antisteel.ChargerBonus.xp)
         return base
     },
     LVLReq() {
@@ -6799,7 +6910,7 @@ addLayer('antiamogus', {
     },
     TierReq() {
         let base = new Decimal (50).add(Decimal.times(5, player.antiamogus.tier.pow(2).sub(player.antiamogus.tier).div(2)))
-        return base.max(50)
+        return base.max(50).floor()
     },
     TierEff() {
         let base = new Decimal (1.2)
@@ -6906,7 +7017,7 @@ addLayer('antiamogus', {
         player.antiamogus.points = player.antiamogus.points.min(tmp.antiamogus.getCMcap)
         player.antiamogus.best = player.antiamogus.best.min(tmp.antiamogus.getCMcap)
         player.antiamogus.total = player.antiamogus.total.min(tmp.antiamogus.getCMcap)
-        player.antiamogus.perks = player.antiamogus.level.sub(1).times(challengeEffect('antip', 14)).max(player.antiamogus.perks)
+        player.antiamogus.perks = (player.antiamogus.level.sub(1).times(challengeEffect('antip', 14))).max(player.antiamogus.perks)
         if (hasUpgrade('amogus', 54)&&inChallenge('infection', 11)) {
             cap = Decimal.dInf
             if (hasUpgrade('antiamogus', 41)) cap = upgradeEffect('antiamogus', 41)
@@ -6923,7 +7034,7 @@ addLayer('antiamogus', {
                 }
             }
         }
-        if (player.antiamogus.tierin) {
+        if (player.antiamogus.tierin&&(!(inChallenge('antic', 13)))) {
             if (player.antiamogus.level.gte(tmp.antiamogus.TierReq)) {
                 if (!player.antiamogus.bulkt){if (!hasMilestone('antigh', 2)){player.antiamogus.level = player.antiamogus.level.sub(tmp.antiamogus.TierReq).max(1)}
                 player.antiamogus.tier = player.antiamogus.tier.add(1)}
@@ -6933,6 +7044,16 @@ addLayer('antiamogus', {
                     player.antiamogus.tier = player.antiamogus.tier.add(1)
                 }
             }
+        }
+    },
+    automate() {
+        if (hasMilestone('antigh', 9)) {
+            buyBuyable(this.layer, 11)
+            buyBuyable(this.layer, 12)
+            buyBuyable(this.layer, 13)
+            buyBuyable(this.layer, 21)
+            buyBuyable(this.layer, 22)
+            buyBuyable(this.layer, 23)
         }
     },
 })
@@ -6961,18 +7082,29 @@ addLayer('antip', {
         if (hasUpgrade('antip', 11)) mult = mult.times(upgradeEffect('antip', 11))
         if (player.difficulty.staticResBoost) mult = mult.times(2)
         if (hasUpgrade('antic', 4)) mult = mult.times(2)
-        if (hasMilestone('antigh', 2)) mult = mult.div(tmp.antigh.milestones[2].effect)
+        if (hasMilestone('antigh', 3)) mult = mult.times(tmp.antigh.milestones[3].effect)
+        if (hasMilestone('antigh', 16)) mult = mult.times(tmp.antigh.milestones[16].effect)
         mult = mult.times(tmp.antic.effect.pp)
         mult = mult.times(tmp.antigh.effect.PC)
         mult = mult.times(challengeEffect('antip', 13))
+        mult = mult.times(challengeEffect('antic', 13))
+        mult = mult.times(buyableEffect('antiamogus', 41).Ef)
+        if (hasMilestone('antisteel', 5)) mult = mult.times(tmp.antisteel.ChargerBonus.pp)
+        if (!(player.antip.activeChallenge==null)) mult = mult.times(0)
+        if ((inChallenge('antic', 14))) mult = mult.times(0)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         expo = new Decimal (1)
+        if (inChallenge('antic', 12)) expo = expo.times(0.8)
+        if (inChallenge('antisteel', 12)) expo = expo.times(0.8)
         return expo
     },
     passiveGeneration() {
-        if (hasUpgrade('antic', 12)&&inChallenge('infection', 11)&&(player.antip.activeChallenge==null)) return upgradeEffect('antic', 12)
+        let base = new Decimal (0)
+        if (hasUpgrade('antic', 12)) base = base.add(upgradeEffect('antic', 12))
+        base = base.add(buyableEffect('antisteel', 21).Ef)
+        if (inChallenge('infection', 11)&&(base.gt(0))) return base
         return 0
     },
     row: 1, // Row the layer is in on the tree (0 is the first row)
@@ -6982,7 +7114,7 @@ addLayer('antip', {
     branches: ['antiamogus'],
     getResetGain() {
         if (player.antiamogus.level.lt(tmp.antip.requires)) return new Decimal (0)
-        return Decimal.pow(tmp.antip.Gainbase, player.antiamogus.level.sub(tmp.antip.requires).div(10).max(0)).times(tmp.antip.gainMult).pow(tmp.antip.gainExp).floor()
+        return Decimal.pow(tmp.antip.Gainbase, player.antiamogus.level.sub(tmp.antip.requires).div(10).max(0)).times(tmp.antip.gainMult).pow(tmp.antip.gainExp).max(0).floor()
     },
     getNextAt(canMax=false) {
         if (player.antiamogus.level.lt(tmp.antip.requires)) return tmp.antip.requires
@@ -7097,7 +7229,7 @@ addLayer('antip', {
         },
         15: {
             title: "Prestige Upgrade A5",
-        	description: "Multiply DP gain by 2 per Bean Tier, Unlock Crystalize.",
+        	description: "Multiply DP gain by 2 per Bean Tier, Unlock Crystallize.",
          	cost: new Decimal (40),
              effect() {
                 let base = new Decimal (2)
@@ -7195,7 +7327,7 @@ addLayer('antip', {
     },
 })
 addLayer('antic', {
-    name: "anti-crystalize", // This is optional, only used in a few places, If absent it just uses the layer id.
+    name: "anti-Crystallize", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "💎", // This appears on the layer's node. Default is the id with the first letter capitalized
     position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
@@ -7217,12 +7349,26 @@ addLayer('antic', {
         mult = new Decimal (1)
         mult = mult.times(tmp.antigh.effect.PC)
         if (hasUpgrade('antic', 13)) mult = mult.times(upgradeEffect('antic', 13))
+        mult = mult.times(buyableEffect('antiamogus', 42).Ef)
         if (player.difficulty.staticResBoost) mult = mult.times(2)
+        mult = mult.times(challengeEffect('antic', 14))
+        if (hasMilestone('antigh', 14)) mult = mult.times(tmp.antigh.milestones[14].effect)
+        mult = mult.times(challengeEffect('antisteel', 11))
+        if (hasMilestone('antisteel', 6)) mult = mult.times(tmp.antisteel.ChargerBonus.cryst)
+        if (inChallenge('antisteel', 11)) mult = mult.times(0)
+        if (!(player.antic.activeChallenge==null)) mult = mult.times(0)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         expo = new Decimal (1)
+        if (inChallenge('antisteel', 12)) expo = expo.times(0.8)
         return expo
+    },
+    passiveGeneration() {
+        let base = new Decimal (0)
+        base = base.add(buyableEffect('antisteel', 22).Ef)
+        if (inChallenge('infection', 11)&&(base.gt(0))) return base
+        return 0
     },
     row: 2, // Row the layer is in on the tree (0 is the first row)
     layerShown() {
@@ -7231,13 +7377,13 @@ addLayer('antic', {
     branches: ['antip'],
     getResetGain() {
         if (player.antiamogus.tier.lt(tmp.antic.requires)) return new Decimal (0)
-        return Decimal.pow(tmp.antic.Gainbase, player.antiamogus.tier.sub(tmp.antic.requires).max(0)).times(tmp.antic.gainMult).pow(tmp.antic.gainExp).floor().max(1)
+        return Decimal.pow(tmp.antic.Gainbase, player.antiamogus.tier.sub(tmp.antic.requires).max(0)).times(tmp.antic.gainMult).pow(tmp.antic.gainExp).floor().max(0)
     },
     getNextAt(canMax=false) {return Decimal.add(tmp.antic.requires, tmp.antic.getResetGain.add(1).pow(Decimal.div(1, tmp.antic.gainExp)).div(tmp.antic.gainMult).log(tmp.antic.Gainbase)).max(tmp.antic.requires)},
     doReset(l) {
         if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
         {
-        let keep = ['milestones','upgrades']
+        let keep = ['milestones','upgrades', 'challenges']
         if (!inChallenge('infection', 11)) {}
         if (inChallenge('infection', 11)) {layerDataReset(this.layer, keep)}
     }},
@@ -7259,12 +7405,31 @@ addLayer('antic', {
                 "resource-display",
                 ["display-text",
                 function() {
-                    return "Doing a Crystalize will reset everything prestige does, Bean Tiers and Prestige Points."
+                    return "Doing a Crystallize will reset everything prestige does, Bean Tiers and Prestige Points."
                 }],
                 "milestones",
                 "blank",
                 "blank",
                 ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15]]],
+                "blank",
+        ]
+    },
+    "Challenges": {
+        unlocked(){return true},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Doing a Crystallize will reset everything prestige does, Bean Tiers and Prestige Points."
+                }],
+                "milestones",
+                "blank",
+                "blank",
+                "challenges",
                 "blank",
         ]
     },
@@ -7285,10 +7450,16 @@ addLayer('antic', {
                 done() {return player[this.layer].total.gte(4)},
                 effectDescription() {return "Unlock 2 Prestige Challenges, Keep Prestige Challenges"},
             },
+        3: {
+                requirementDescription: "Bean Level 490 (4)",
+                done() {return player.antiamogus.level.gte(490)},
+                effect() {return player.antiamogus.level.sub(1).max(0).times(0.05).add(1)},
+                effectDescription() {return "Increase Charge gain by +5% per Bean Level starting at 2, Currently: x"+format(this.effect())},
+            },
     },
     upgrades:{
         11: {
-            title: "Crystalize Upgrade A1",
+            title: "Crystallize Upgrade A1",
         	description: "Multiply bean XP gain by 2 per upgrade, Unlock XP Perk.",
          	cost: new Decimal (2),
              effect() {
@@ -7300,8 +7471,8 @@ addLayer('antic', {
             unlocked() {return player[this.layer].best.gte(1)}
         },
         12: {
-            title: "Crystalize Upgrade A2",
-        	description: "Gain 1% of prestige gain on reset outside prestige challenges per upgrade, Multiply bean gain by 1.6.",
+            title: "Crystallize Upgrade A2",
+        	description: "Gain 1% of prestige gain on reset per upgrade, Multiply bean gain by 1.6.",
          	cost: new Decimal (3),
              effect() {
                 let base = new Decimal (player.antic.upgrades.length).div(100)
@@ -7311,7 +7482,7 @@ addLayer('antic', {
             unlocked() {return player.antigh.best.gte(1)&&(hasMilestone('antigh', 0))}
         },
         13: {
-            title: "Crystalize Upgrade A3",
+            title: "Crystallize Upgrade A3",
         	description: "Multiply crystal gain based on prestige points.",
             tooltip() {return "Effect Formula: floor(log<sub>10</sub>[PP]<sup>0.5</sup>)"},
          	cost: new Decimal (5),
@@ -7324,18 +7495,67 @@ addLayer('antic', {
             unlocked() {return player.antigh.best.gte(2)&&(hasMilestone('antigh', 0))}
         },
         14: {
-            title: "Crystalize Upgrade A4",
+            title: "Crystallize Upgrade A4",
         	description: "Multiply bean gain by bean level, Multiply Prestige gain by 2.",
          	cost: new Decimal (8),
             unlocked() {return player.antigh.best.gte(3)&&(hasMilestone('antigh', 0))}
         },
         15: {
-            title: "Crystalize Upgrade A5",
+            title: "Crystallize Upgrade A5",
         	description: "Multiply DP gain by bean level.",
          	cost: new Decimal (13),
             unlocked() {return player.antigh.best.gte(3)&&(hasMilestone('antigh', 0))}
         },
-    }
+    },
+    challenges: {
+        11: {
+            name: "How Simple",
+            unlocked() {return hasMilestone('antigh', 8)},
+            challengeDescription() {return "No Nerfs or Buff at all.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {
+                let base = Decimal.add(10, Decimal.times(2, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))
+                if (hasMilestone('antigh', 14)) base = Decimal.add(10, Decimal.times(1, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))
+                return base},
+            goalDescription() {return "Bean Tier "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(3, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply bean and crewmate gain by 3 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.tier.gte(this.goal())},
+        },
+        12: {
+            name: "Lesser Resources",
+            unlocked() {return hasMilestone('antigh', 8)},
+            challengeDescription() {return "Raise bean and prestige gain to the 0.8th power.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {return Decimal.add(10, Decimal.times(1, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))},
+            goalDescription() {return "Bean Tier "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(2, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply bean XP gain by 2 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.tier.gte(this.goal())},
+        },
+        13: {
+            name: "Tierless",
+            unlocked() {return hasMilestone('antigh', 11)},
+            challengeDescription() {return "Your bean tier is stuck at 1.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {return Decimal.add(400, Decimal.times(25, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))},
+            goalDescription() {return "Bean Level "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(1.15, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply prestige gain by 1.15 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.level.gte(this.goal())},
+        },
+        14: {
+            name: "Prestigeless",
+            unlocked() {return hasMilestone('antigh', 11)},
+            challengeDescription() {return "You can't gain any prestige points.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {return Decimal.add(10, Decimal.times(1, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))},
+            goalDescription() {return "Bean Tier "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(1.15, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply crystal gain by 1.15 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.tier.gte(this.goal())},
+        },
+    },
 })
 addLayer('antigh', {
     name: "anti-grasshop", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -7368,12 +7588,16 @@ addLayer('antigh', {
     layerShown() {
         return inChallenge('infection', 11)&&(hasMilestone('antip', 7))
     },
-    branches: ['antip'],
+    branches: ['antic'],
     getResetGain() {
-        if (player.antiamogus.level.lt(tmp.antigh.requires.add(player.antigh.points.times(15)))) return new Decimal (0)
-        return player.antiamogus.level.sub(tmp.antigh.requires.add(player.antigh.points.sub(1).times(15))).div(15).floor().min(1)
+        let gain = this.baseAmount().sub(285).div(15).floor()
+        if (this.baseAmount().gte(600)) gain = this.baseAmount().times(1e3).sub(569375).sqrt().add(875).div(50).floor()
+        return gain.sub(player.antigh.points).max(0).min(1)
     },
-    getNextAt(canMax=false) {return Decimal.add(tmp.antigh.requires, player.antigh.points.times(15))},
+    getNextAt(canMax=false) {
+        gain = Decimal.add(tmp.antigh.requires, player.antigh.points.times(15))
+        if (player.antigh.points.gte(20)) return gain.add(player.antigh.points.sub(19).max(0).pow(2).sub(player.antigh.points.sub(19).max(0)).times(2.5))
+        return gain.floor()},
     doReset(l) {
         if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
         {
@@ -7399,7 +7623,7 @@ addLayer('antigh', {
                 "resource-display",
                 ["display-text",
                 function() {
-                    return "Doing a Grasshop? will reset everything crystalize does and Crystals."
+                    return "Doing a Grasshop? will reset everything Crystallize does and Crystals."
                 }],
                 "milestones",
                 "blank",
@@ -7410,48 +7634,798 @@ addLayer('antigh', {
     milestones: {
         0: {
             requirementDescription: "1 Grasshop? (1)",
-            done() {return player[this.layer].total.gte(1)},
+            done() {return player[this.layer].best.gte(1)},
             effect() {return Decimal.pow(1.5, player.antigh.best.max(0))},
             effectDescription() {return "Keep crystal upgrades, Multiply Bean gain by 1.5 per grasshop? Unlock a crystal upgrade per grasshop ending at 4, Currently: "+format(this.effect())+"x"}, // 14 55 42 22 44 53 42 Wait GCI...?
             },
         1: {
                 requirementDescription: "2 Grasshop? (2)",
-                done() {return player[this.layer].total.gte(2)},
+                done() {return player[this.layer].best.gte(2)},
                 effect() {return Decimal.pow(1.2, player.antigh.best.max(0))},
                 effectDescription() {return "Multiply Bean XP gain by 1.2 per grasshop? Unlock another prestige challenge, Currently: "+format(this.effect())+"x"},
            },
         2: {
             requirementDescription: "3 Grasshop? (3)",
-            done() {return player[this.layer].total.gte(3)},
+            done() {return player[this.layer].best.gte(3)},
             effect() {return Decimal.pow(1.2, player.antigh.best.max(0))},
             effectDescription() {return "Multiply prestige gain by 1.2 per grasshop? Bean Tiers don't consume your bean levels, Currently: "+format(this.effect())+"x"},
            },
         3: {
             requirementDescription: "4 Grasshop? (4)",
-            done() {return player[this.layer].total.gte(4)},
+            done() {return player[this.layer].best.gte(4)},
             effect() {return Decimal.pow(3, player.antigh.best.max(0))},
             effectDescription() {return "Multiply DP gain by 3 per grasshop? Bean Levels don't consume your beans, Currently: "+format(this.effect())+"x"},
            },
         4: {
             requirementDescription: "5 Grasshop? (5)",
-            done() {return player[this.layer].total.gte(5)},
+            done() {return player[this.layer].best.gte(5)},
             effect() {return Decimal.pow(5, player.antigh.best.max(0))},
             effectDescription() {return "Multiply Chess gain by 5 per grasshop?, Unlock another prestige challenge, Currently: "+format(this.effect())+"x"},
            },
         5: {
             requirementDescription: "6 Grasshop? (6)",
-            done() {return player[this.layer].total.gte(6)},
+            done() {return player[this.layer].best.gte(6)},
             effectDescription() {return "Buying Bean buyables doesn't consume your bean."},
            },
         6: {
             requirementDescription: "7 Grasshop? (7)",
-            done() {return player[this.layer].total.gte(7)},
+            done() {return player[this.layer].best.gte(7)},
             effectDescription() {return "Multiply Bean generating speed by grasshop?."},
            },
         7: {
             requirementDescription: "8 Grasshop? (8)",
-            done() {return player[this.layer].total.gte(8)},
+            done() {return player[this.layer].best.gte(8)},
             effectDescription() {return "STFTKI H AOX HBXNX.E [Key: MOENTCKIA]"}, // Key: MOENTCKIA
            },
+        8: {
+            requirementDescription: "9 Grasshop? (9)",
+            done() {return player[this.layer].best.gte(9)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.add(1, player.antigh.best.max(0).times(0.2))},
+            effectDescription() {return "Increase Steel gain by +20% per grasshop?, Unlock 2 Crystallize Challenges, Currently: "+format(this.effect())+"x"},
+           },
+        9: {
+            requirementDescription: "10 Grasshop? (10)",
+            done() {return player[this.layer].best.gte(10)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.add(1, player.antigh.best.max(0).times(0.1))},
+            effectDescription() {return "Increase bean cap by +10% per grasshop?, Automate all bean buyables, Currently: "+format(this.effect())+"x"},
+           },
+        10: {
+            requirementDescription: "11 Grasshop? (11)",
+            done() {return player[this.layer].best.gte(11)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.add(1, player.antigh.best.max(0).times(0.1))},
+            effectDescription() {return "Increase infection gain by +10% per grasshop?, Unlock Crystal Perk, Currently: "+format(this.effect())+"x"},
+        },
+        11: {
+            requirementDescription: "12 Grasshop? (12)",
+            done() {return player[this.layer].best.gte(12)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.add(1, player.antigh.best.max(0).times(0.1))},
+            effectDescription() {return "Increase foundry speed by +10% per grasshop?, Unlock 2 more Crystallize Challenges, Currently: "+format(this.effect())+"x"},
+        },
+        12: {
+            requirementDescription: "13 Grasshop? (13)",
+            done() {return player[this.layer].best.gte(13)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(1.25, player.antigh.best.max(0))},
+            effectDescription() {return "Multiply Point gain after everything by 1.25 per grasshop?, Currently: "+format(this.effect())+"x"},
+        },
+        13: {
+            requirementDescription: "14 Grasshop? (14)",
+            done() {return player[this.layer].best.gte(14)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(1.25, player.antigh.best.max(0))},
+            effectDescription() {return "Multiply Charge and Crewmate gain by 1.25 per grasshop?, Currently: "+format(this.effect())+"x"},
+        },
+        14: {
+            requirementDescription: "15 Grasshop? (15)",
+            done() {return player[this.layer].best.gte(15)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(1.1, player.antigh.best.max(0))},
+            effectDescription() {return "Multiply Crystal gain by 1.1 per grasshop?, Reduce Crystal Challenge 1's goal to 10+[Completion], Currently: "+format(this.effect())+"x"},
+        },
+        15: {
+            requirementDescription: "16 Grasshop? (16)",
+            done() {return player[this.layer].best.gte(16)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(player.antic.points.max(1).log10().max(1), 0.5).floor()},
+            effectDescription() {return "You can buy more DS/DB per grasshop? starting at 16, ending at 20 Multiply Steel gain based on Crystal, Currently: "+format(this.effect())+"x"},
+        },
+        16: {
+            requirementDescription: "17 Grasshop? (17)",
+            done() {return player[this.layer].best.gte(17)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(player.antip.points.max(1).log10().max(1), 0.5).floor()},
+            effectDescription() {return "Multiply prestige points based on prestige points, Currently: "+format(this.effect())+"x"},
+        },
+        17: {
+            requirementDescription: "18 Grasshop? (18)",
+            done() {return player[this.layer].best.gte(18)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(1.6, player.antigh.best.max(0))},
+            effectDescription() {return "Multiply Point gain cap after everything by 1.6 per grasshop?, Currently: "+format(this.effect())+"x"},
+        },
+        18: {
+            requirementDescription: "19 Grasshop? (19)",
+            done() {return player[this.layer].best.gte(19)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effectDescription() {return "Multiply DIEmensions' speed by Grasshop?."},
+        },
+        19: {
+            requirementDescription: "20 Grasshop? (20)",
+            done() {return player[this.layer].best.gte(20)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effect() {return Decimal.pow(player.antisteel.charge.max(1).log(20).max(1), getBuyableAmount('antisteel', 34))},
+            effectDescription() {return "Multiply Charge gain by log<sub>20</sub>[Charge] per Longer Charger, Currently: "+format(this.effect())+"x"},
+        },
+        20: {
+            requirementDescription: "21 Grasshop? (21)",
+            done() {return player[this.layer].best.gte(21)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effectDescription() {return "Charger charge bonuses increase 1 OoMs (order of magnitude) sooner."},
+        },
+        21: {
+            requirementDescription: "22 Grasshop? (22)",
+            done() {return player[this.layer].best.gte(22)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effectDescription() {return "Crewtive Beans also multiplies amogus gain."},
+        },
+        22: {
+            requirementDescription: "23 Grasshop? (23)",
+            done() {return player[this.layer].best.gte(23)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effectDescription() {return "Multiply Bean gain by <b>Bean Speed</b> Buyable's Effect."},
+        },
+        23: {
+            requirementDescription: "24 Grasshop? (24)",
+            done() {return player[this.layer].best.gte(24)},
+            unlocked() {return hasMilestone('antigh', 7)},
+            effectDescription() {return "Increase point gain base by Grasshop?, Multiply 🆎 Space Lab's first effect by Grasshop?."},
+        },
+    },
+})
+addLayer('antisteel', {
+    name: "anti-steelie", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "S", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+        best: new Decimal (0),
+        charge: new Decimal (0),
+        resetTime: new Decimal (0),
+    }},
+    tooltip() {
+       let base = formatWhole(player.antisteel.points)+" steel"
+       return base
+    },
+    color: "#BBA2A2",
+    requires: new Decimal ("405"), // Can be a function that takes requirement increases into account
+    resource: "steel", // Name of prestige currency
+    baseResource: "bean levels", // Name of resource prestige is based on
+    baseAmount() {return player.antiamogus.level}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal (1)
+        if (hasUpgrade(this.layer, 11)) mult = mult.times(tmp.antisteel.FoundryEffect)
+        if (hasMilestone('antigh', 8)) mult = mult.times(tmp.antigh.milestones[8].effect)
+        if (player.difficulty.staticResBoost) mult = mult.times(2)
+        if (hasMilestone('antigh', 15)) mult = mult.times(tmp.antigh.milestones[15].effect)
+        mult = mult.times(tmp.antisteel.ChargerBonus.steel)
+        if (!(player.antisteel.activeChallenge==null)) mult = mult.times(0)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        expo = new Decimal (1)
+        return expo
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    layerShown() {
+        return inChallenge('infection', 11)&&(hasMilestone('antigh', 7))
+    },
+    branches: ['antic'],
+    Gainbase() {return new Decimal (1.4)},
+    getResetGain() {
+        if (player.antiamogus.level.lt(tmp.antisteel.requires)) return new Decimal (0)
+        return Decimal.pow(tmp.antisteel.Gainbase, player.antiamogus.level.sub(tmp.antisteel.requires).max(0).div(15)).times(tmp.antisteel.gainMult).pow(tmp.antisteel.gainExp).floor().max(1)
+    },
+    getNextAt(canMax=false) {
+        if (player.antiamogus.level.lt(tmp.antisteel.requires)&&(!player.antigh.best.gte(20))) return tmp.antisteel.requires
+        return Decimal.add(tmp.antisteel.requires, tmp.antisteel.getResetGain.add(1).pow(Decimal.div(1, tmp.antisteel.gainExp)).div(tmp.antisteel.gainMult).log(tmp.antisteel.Gainbase).times(15))},
+    doReset(l) {
+        if ((layers[l].row > this.row)&&(inChallenge('infection', 11)))
+        {
+        let keep = ['milestones']
+        if (!inChallenge('infection', 11)) {}
+        if (inChallenge('infection', 11)) {layerDataReset(this.layer, keep)}
+    }},
+    effect() {
+        return {
+            be: Decimal.add(1, player[this.layer].best.pow(0.5).div(25)),
+            D: Decimal.add(1, player[this.layer].best.add(1).max(1).log10().pow(0.4))
+        }
+    },
+    effectDescription() {return "translated to a "+format(tmp.antisteel.effect.be)+"x boost to bean gain and a "+format(tmp.antisteel.effect.D)+"x boost to all DIEmensions' speed"},
+    tabFormat: {
+        "Main": {
+        unlocked(){return true},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Steelie Time: "+formatTime(player.antisteel.resetTime)
+                }],
+                ["display-text",
+                function() {
+                    return "Doing a Steelie will reset everything grasshop? does."
+                }],
+                "milestones",
+                "blank",
+                "blank",
+                "upgrades"
+        ]
+    },
+    "Foundry": {
+        unlocked(){return hasUpgrade('antisteel', 11)},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Steelie Time: "+formatTime(player.antisteel.resetTime)
+                }],
+                ["display-text",
+                function() {
+                    return "Foundry Time: "+formatTime(player.antisteel.resetTime.times(tmp.antisteel.FoundrySpeed))+ " ("+format(tmp.antisteel.FoundrySpeed)+"x Foundry speed)"
+                }],
+                ["display-text",
+                function() {
+                    return "Foundry Effect: "+format(tmp.antisteel.FoundryEffect)+"x to Steel gain (based on Foundry time capped at "+formatWhole(tmp.antisteel.FoundryCap.div(60))+" mins)"
+                }],
+                ["display-text",
+                function() {
+                    return "Doing a Steelie will reset everything grasshop? does."
+                }],
+                "milestones",
+                "blank",
+                "blank",
+                ["row", [["buyable", 11], ["buyable", 12]]],
+        ]
+    },
+    "Generator": {
+        unlocked(){return hasUpgrade('antisteel', 12)},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Steelie Time: "+formatTime(player.antisteel.resetTime)
+                }],
+                ["display-text",
+                function() {
+                    return "Doing a Steelie will reset everything grasshop? does."
+                }],
+                "milestones",
+                "blank",
+                "blank",
+                ["row", [["buyable", 21], ["buyable", 22]]],
+        ]
+    },
+    "Charger": {
+        unlocked(){return hasUpgrade('antisteel', 13)},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Steelie Time: "+formatTime(player.antisteel.resetTime)
+                }],
+                ["display-text",
+                function() {
+                    return "Doing a Steelie will reset everything grasshop? does."
+                }],
+                ["display-text",
+                function() {
+                    return "You have "+format(player.antisteel.charge)+"/"+format(tmp.antisteel.ChargeCap)+" Charge."
+                }],
+                ["display-text",
+                function() {
+                    return "You are generating "+format(tmp.antisteel.ChargeGain)+" Charge per second."
+                }],
+                "milestones",
+                "blank",
+                "blank",
+                ["row", [["buyable", 31], ["buyable", 32]]],
+                ["row", [["buyable", 33], ["buyable", 34]]],
+        ]
+    },
+    "Assembler": {
+        unlocked(){return hasUpgrade('antisteel', 14)},
+        content:[
+            "main-display",
+                "blank",
+                ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                "blank",
+                "resource-display",
+                ["display-text",
+                function() {
+                    return "Steelie Time: "+formatTime(player.antisteel.resetTime)
+                }],
+                ["display-text",
+                function() {
+                    return "Doing a Steelie will reset everything grasshop? does."
+                }],
+                "blank",
+                "blank",
+                "challenges"
+        ]
+    },
+    },
+    milestones: {
+        0: {
+            requirementDescription: "1 Steel (1)",
+            done() {return player.antisteel.best.gte(1)},
+            effectDescription() {return "Unlock a Prestige Perk"}
+            },
+        1: {
+                requirementDescription: "2 Hasty Foundry (2)",
+                done() {return getBuyableAmount(this.layer, 11).gte(2)},
+                effectDescription() {return "Multiply Bean gain by Foundry's speed"}
+            },
+        2: {
+                requirementDescription: "1 Charge (3)",
+                done() {return player.antisteel.charge.gte(1)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Multiply Steel gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.steel)}
+            },
+        3: {
+                requirementDescription: "1,000 Charge (4)",
+                done() {return player.antisteel.charge.gte(1e3)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Multiply Bean gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.bean)}
+            },
+        4: {
+                requirementDescription: "1,000,000 Charge (5)",
+                done() {return player.antisteel.charge.gte(1e6)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Multiply Bean XP gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.xp)}
+            },
+        5: {
+                requirementDescription() {return format(1e9)+" Charge (6)"},
+                done() {return player.antisteel.charge.gte(1e9)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Multiply Prestige gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.pp)}
+            },
+        6: {
+                requirementDescription() {return format(1e12)+" Charge (7)"},
+                done() {return player.antisteel.charge.gte(1e12)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Multiply Crystal gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.cryst)}
+            },
+    },
+    upgrades: {
+        11: {
+            title: "Steelie Upgrade A1",
+        	description: "Unlock the Foundry.",
+         	cost: new Decimal (2),
+            unlocked() {return player[this.layer].best.gte(1)}
+        },
+        12: {
+            title: "Steelie Upgrade A2",
+        	description: "Unlock the Generator.",
+         	cost: new Decimal (80),
+            unlocked() {return hasUpgrade('antisteel', 11)}
+        },
+        13: {
+            title: "Steelie Upgrade A3",
+        	description: "Unlock the Charger.",
+         	cost: new Decimal (3200),
+            unlocked() {return hasUpgrade('antisteel', 12)}
+        },
+        14: {
+            title: "Steelie Upgrade A4",
+        	description: "Unlock the Assembler and Steelie Challenges.",
+         	cost: new Decimal (128000),
+            unlocked() {return hasUpgrade('antisteel', 13)}
+        },
+    },
+    buyables: {
+        11: {
+            title: "Hasty Foundry",
+            unlocked() {
+                return hasUpgrade(this.layer, 11)
+            },
+            cost(x) {
+                let base = Decimal.pow(3, x)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>3<sup>x</sup>"
+            },
+            display() {
+                return "Increase Foundry Speed by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.2)
+                let expo = x.add(this.freelevel())
+                let eff1 = base1.times(expo).add(1)
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        12: {
+            title: "Longer Foundry",
+            unlocked() {
+                return hasUpgrade(this.layer, 11)
+            },
+            cost(x) {
+                let base = Decimal.pow(4, x)
+                return base.floor()
+            },
+            tooltip() {
+                return "Cost Formula:<br>4<sup>x</sup>"
+            },
+            display() {
+                return "Increase Foundry Cap by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.2)
+                let expo = x.add(this.freelevel())
+                let eff1 = base1.times(expo).add(1)
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        21: {
+            title: "Prestige Generation",
+            unlocked() {
+                return hasUpgrade(this.layer, 12)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(10)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (100)
+            },
+            tooltip() {
+                return "Cost Formula:<br>10*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Generate +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% of prestige gain per level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/100<br>Effect: +" + format(buyableEffect(this.layer, this.id).Ef.times(100)) + "%"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.01)
+                let expo = x.add(this.freelevel())
+                let eff1 = base1.times(expo)
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        22: {
+            title: "Crystal Generation",
+            unlocked() {
+                return hasUpgrade(this.layer, 12)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(40)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (100)
+            },
+            tooltip() {
+                return "Cost Formula:<br>40*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Generate +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% of crystal gain per level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/100<br>Effect: +" + format(buyableEffect(this.layer, this.id).Ef.times(100)) + "%"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.01)
+                let expo = x.add(this.freelevel())
+                let eff1 = base1.times(expo)
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        31: {
+            title: "Prestiged Charger",
+            unlocked() {
+                return hasUpgrade(this.layer, 13)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(1e6)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (1000)
+            },
+            tooltip() {
+                return "Cost Formula:<br>1,000,000*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Increase Charge gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level, Increase this boost by 25% per 25 level<br>Cost: " + format(this.cost())+ " Prestige Points<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/1,000<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player.antip.points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player.antip.points = player.antip.points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.05)
+                let expo = x.add(this.freelevel()).max(0)
+                let eff1 = base1.times(expo).add(1).times(Decimal.pow(1.25, x.max(0).div(25).floor()))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        32: {
+            title: "Crystallized Charger",
+            unlocked() {
+                return hasUpgrade(this.layer, 13)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(100)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (1000)
+            },
+            tooltip() {
+                return "Cost Formula:<br>100*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Increase Charge gain by +" + format(buyableEffect(this.layer, this.id).Ba.times(100)) + "% per level, Increase this boost by 25% per 25 level<br>Cost: " + format(this.cost())+ " Crystals<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/1,000<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player.antic.points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player.antic.points = player.antic.points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.05)
+                let expo = x.add(this.freelevel()).max(0)
+                let eff1 = base1.times(expo).add(1).times(Decimal.pow(1.25, x.max(0).div(25).floor()))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        33: {
+            title: "Steelied Charger",
+            unlocked() {
+                return hasUpgrade(this.layer, 13)
+            },
+            cost(x) {
+                let base = Decimal.pow(1.2, x).times(1000)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (1000)
+            },
+            tooltip() {
+                return "Cost Formula:<br>1,000*1.2<sup>x</sup>"
+            },
+            display() {
+                return "Increase Charge gain by " + format(buyableEffect(this.layer, this.id).Ba) + " per level, Increase this boost by 25% per 25 level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/1,000<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player.antisteel.points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player.antisteel.points = player.antisteel.points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (0.05)
+                let expo = x.add(this.freelevel()).max(0)
+                let eff1 = base1.times(expo).add(1).times(Decimal.pow(1.25, x.max(0).div(25).floor()))
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+        34: {
+            title: "Longer Charger",
+            unlocked() {
+                return hasUpgrade(this.layer, 13)
+            },
+            cost(x) {
+                let base = Decimal.pow(100, x).times(1000)
+                return base.floor()
+            },
+            purchaseLimit() {
+                return new Decimal (1000)
+            },
+            tooltip() {
+                return "Cost Formula:<br>1,000*100<sup>x</sup>"
+            },
+            display() {
+                return "Multiply Charge cap by " + format(buyableEffect(this.layer, this.id).Ba) + " per level<br>Cost: " + format(this.cost())+ " Steel<br>Bought: " + formatWhole(getBuyableAmount(this.layer, this.id)) + "/1,000<br>Effect: " + format(buyableEffect(this.layer, this.id).Ef) + "x"
+            },
+            canAfford() {
+                return player.antisteel.points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player.antisteel.points = player.antisteel.points.sub(this.cost().mul(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                let base1 = new Decimal (1e3)
+                let expo = x.add(this.freelevel()).max(0)
+                let eff1 = base1.pow(expo)
+                return {
+                    Ba: base1,
+                    Ef: eff1}
+            },
+            freelevel() {
+                let freelvl = new Decimal (0)
+                return freelvl.floor()
+            },
+        },
+    },
+    challenges: {
+        11: {
+            name: "Crystalless",
+            unlocked() {return hasMilestone('antigh', 8)},
+            challengeDescription() {return "You can't gain any crystals.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {
+                let base = Decimal.add(500, Decimal.times(25, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))
+                return base},
+            goalDescription() {return "Bean Level "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(3, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply crystal gain by 3 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.level.gte(this.goal())},
+        },
+        12: {
+            name: "Lesser Recources II",
+            unlocked() {return hasMilestone('antigh', 8)},
+            challengeDescription() {return "Raise bean, prestige and crystal gain to the 0.8th power.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/"+formatWhole(this.completionLimit())},
+            goal() {
+                let base = Decimal.add(500, Decimal.times(25, new Decimal (challengeCompletions(this.layer, this.id)).max(0)))
+                return base},
+            goalDescription() {return "Bean Level "+formatWhole(this.goal())},
+            completionLimit() {return new Decimal (8)},
+            rewardEffect() {return Decimal.pow(3, new Decimal (challengeCompletions(this.layer, this.id)).max(0))},
+            rewardDescription() {return "Multiply Bean and crewmate gain by 3 per completion Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.antiamogus.level.gte(this.goal())},
+        },
+    },
+    FoundrySpeed() {
+        let speed = new Decimal (1)
+        speed = speed.times(buyableEffect('antisteel', 11).Ef)
+        if (hasMilestone('antigh', 11)) speed = speed.times(tmp.antigh.milestones[11].effect)
+        return speed
+    },
+    FoundryCap() {
+        let cap = new Decimal (600)
+        cap = cap.times(buyableEffect('antisteel', 12).Ef)
+        return cap
+    },
+    FoundryEffect() {
+        return Decimal.pow(1.04, player.antisteel.resetTime.times(tmp.antisteel.FoundrySpeed).min(tmp.antisteel.FoundryCap).div(10))
+    },
+    ChargeGain() {
+        let base = new Decimal (0)
+        if (hasUpgrade('antisteel', 13)&&inChallenge('infection', 11)) base = new Decimal (1)
+        base = base.times(buyableEffect('antisteel', 31).Ef)
+        base = base.times(buyableEffect('antisteel', 32).Ef)
+        base = base.times(buyableEffect('antisteel', 33).Ef)
+        if (hasMilestone('antigh', 13)) base = base.times(tmp.antigh.milestones[13].effect)
+        if (hasMilestone('antigh', 19)) base = base.times(tmp.antigh.milestones[19].effect)
+        if (hasMilestone('antic', 3)) base = base.times(tmp.antic.milestones[3].effect)
+        return base
+    },
+    ChargerBonus() {
+        let OoMsbonus = new Decimal (0)
+        if (hasMilestone('antigh', 20)) OoMsbonus = OoMsbonus.add(1)
+        let steelbonus = player.antisteel.charge.add(1).max(1).log2().add(1).max(1).pow(0.4)
+        let beanbonus = player.antisteel.charge.times(Decimal.pow(10, OoMsbonus.min(3))).div(1e3).add(1).max(1).log2().add(1).max(1).pow(0.8)
+        let xpbonus = player.antisteel.charge.times(Decimal.pow(10, OoMsbonus.min(6))).div(1e6).add(1).max(1).log2().add(1).max(1).pow(0.6)
+        let ppbonus = player.antisteel.charge.times(Decimal.pow(10, OoMsbonus.min(9))).div(1e9).add(1).max(1).log2().add(1).max(1).pow(0.5)
+        let crystbonus = player.antisteel.charge.times(Decimal.pow(10, OoMsbonus.min(12))).div(1e12).add(1).max(1).log2().add(1).max(1).pow(0.3)
+        return {
+            steel: steelbonus,
+            bean: beanbonus,
+            xp: xpbonus,
+            pp: ppbonus,
+            cryst: crystbonus
+        }
+    },
+    ChargeCap() {
+        let base = new Decimal (1e3).times(buyableEffect('antisteel', 34).Ef)
+        return base
+    },
+    update(diff) {
+        player.antisteel.charge = player.antisteel.charge.max(0).add(tmp.antisteel.ChargeGain.times(diff)).min(tmp.antisteel.ChargeCap)
     },
 })

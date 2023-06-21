@@ -15,7 +15,7 @@ function startPlayerBase() {
 		versionType: modInfo.id,
 		version: VERSION.num,
 		beta: VERSION.beta,
-		timePlayed: 0,
+		timePlayed: new Decimal(0),
 		keepGoing: false,
 		hasNaN: false,
 

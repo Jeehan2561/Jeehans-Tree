@@ -287,16 +287,15 @@ function addTime(diff, layer) {
 	}
 
 	//I am not that good to perfectly fix that leak. ~ DB Aarex
-	if (time + 0 !== time) {
+	if (!(Decimal.add(time, 0).eq(time))) {
 		console.log("Memory leak detected. Trying to fix...")
-		time = toNumber(time)
-		if (isNaN(time) || time == 0) {
+		if (isNaN(time) || time.eq(0)) {
 			console.log("Couldn't fix! Resetting...")
-			time = layer ? player.timePlayed : 0
+			time = layer ? player.timePlayed : new Decimal(0)
 			if (!layer) player.timePlayedReset = true
 		}
 	}
-	time += toNumber(diff)
+	time = Decimal.add(time, diff)
 
 	if (layer) data.time = time
 	else data.timePlayed = time
