@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.5.1",
-	name: "The Decelerated Patched",
+	num: "1.5.2",
+	name: "Steel Time!",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -88,7 +88,13 @@ let changelog = `<h1>Changelog:</h1><br>
 		<h3>V1.5.1 - The Decelerated Patch</h3><br>
 		- Fixed Bulk Buying Bean Buyables?
 		- Fixed Bulk Leveling up
-		Endgame: - GH? 8<br><br>`
+		Endgame: - GH? 8<br><br>
+		<h3>V1.5.2 - Steel Time!</h3><br>
+		- FIXED EXPORT YAYAYAYAYAY<br>
+		- Added a prestige layer<br>
+		- Fixed prestige gain<br>
+		Endgame: - GH? 24 and S Milestone 8 <br><br>
+		`
 	
 
 let winText = "Congratulations! You have reached the end and beaten this game, I know this is too boring, but for now, You can join my discord server."
@@ -242,12 +248,12 @@ var displayThings = [
 	"<br>",
 	() => (player.points.gte("6.9e420")&&(canGenPoints())) ? "Your point gain will be capped at "+format(getPointCap())+" (check PGN layer for infos)" : "",
 	"<br>",
-	() => player.keepGoing ? "You're past endgame. The Game may not balanced after this." : ""
+	() => player.keepGoing ? "You're past endgame. The Game may not be balanced after this." : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.antigh.best.gte(8)
+	return player.antigh.best.gte(24)&&hasMilestone('antisteel', 7)
 }
 
 

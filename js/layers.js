@@ -1708,7 +1708,7 @@ addLayer("amogus", {
                 ["row", [["clickable", 13]]]
             ]
         },
-        "🆎": {
+        "AB": {
             unlocked(){return hasUpgrade('amogus', 25)},
             content:[
                 "main-display",
@@ -7675,7 +7675,7 @@ addLayer('antigh', {
         7: {
             requirementDescription: "8 Grasshop? (8)",
             done() {return player[this.layer].best.gte(8)},
-            effectDescription() {return "STFTKI H AOX HBXNX.E [Key: MOENTCKIA]"}, // Key: MOENTCKIA
+            effectDescription() {return "Unlock Steelie."}, // Key: STFTKI H AOX HBXNX.E [Key: MOENTCKIA]
            },
         8: {
             requirementDescription: "9 Grasshop? (9)",
@@ -8016,6 +8016,12 @@ addLayer('antisteel', {
                 done() {return player.antisteel.charge.gte(1e12)},
                 unlocked() {return hasUpgrade('antisteel', 13)},
                 effectDescription() {return "Multiply Crystal gain based on Charge Currently: x"+format(tmp.antisteel.ChargerBonus.cryst)}
+            },
+        7: {
+                requirementDescription() {return format(1e15)+" Charge (8)"},
+                done() {return player.antisteel.charge.gte(1e15)},
+                unlocked() {return hasUpgrade('antisteel', 13)},
+                effectDescription() {return "Endgame for now..."}
             },
     },
     upgrades: {
@@ -8387,7 +8393,7 @@ addLayer('antisteel', {
         return speed
     },
     FoundryCap() {
-        let cap = new Decimal (600)
+        let cap = new Decimal (500)
         cap = cap.times(buyableEffect('antisteel', 12).Ef)
         return cap
     },
