@@ -608,7 +608,7 @@ addLayer("ub", {
         },
     },
     gameMode() {
-        return ["None", "NM", "NM+", "NM++"][player.ub.best.min(3)]
+        return ["", "NM", "NM+", "NM++"][player.ub.best.min(3)]
     },
     layerShown(){return hasAchievement('a', 13)},
     update(diff) {
