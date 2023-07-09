@@ -124,7 +124,7 @@ addLayer("a", {
             name() {return "We're slowing down."},
             unlocked() {return player.ub.best.gte(2)},
             tooltip() {return "Have 10 Hyper Prestige Points in NM+ mode.<br> Reward: Unlock a new layer."},
-            done() {return(player.points.gte(100)&&(player.ub.best.gte(2)))},
+            done() {return(player.hp.best.gte(10)&&(player.ub.best.gte(2)))},
         },
         35: {
             name() {
