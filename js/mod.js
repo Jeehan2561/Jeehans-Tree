@@ -1,8 +1,8 @@
 let modInfo = {
-	name: "Le Scaling Elevator",
-	id: "MCKLSE",
-	author: "MomentCookie (MomentCookina)",
-	pointsName: "floor",
+	name: "Le Stupid Tree Game",
+	id: "MCKLSTG",
+	author: "MomentCookie (Cookina)",
+	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 
 	discordName: "MomentCookie's Modded stuffs",
@@ -20,13 +20,14 @@ let VERSION = {
 let changelog = `<h1>Changelog:</h1><br>
     <h2>Warning: This mod may be unbalanced</h2><br>
 	<h3>v1 - Start</h3><br>
-	    - Added a prestige layer.<br>
-		- Added 10 upgrades.<br>
-		- Added 2 buyables.<br>
-		Endgame: - Floor 2<br><br>`
+	    - Added 2 Gamemodes.<br>
+		- Added 24 upgrades.<br>
+		- Added 5 prestige layers.<br>
+		- Added 15 achievements.<br>
+		Endgame: - Beat NM+ gamemode<br><br>`
 	
 
-let winText = "Congratulations! You have reached the end and beaten this game, I know this is too short, but for now, You can join my discord server and check the original idea."
+let winText = "Congratulations! You have reached the end and beaten this game, Cookina Why would you make this stupid game?!?!?, Welp I dunno, Anyways You can join my discord server and check out my other games."
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -46,38 +47,34 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal (0)
 
-	let gain = new Decimal (0.2)
+	let gain = new Decimal (0.1)
+	if (hasAchievement('a', 21)) gain = gain.add(D(player.p.upgrades.length).times(0.05))
 	gain = gain.times(tmp.p.effect)
-	gain = gain.times(buyableEffect('p', 11))
-	if (hasUpgrade('p', 13)) gain = gain.times(upgradeEffect('p', 13))
-	if (hasUpgrade('p', 14)) gain = gain.times(upgradeEffect('p', 14))
-	if (hasUpgrade('p', 15)) gain = gain.times(upgradeEffect('p', 15))
-	if (hasUpgrade('p', 21)) gain = gain.times(upgradeEffect('p', 21))
-	if (hasUpgrade('p', 22)) gain = gain.times(upgradeEffect('p', 22))
-	gain = gain.div(FloorDivider())
+	gain = gain.times(tmp.b.effect)
+	if (hasAchievement('a', 11)) gain = gain.times(1.2)
+	if (hasAchievement('a', 14)) gain = gain.times(1.2)
+	if (hasAchievement('a', 22)) gain = gain.times(player.a.best.max(0).add(1))
+	if (hasAchievement('a', 24)) gain = gain.times(1.2)
+	if (hasAchievement('a', 33)) gain = gain.times(achievementEffect('a', 33))
+	if (player.ub.best.gte(1)) gain = gain.div(2)
+	if (player.ub.best.gte(2)) gain = gain.div(Decimal.pow(3, player.ub.best))
+	if (player.ub.best.gte(3)) gain = gain.times(0)
 	return gain
 }
-
-function FloorDivider() {
-	return Decimal.pow(1e4, player.p.floor.max(0).floor())
-}
-
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
-	runTime: new Decimal(0)
 }}
 
 // Display extra things at the top of the page
 var displayThings = [
-	() => "<br>If you found a bug or find yourself stuck Please contact MomentCookie#6268 on Discord.",
-	"<br>",
-	() => "Your elevator's speed is divided by 10,000 per floor starting at 1.<br>Currently: /"+format(FloorDivider()),
-	() => player.keepGoing ? "You're past endgame. The Game may not balanced after this." : ""
+	() => "<br>If you found a bug or find yourself stuck Please contact momentcookie on Discord.",
+	() => "<br>Current Mode: " + VERSION.withmode,
+	() => player.keepGoing ? "You're past endgame. The Game may not be balanced after this." : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.p.floor.add(player.points).gte(2)
+	return player.ub.best.gte(3)
 }
 
 

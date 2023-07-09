@@ -192,6 +192,10 @@ function layOver(obj1, obj2) {
 	}
 }
 
+function D(dec) {
+	return new Decimal (dec)
+}
+
 function prestigeNotify(layer) {
 	if (layers[layer].prestigeNotify) return layers[layer].prestigeNotify()
 	
