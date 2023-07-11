@@ -337,7 +337,7 @@ function gameLoop(diff) {
 			diff = limit
 	}
 	addTime(diff)
-	player.points = player.points.add(tmp.pointGen.times(diff)).max(0)
+	player.points = player.points.add(tmp.pointGen.sub(player.ub.best.gte(4) ? player.points.div(25) : D(0)).times(diff)).max(0)
 
 	for (let x = 0; x <= maxRow; x++){
 		for (item in TREE_LAYERS[x]) {

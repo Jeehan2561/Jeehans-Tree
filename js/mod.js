@@ -13,18 +13,25 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1",
-	name: "Start",
+	num: "1.1",
+	name: "Start of the NightMare++",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
     <h2>Warning: This mod may be unbalanced</h2><br>
 	<h3>v1 - Start</h3><br>
-	    - Added 2 Gamemodes.<br>
+	    - Added 3 Gamemodes.<br>
 		- Added 24 upgrades.<br>
 		- Added 5 prestige layers.<br>
 		- Added 15 achievements.<br>
-		Endgame: - Beat NM+ gamemode<br><br>`
+		Endgame: - Beat NM+ gamemode<br><br>
+	<h3>v1.1 - Start of the NightMare++</h3><br>
+	    - Added 2 Gamemodes.<br>
+		- Added 7 upgrades.<br>
+		- Added a prestige layers.<br>
+		- Added 10 achievements.<br>
+		Endgame: - Beat NM+3 gamemode<br><br>
+	`
 	
 
 let winText = "Congratulations! You have reached the end and beaten this game, Cookina Why would you make this stupid game?!?!?, Welp I dunno, Anyways You can join my discord server and check out my other games."
@@ -49,6 +56,10 @@ function getPointGen() {
 
 	let gain = new Decimal (0.1)
 	if (hasAchievement('a', 21)) gain = gain.add(D(player.p.upgrades.length).times(0.05))
+	if (hasAchievement('a', 41)) gain = gain.add(D(player.sp.upgrades.length).times(0.05))
+	gain = gain.add(buyableEffect('ub', 11))
+	gain = gain.pow(buyableEffect('ub', 13))
+	gain = gain.times(buyableEffect('ub', 12))
 	gain = gain.times(tmp.p.effect)
 	gain = gain.times(tmp.b.effect)
 	if (hasAchievement('a', 11)) gain = gain.times(1.2)
@@ -56,9 +67,13 @@ function getPointGen() {
 	if (hasAchievement('a', 22)) gain = gain.times(player.a.best.max(0).add(1))
 	if (hasAchievement('a', 24)) gain = gain.times(1.2)
 	if (hasAchievement('a', 33)) gain = gain.times(achievementEffect('a', 33))
+	if (hasAchievement('a', 42)) gain = gain.times(player.sb.best.max(0).add(1))
+	if (hasUpgrade('ub', 12)) gain = gain.times(upgradeEffect('ub', 12))
 	if (player.ub.best.gte(1)) gain = gain.div(2)
 	if (player.ub.best.gte(2)) gain = gain.div(Decimal.pow(3, player.ub.best))
-	if (player.ub.best.gte(3)) gain = gain.times(0)
+	if (player.ub.best.gte(3)) gain = gain.div(tmp.ub.NMII)
+	gain = gain.pow(buyableEffect('ub', 14))
+	if (player.ub.best.gte(5)) gain = gain.times(0)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -67,14 +82,14 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	() => "<br>If you found a bug or find yourself stuck Please contact momentcookie on Discord.",
+	() => "<br>If you found a bug or find yourself stuck Please contact MomentCookie#6268 on Discord.",
 	() => "<br>Current Mode: " + VERSION.withmode,
 	() => player.keepGoing ? "You're past endgame. The Game may not be balanced after this." : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.ub.best.gte(3)
+	return player.ub.best.gte(5)
 }
 
 
