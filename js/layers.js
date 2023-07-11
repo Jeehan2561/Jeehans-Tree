@@ -470,14 +470,14 @@ addLayer("sp", {
         {key: "s", description: "S: Super Prestige", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     passiveGeneration() {
-        if (hasAchievement('a', 52)) return D(0.2)
+        if (hasAchievement('a', 53)) return D(0.2)
         return 0
     },
     doReset(l) {
         if (!(layers[l].row > this.row)) return
         
         let keep = []
-        if (hasAchievement('a', 41)) keep.push('upgrades')
+        if (hasAchievement('a', 52)) keep.push('upgrades')
         
         layerDataReset(this.layer, keep)
     },
