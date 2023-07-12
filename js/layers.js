@@ -831,6 +831,10 @@ addLayer("ub", {
             ]
         },
     },
+    onPrestige()
+    {
+        player.ub.num = D(1)
+    },
     NumbruhMult() {
         let base = D(1)
         if (hasUpgrade('ub', 11)) base = base.times(upgradeEffect('ub', 11))
