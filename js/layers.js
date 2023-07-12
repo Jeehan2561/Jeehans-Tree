@@ -779,7 +779,7 @@ addLayer("ub", {
             ]
         },
         "Buyables": {
-            unlocked(){return player.ub.best.gte(4)&&(hasAchievement('a', 53))},
+            unlocked(){return player.ub.best.gte(4)},
             content:[
                 "main-display",
                     "blank",
