@@ -289,7 +289,7 @@ addLayer("a", {
             name() {return "The Puzzler."},
             unlocked() {return player.ub.best.gte(7)},
             tooltip() {return "Buy all 4 Super Booster Upgrades in the correct order. Reward: Automate Buying Boosters, Decrease Pointy Boost's cost by Super Boosters."},
-            done() {return (player.sb.upgrades[0]==12)&&(player.sb.upgrades[1]==14)&&(player.sb.upgrades[2]==13)&&(player.sb.upgrades[3]==11)&&(player.ub.best.gte(6))},
+            done() {return (player.sb.upgrades[0]==12)&&(player.sb.upgrades[1]==14)&&(player.sb.upgrades[2]==13)&&(player.sb.upgrades[3]==11)&&(player.ub.best.gte(7))},
         },
         83: {
             name() {return "POINTY POINTY."},
