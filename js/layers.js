@@ -283,7 +283,7 @@ addLayer("a", {
             name() {return "Buy Buy Buy"},
             unlocked() {return player.ub.best.gte(7)},
             tooltip() {return "Buy a Pointy Boost."},
-            done() {return getBuyableAmount('b', 11).gte(1)&&(player.ub.best.gte(6))},
+            done() {return getBuyableAmount('b', 11).gte(1)&&(player.ub.best.gte(7))},
         },
         82: {
             name() {return "The Puzzler."},
@@ -295,13 +295,13 @@ addLayer("a", {
             name() {return "POINTY POINTY."},
             unlocked() {return player.ub.best.gte(7)},
             tooltip() {return "Buy 4 Pointy Boost. Reward: Divide Booster's cost by [Pointy Boost]+1."},
-            done() {return getBuyableAmount('b', 11).gte(4)&&(player.ub.best.gte(6))},
+            done() {return getBuyableAmount('b', 11).gte(4)&&(player.ub.best.gte(7))},
         },
         84: {
             name() {return "Super Boosted Again."},
             unlocked() {return player.ub.best.gte(7)},
             tooltip() {return "Have 5 Super Boosters in NM+6 mode. Reward: Multiply point gain by 1.2."},
-            done() {return player.sb.best.gte(5)&&(player.ub.best.gte(6))},
+            done() {return player.sb.best.gte(5)&&(player.ub.best.gte(7))},
         },
         85: {
             name() {
