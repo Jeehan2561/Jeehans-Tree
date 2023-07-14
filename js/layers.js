@@ -1090,7 +1090,7 @@ addLayer("up", {
             unlocked() {return player.up.best.gte(1)}
        	},
     },
-    layerShown(){return player.ub.best.gte(6)||player.hp.unlocked},
+    layerShown(){return player.ub.best.gte(6)||player.up.unlocked},
     update(diff) {
     }
 })
