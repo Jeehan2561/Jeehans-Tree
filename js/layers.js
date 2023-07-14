@@ -64,7 +64,7 @@ addLayer("a", {
                 return "Powerful!"},
             tooltip() {
                 if (hasAchievement('a', 15)) return "Gain an unbalanced power. Reward: The nightmare begins..."
-                return "Gain an unbalanced power. Reward: Beware!"},
+                return "Gain an unbalanced power. Reward: Power!"},
             done() {return player.ub.best.gte(1)},
         },
         21: {
@@ -213,6 +213,104 @@ addLayer("a", {
                 return "Gain the fifth unbalanced power. Reward: A great reward for you."},
             done() {return player.ub.best.gte(5)},
         },
+        61: {
+            name() {return "Useful."},
+            unlocked() {return player.ub.best.gte(5)},
+            tooltip() {return "Buy a super booster upgrade. Reward: Buying Boosters reset nothing."},
+            done() {return D(player.sb.upgrades.length).gte(1)&&(player.ub.best.gte(5))},
+        },
+        62: {
+            name() {return "Usefull."},
+            unlocked() {return player.ub.best.gte(5)},
+            tooltip() {return "Buy 4 super booster upgrades. Reward: Increase point gain base by Super Booster's effect."},
+            done() {return D(player.sb.upgrades.length).gte(4)&&(player.ub.best.gte(5))},
+        },
+        63: {
+            name() {return "Hyperb."},
+            unlocked() {return player.ub.best.gte(5)},
+            tooltip() {return "Have 1,000 Hyper Prestige Points in NM+4 mode. Reward: Divide Booster's cost by Booster's effect."},
+            done() {return player.hp.best.gte(1000)&&(player.ub.best.gte(5))},
+        },
+        64: {
+            name() {return "Super Boosted."},
+            unlocked() {return player.ub.best.gte(5)},
+            tooltip() {return "Have 5 Super Boosters in NM+4 mode. Reward: Generate 20% of hyper prestige gain per second."},
+            done() {return player.sb.best.gte(5)&&(player.ub.best.gte(5))},
+        },
+        65: {
+            name() {
+                if (hasAchievement('a', 65)) return "SEND HELP TO THE 6TH DIMENSION"
+                return "Satanic Powers"},
+            unlocked() {return player.ub.best.gte(5)},
+            tooltip() {
+                if (hasAchievement('a', 65)) return "Gain the sixth unbalanced power. Reward: 4 23 / 13 32 / 22 23 35 (6)."
+                return "Gain the sixth unbalanced power. Reward: Call help."},
+            done() {return player.ub.best.gte(6)},
+        },
+        71: {
+            name() {return "We're off a good start."},
+            unlocked() {return player.ub.best.gte(6)},
+            tooltip() {return "Have 0.69 Points in NM+5 mode. Reward: Sorry for this mistake, Let me Multiply your point gain by your unbalanced powers."},
+            done() {return player.points.gte(0.69)&&(player.ub.best.gte(6))},
+        },
+        72: {
+            name() {return "Ultra, mate."},
+            unlocked() {return player.ub.best.gte(6)},
+            tooltip() {return "Ultra Prestige once."},
+            done() {return player.up.best.gte(1)&&(player.ub.best.gte(6))},
+        },
+        73: {
+            name() {return "Ultra-grade."},
+            unlocked() {return player.ub.best.gte(6)},
+            tooltip() {return "Buy 16 Ultra Prestige Upgrades. Reward: Each Ultra Prestige upgrade increase point gain base by 0.05."},
+            done() {return D(player.up.upgrades.length).gte(16)&&(player.ub.best.gte(6))},
+        },
+        74: {
+            name() {return "Hah, Getting pretty close huh?"},
+            unlocked() {return player.ub.best.gte(6)},
+            tooltip() {return "Have 420 Ultra Prestige Points. Reward: Generate 20% of ultra prestige gain per second."},
+            done() {return player.up.best.gte(420)&&(player.ub.best.gte(6))},
+        },
+        75: {
+            name() {
+                if (hasAchievement('a', 75)) return "Haha, NM++++++ go brrrrrr"
+                return "Nooo! You can't just make everything worse!"},
+            unlocked() {return player.ub.best.gte(6)},
+            tooltip() {return "Gain the seventh unbalanced energy. Context: Haha Funny Meme Reference."},
+            done() {return player.ub.best.gte(7)},
+        },
+        81: {
+            name() {return "Buy Buy Buy"},
+            unlocked() {return player.ub.best.gte(7)},
+            tooltip() {return "Buy a Pointy Boost."},
+            done() {return getBuyableAmount('b', 11).gte(1)&&(player.ub.best.gte(6))},
+        },
+        82: {
+            name() {return "The Puzzler."},
+            unlocked() {return player.ub.best.gte(7)},
+            tooltip() {return "Buy all 4 Super Booster Upgrades in the correct order. Reward: Automate Buying Boosters, Decrease Pointy Boost's cost by Super Boosters."},
+            done() {return (player.sb.upgrades[0]==12)&&(player.sb.upgrades[1]==14)&&(player.sb.upgrades[2]==13)&&(player.sb.upgrades[3]==11)&&(player.ub.best.gte(6))},
+        },
+        83: {
+            name() {return "POINTY POINTY."},
+            unlocked() {return player.ub.best.gte(7)},
+            tooltip() {return "Buy 4 Pointy Boost. Reward: Divide Booster's cost by [Pointy Boost]+1."},
+            done() {return getBuyableAmount('b', 11).gte(4)&&(player.ub.best.gte(6))},
+        },
+        84: {
+            name() {return "Super Boosted Again."},
+            unlocked() {return player.ub.best.gte(7)},
+            tooltip() {return "Have 5 Super Boosters in NM+6 mode. Reward: Multiply point gain by 1.2."},
+            done() {return player.sb.best.gte(5)&&(player.ub.best.gte(6))},
+        },
+        85: {
+            name() {
+                if (hasAchievement('a', 85)) return "Still, Useless Buddy."
+                return "The Eighth One!"},
+            unlocked() {return player.ub.best.gte(7)},
+            tooltip() {return "Gain the eighth unbalanced energy."},
+            done() {return player.ub.best.gte(8)},
+        },
     },
     layerShown(){return true},
     update(diff) {
@@ -241,6 +339,7 @@ addLayer("p", {
         mult = mult.add(D(player.p.upgrades.length).times(0.5))
         mult = mult.add(D(player.sp.upgrades.length).times(0.5))
         mult = mult.add(D(player.hp.upgrades.length).times(0.5))
+        mult = mult.add(D(player.up.upgrades.length).times(0.5))
         if (hasUpgrade('ub', 21)) mult = mult.times(upgradeEffect('ub', 21))
         if (player.ub.best.gte(4)) mult = mult.div(1.25)
         return mult
@@ -339,7 +438,9 @@ addLayer("b", {
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
+        if (hasAchievement('a', 83)) mult = mult.div(getBuyableAmount('b', 11).max(0).add(1))
         if (hasAchievement('a', 44)) mult = mult.div(player.b.best.max(0).add(2))
+        if (hasAchievement('a', 63)) mult = mult.div(tmp.b.effect)
         if (hasUpgrade('ub', 23)) mult = mult.div(5)
         return mult
     },
@@ -355,6 +456,7 @@ addLayer("b", {
     effectDescription: function(){
         return " translated to a " + format(tmp[this.layer].effect) + "x boost to point gain (based on best)"
     },
+    resetsNothing() {return hasAchievement('a', 61)},
     row: 1, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "b", description: "B: Boost", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -370,7 +472,44 @@ addLayer("b", {
                     "resource-display",
                     "blank",
                     "blank",
+                    "buyables"
             ]
+        },
+    },
+    autoPrestige() {return hasAchievement('a', 82)},
+    buyables: {
+        11: {
+            title: "Pointy Boost",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#31AEB0"
+                }
+            },
+            unlocked() {
+                return player.ub.best.gte(7)
+            },
+            cost(x) {
+                base = x.pow(2).add(1)
+                if (hasAchievement('a', 82)) base = base.sub(player.sb.points)
+                return base.floor().max(0)
+            },
+            tooltip() {
+                return "Cost Formula:<br>x<sup>2</sup>+1"
+            },
+            display() {
+                return "Multiply Point gain by 2 per level<br>Cost: "+format(this.cost())+" Boosters<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().times(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                return Decimal.pow(2, x.max(0))
+            },
         },
     },
     layerShown(){return hasAchievement('a', 34)||player.b.unlocked},
@@ -402,8 +541,9 @@ addLayer("sb", {
         return D(1)
     },
     effect() {
-        let boost = D(0.01).times(player.sb.best)
-        return boost
+        let boost = D(0.01)
+        boost = boost.add(D(player.sb.upgrades.length).times(0.00125))
+        return boost.times(player.sb.best)
     },
     effectDescription: function(){
         return " translated to a +" + format(tmp[this.layer].effect) + " boost to booster base (based on best)"
@@ -430,10 +570,53 @@ addLayer("sb", {
                     "resource-display",
                     "blank",
                     "blank",
+                    "upgrades",
+                    ["row", [["clickable", 11]]],
             ]
         },
     },
-    layerShown(){return player.ub.best.gte(3)||player.b.unlocked},
+    upgrades: {
+        11: {
+	        title: "I",
+            tooltip() {if (player.ub.best.gte(7)) return "Please Buy me last."},
+        	description: "Increase Super Booster's base by 0.00125.",
+            cost() {return D(1).add(D(player.sb.upgrades.length))},
+            unlocked() {return player.ub.best.gte(5)}
+       	},
+        12: {
+	        title: "II",
+            tooltip() {if (player.ub.best.gte(7)) return "Please buy me first, I'm the best!"},
+        	description: "Increase Super Booster's base by 0.00125.",
+            cost() {return D(1).add(D(player.sb.upgrades.length))},
+            unlocked() {return player.ub.best.gte(5)}
+       	},
+        13: {
+	        title: "III",
+            tooltip() {if (player.ub.best.gte(7)) return "Please buy me after you buy the second correct upgrade."},
+        	description: "Increase Super Booster's base by 0.00125.",
+            cost() {return D(1).add(D(player.sb.upgrades.length))},
+            unlocked() {return player.ub.best.gte(5)}
+       	},
+        14: {
+	        title: "IV",
+            tooltip() {if (player.ub.best.gte(7)) return "You can buy me anytime you want =]"},
+        	description: "Increase Super Booster's base by 0.00125.",
+            cost() {return D(1).add(D(player.sb.upgrades.length))},
+            unlocked() {return player.ub.best.gte(5)}
+       	},
+    },
+    clickables: {
+        11: {
+        title() {return "Respec Super Booster Upgrades"},
+        unlocked() {return player.ub.best.gte(7)},
+        tooltip() {return "NOTE: This won't force a super boost reset, However you do not gain any spent super boosters back."},
+        canClick() {return true},
+        onClick() {
+            player.sb.upgrades = []
+        }
+        },
+    },
+    layerShown(){return player.ub.best.gte(3)||player.sb.unlocked},
     update(diff) {
     }
 })
@@ -459,6 +642,7 @@ addLayer("sp", {
         mult = D(1)
         mult = mult.add(D(player.sp.upgrades.length).times(0.5))
         mult = mult.add(D(player.hp.upgrades.length).times(0.5))
+        mult = mult.add(D(player.up.upgrades.length).times(0.5))
         if (player.ub.best.gte(4)) mult = mult.div(1.25)
         return mult
     },
@@ -584,6 +768,7 @@ addLayer("hp", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
         mult = mult.add(D(player.hp.upgrades.length).times(0.5))
+        mult = mult.add(D(player.up.upgrades.length).times(0.5))
         if (hasAchievement('a', 43)) mult = mult.times(Decimal.pow(1.2, player.sb.best))
         if (player.ub.best.gte(4)) mult = mult.div(1.25)
         return mult
@@ -595,6 +780,10 @@ addLayer("hp", {
     hotkeys: [
         {key: "h", description: "H: Hyper Prestige", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
+    passiveGeneration() {
+        if (hasAchievement('a', 64)) return D(0.2)
+        return 0
+    },
     tabFormat: {
         "Main": {
             unlocked(){return true},
@@ -714,6 +903,197 @@ addLayer("hp", {
     update(diff) {
     }
 })
+addLayer("up", {
+    name: "ultra-prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "UP", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: D(0),
+        best: D(0),
+
+    }},
+    branches: ['hp'],
+    color: "#9A9AD4",
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    resource: "ultra prestige points", // Name of prestige currency
+    baseResource: "hyper prestige points", // Name of resource prestige is based on
+    exponent: 0.5,
+    baseAmount() {return player.hp.points}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        mult = mult.add(D(player.up.upgrades.length).times(0.5))
+        if (player.ub.best.gte(4)) mult = mult.div(1.25)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "u", description: "U: Ultra Prestige", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    passiveGeneration() {
+        if (hasAchievement('a', 74)) return D(0.2)
+        return 0
+    },
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14]]],
+                    ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24]]],
+                    ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34]]],
+                    ["row", [["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44]]],
+            ]
+        },
+    },
+    upgrades: {
+        11: {
+	        title: "I",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            cost() {return D(1)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        12: {
+	        title: "II",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            cost() {return D(1)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        13: {
+	        title: "III",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            cost() {return D(1)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        14: {
+	        title: "IV",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            cost() {return D(1)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        21: {
+	        title: "V",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "hyper prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.hp},
+            cost() {return D(20)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        22: {
+	        title: "VI",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "hyper prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.hp},
+            cost() {return D(20)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        23: {
+	        title: "VII",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "hyper prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.hp},
+            cost() {return D(20)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        24: {
+	        title: "VIII",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "hyper prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.hp},
+            cost() {return D(20)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        31: {
+	        title: "IX",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "super prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.sp},
+            cost() {return D(400)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        32: {
+	        title: "X",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "super prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.sp},
+            cost() {return D(400)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        33: {
+	        title: "XI",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "super prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.sp},
+            cost() {return D(400)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        34: {
+	        title: "XII",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "super prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.sp},
+            cost() {return D(400)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        41: {
+	        title: "XIII",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.p},
+            cost() {return D(8000)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        42: {
+	        title: "XIV",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.p},
+            cost() {return D(8000)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        43: {
+	        title: "XV",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.p},
+            cost() {return D(8000)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+        44: {
+	        title: "XVI",
+        	description: "Increase Ultra prestige and previous prestige layers gain by +50%",
+            currencyDisplayName: "prestige points",
+            currencyInternalName: "points",
+            currencyLocation() {return player.p},
+            cost() {return D(8000)},
+            unlocked() {return player.up.best.gte(1)}
+       	},
+    },
+    layerShown(){return player.ub.best.gte(6)||player.hp.unlocked},
+    update(diff) {
+    }
+})
 addLayer("ub", {
     name: "unbalanced", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "UB", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -728,17 +1108,21 @@ addLayer("ub", {
     }},
     color: "#31AEB0",
     requires() {
-        if (player.ub.best.gte(5)) return Decimal.dInf
+        if (player.ub.best.gte(8)) return Decimal.dInf
         return D(10)}, // Can be a function that takes requirement increases into account
     resource: "unbalanced powers", // Name of prestige currency
     baseResource() {
+        if (player.ub.best.gte(6)) return "ultra prestige points"
         if (player.ub.best.gte(2)) return "hyper prestige points"
         if (player.ub.best.gte(1)) return "super prestige points"
         return "prestige points"
     }, // Name of resource prestige is based on
-    base: D(4),
+    base() {
+        if (player.ub.best.gte(6)) return D(3)
+        return D(4)},
     exponent: D(1),
     baseAmount() {
+        if (player.ub.best.gte(6)) return player.up.points
         if (player.ub.best.gte(2)) return player.hp.points
         if (player.ub.best.gte(1)) return player.sp.points
         return player.p.points}, // Get the current amount of baseResource
@@ -750,7 +1134,7 @@ addLayer("ub", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return D(1)
     },
-    row: 3, // Row the layer is in on the tree (0 is the first row)
+    row: 4, // Row the layer is in on the tree (0 is the first row)
     tabFormat: {
         "Main": {
             unlocked(){return true},
@@ -764,16 +1148,18 @@ addLayer("ub", {
                     "blank",
                     ["display-text",
                     function() {
-                    return "Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4"][player.ub.best.min(5)] + "<br>Next Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4"][player.ub.best.add(1).min(5)]
+                    return "Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.min(8)] + "<br>Next Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.add(1).min(8)]
                     }],
                     ["display-text",
                     function() {
                     let base = "<br>"
-                    if (player.ub.best.gte(1)) base = base + "[NM - NightMare]<br>- Unlock Super Prestige.<br>- Unbalanced powers now require super prestige points.<br>- Divide point gain by 2.<br>"
-                    if (player.ub.best.gte(2)) base = base + "[NM+ - NightMare+]<br>- Unlock Hyper Prestige.<br>- Unbalanced powers now require ultra prestige points.<br>- Divide point gain by 3 per unbalanced power.<br>"
-                    if (player.ub.best.gte(3)) base = base + "[NM++ - NightMare++]<br>- Unlock Super Booster.<br>- Divide point gain based on points, Currently: /"+format(tmp.ub.NMII)+".<br>"
-                    if (player.ub.best.gte(4)) base = base + "[NM+3 - NightMare+3]<br>- Unlock Unbalanced buyables.<br>- Lose 4% of your points per second<br>-Divide All prestige currencies gain by 1.25<br>"
-                    if (player.ub.best.gte(5)) base = base + "[NM+4 - NightMare+4]<br>- Hide Numbruh<br>- Multiply point gain by 0<br>- You asked for it >;[<br>"
+                    if (player.ub.best.gte(1)) base = base + "[NM - NightMare]<br>- Unlock Super Prestige.<br>- Unbalanced powers now require super prestige points.<br>- Divide point gain by 2.<br><br>"
+                    if (player.ub.best.gte(2)) base = base + "[NM+ - NightMare+]<br>- Unlock Hyper Prestige.<br>- Unbalanced powers now require hyper prestige points.<br>- Divide point gain by 3 per unbalanced power.<br><br>"
+                    if (player.ub.best.gte(3)) base = base + "[NM++ - NightMare++]<br>- Unlock Super Booster.<br>- Divide point gain based on points, Currently: /"+format(tmp.ub.NMII)+".<br><br>"
+                    if (player.ub.best.gte(4)) base = base + "[NM+3 - NightMare+3]<br>- Unlock Unbalanced buyables.<br>- Lose 4% of your points per second.<br>-Divide All prestige currencies gain by 1.25.<br><br>"
+                    if (player.ub.best.gte(5)) base = base + "[NM+4 - NightMare+4]<br>- Hide Numbruh. (You still keep their upgrades)<br>- Raise NM++'s effect to the "+format(tmp.ub.NMIV)+"th power. [Based on Unbalanced Power]<br>- Unlock Super Booster Upgrades.<br><br>"
+                    if (player.ub.best.gte(6)) base = base + "[NM+5 - NightMare+5]<br>- Lose 5% of your points per second instead of 4%.<br>- Power up and Based Power's effect are +8% instead of +10%.<br>- Unlock Ultra Prestige.<br>- Unbalanced powers now require ultra prestige points.<br>- Unbalanced powers' cost is multiplied by 3 every unbalanced power instead of 4.<br><br>"
+                    if (player.ub.best.gte(7)) base = base + "[NM+6 - NightMare+6]<br>- Unlock Booster Buyables.<br>- Unlock the Secret of the Super Booster Upgrades.<br><br>"
                     return base
                     }],
             ]
@@ -816,7 +1202,7 @@ addLayer("ub", {
                     }],
                     ["display-text",
                     function() {
-                    if (hasAchievement('a', 54)) return "Your Numbruh is multiplying by "+format(tmp.ub.NumbruhMult)+" per second."
+                    if (hasAchievement('a', 54)) return "Your Numbruh is multiplying itself by "+format(tmp.ub.NumbruhMult)+" per second."
                     }],
                     ["display-text",
                     function() {
@@ -830,6 +1216,15 @@ addLayer("ub", {
                     ["row", [["clickable", 12]]],
             ]
         },
+    },
+    LosePointsRate() {
+        if (player.ub.best.gte(6)) return D(0.05)
+        if (player.ub.best.gte(4)) return D(0.04)
+        return D(0)
+    },
+    PowerBuyables() {
+        if (player.ub.best.gte(6)) return D(0.08)
+        return D(0.1)
     },
     onPrestige()
     {
@@ -993,7 +1388,7 @@ addLayer("ub", {
                 return "Cost Formula:<br>x+1"
             },
             display() {
-                return "Increase point gain by 25% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+                return "Increase point gain by +25% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
             },
             canAfford() {
                 return player[this.layer].best.sub(player.ub.spentUP).gte(this.cost())
@@ -1024,7 +1419,7 @@ addLayer("ub", {
                 return "Cost Formula:<br>x+1"
             },
             display() {
-                return "Increase point gain exponent by 10% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: ^"+format(this.effect())
+                return "Increase point gain exponent by +"+format(tmp.ub.PowerBuyables.times(100))+"% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: ^"+format(this.effect())
             },
             canAfford() {
                 return player[this.layer].best.sub(player.ub.spentUP).gte(this.cost())
@@ -1035,7 +1430,7 @@ addLayer("ub", {
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
-                return Decimal.times(0.1, x.max(0)).add(1)
+                return Decimal.times(tmp.ub.PowerBuyables, x.max(0)).add(1)
             },
         },
         14: {
@@ -1055,7 +1450,7 @@ addLayer("ub", {
                 return "Cost Formula:<br>x+1"
             },
             display() {
-                return "Increase point gain base exponent by 10% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: ^"+format(this.effect())
+                return "Increase point gain base exponent by +"+format(tmp.ub.PowerBuyables.times(100))+"% per level<br>Cost: "+format(this.cost())+" Unbalanced Perks<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: ^"+format(this.effect())
             },
             canAfford() {
                 return player[this.layer].best.sub(player.ub.spentUP).gte(this.cost())
@@ -1066,7 +1461,7 @@ addLayer("ub", {
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             effect(x) {
-                return Decimal.times(0.1, x.max(0)).add(1)
+                return Decimal.times(tmp.ub.PowerBuyables, x.max(0)).add(1)
             },
         },
     },
@@ -1106,14 +1501,14 @@ addLayer("ub", {
     },
     NMII() {
         let base = player.points.max(0).add(1).log(20).add(1).pow(1.25)
-        if (player.ub.best.gte(4)) base = base.pow(1)
+        if (player.ub.best.gte(5)) base = base.pow(tmp.ub.NMIV)
         return base
     },
-    NMV() {
-        return player.ub.best.max(4).div(4)
+    NMIV() {
+        return player.ub.best.max(4).div(4).pow(2)
     },
     gameMode() {
-        return ["", "NM", "NM+", "NM++", "NM+3", "NM+4"][player.ub.best.min(5)]
+        return ["", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.min(8)]
     },
     layerShown(){return hasAchievement('a', 13)},
     update(diff) {
