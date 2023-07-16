@@ -162,7 +162,7 @@ addLayer("a", {
             unlocked() {return player.ub.best.gte(3)},
             tooltip() {
                 return "Have 1,000 Super Prestige points. Reward: Divide Booster's cost by [Booster]+2"},
-            done() {return player.sp.best.gte(10)&&player.ub.best.gte(3)},
+            done() {return player.sp.best.gte(1000)&&player.ub.best.gte(3)},
         },
         45: {
             name() {
