@@ -341,7 +341,7 @@ addLayer("a", {
                 return "180 degrees to 6"},
             unlocked() {return player.ub.best.gte(8)},
             tooltip() {
-                if (hasAchievement('a', 95)) return "Gain the ninth unbalanced energy. Reward: Multiply point gain by 2.5"
+                if (hasAchievement('a', 95)) return "Gain the ninth unbalanced energy. Reward: Multiply point gain by 2.7"
                 return "Gain the ninth unbalanced energy. Reward: Unlock to See the reward."},
             done() {return player.ub.best.gte(9)},
         },
@@ -1668,7 +1668,7 @@ addLayer("ub", {
             ]
         },
         "Cookina's Blessings": {
-            unlocked(){return player.ub.best.gte(4)},
+            unlocked(){return player.ub.best.gte(9)},
             content:[
                 "main-display",
                     "blank",

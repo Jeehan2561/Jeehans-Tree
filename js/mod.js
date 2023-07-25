@@ -89,7 +89,7 @@ function getPointGen() {
 	if (hasAchievement('a', 42)) gain = gain.times(player.sb.best.max(0).add(1))
 	if (hasAchievement('a', 71)) gain = gain.times(player.ub.best.max(1).add(1))
 	if (hasAchievement('a', 84)) gain = gain.times(1.2)
-	if (hasAchievement('a', 95)) gain = gain.times(2.5)
+	if (hasAchievement('a', 95)) gain = gain.times(2.7)
 	if (hasAchievement('a', 103)) gain = gain.times(achievementEffect('a', 103))
 	if (hasUpgrade('ub', 12)) gain = gain.times(upgradeEffect('ub', 12))
 	gain = gain.times(buyableEffect('b', 11))
