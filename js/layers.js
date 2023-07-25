@@ -311,11 +311,349 @@ addLayer("a", {
             tooltip() {return "Gain the eighth unbalanced energy."},
             done() {return player.ub.best.gte(8)},
         },
+        91: {
+            name() {return "She noticed."},
+            unlocked() {return player.ub.best.gte(8)},
+            tooltip() {return "Have 0.9 Points in NM+7 mode. Reward: WITH THE POWER OF THE FUNNY MULTIPLY POINT GAIN BY THE VERSION'S NUMBER."},
+            done() {return player.points.gte(0.9)&&(player.ub.best.gte(8))},
+        },
+        92: {
+            name() {return "Suspicious Behavior."},
+            unlocked() {return player.ub.best.gte(8)},
+            tooltip() {return "Summon the funny using exactly 11 of UP upgrades. Reward: Unlock a very good booster buyable and a numbruh upgrade."},
+            done() {return(D(player.up.upgrades.length).eq(11))&&(hasUpgrade('up', 12))&&(hasUpgrade('up', 13))&&(hasUpgrade('up', 14))&&(hasUpgrade('up', 21))&&(hasUpgrade('up', 22))&&(hasUpgrade('up', 31))&&(hasUpgrade('up', 32))&&(hasUpgrade('up', 33))&&(hasUpgrade('up', 34))&&(hasUpgrade('up', 42))&&(hasUpgrade('up', 44))&&(player.ub.best.gte(8))},
+        },
+        93: {
+            name() {return "Le Boring Tree intensifies?!?"},
+            unlocked() {return player.ub.best.gte(8)},
+            tooltip() {return "Buy a Suspicious Exponent."},
+            done() {return(getBuyableAmount('b', 12).gte(1))&&(player.ub.best.gte(8))},
+        },
+        94: {
+            name() {return "A Big Step."},
+            unlocked() {return player.ub.best.gte(8)},
+            tooltip() {return "Reach the Numbruh 1e40."},
+            done() {return(player.ub.num.gte(1e40))&&(player.ub.best.gte(8))},
+        },
+        95: {
+            name() {
+                if (hasAchievement('a', 95)) return "Nein!"
+                return "180 degrees to 6"},
+            unlocked() {return player.ub.best.gte(8)},
+            tooltip() {
+                if (hasAchievement('a', 95)) return "Gain the ninth unbalanced energy. Reward: Multiply point gain by 2.5"
+                return "Gain the ninth unbalanced energy. Reward: Unlock to See the reward."},
+            done() {return player.ub.best.gte(9)},
+        },
+        101: {
+            name() {return "Super Close."},
+            unlocked() {return player.ub.best.gte(9)},
+            tooltip() {return "Hyper Boost."},
+            done() {return player.hb.best.gte(1)&&(player.ub.best.gte(9))},
+        },
+        102: {
+            name() {return "Not even helpful."},
+            unlocked() {return player.ub.best.gte(9)},
+            tooltip() {return "Hyper Boost Twice Reward: Square root Cookina's Madness Nerf"},
+            done() {return player.hb.best.gte(2)&&(player.ub.best.gte(9))},
+        },
+        103: {
+            name() {return "Google E̶n̶ ̶p̶a̶s̶s̶a̶n̶t̶."},
+            effect() {return player.ub.num.max(1).slog().max(1).pow(1.2)},
+            unlocked() {return player.ub.best.gte(9)},
+            tooltip() {return "Reach the Numbruh 1e100, Reward: Multiply point gain based on Numbruh. Currently: x"+format(achievementEffect('a', 103))},
+            done() {return player.ub.num.gte(1e100)&&(player.ub.best.gte(9))},
+        },
+        104: {
+            name() {return "HEHEHEHEH"},
+            unlocked() {return player.ub.best.gte(9)},
+            tooltip() {return "Have 42,069 points in NM+8 mode."},
+            done() {return player.points.gte(42069)&&(player.ub.best.gte(9))},
+        },
+        105: {
+            name() {return "That's enough."},
+            unlocked() {return player.ub.best.gte(9)},
+            tooltip() {return "Gain the final unbalanced energy."},
+            done() {return player.ub.best.gte(10)},
+        },
     },
     layerShown(){return true},
     update(diff) {
         player.a.points = D(player.a.achievements.length)
     }
+})
+addLayer("t", {
+    name: "truth", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "T", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: D(0),
+        best: D(0),
+        start: false,
+        ticks: D(0),
+        timer: D(180),
+        codefinish: false,
+        code: ""
+    }},
+    color: "#aa0000",
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
+    resource: "truths", // Name of prestige currency
+    baseResource: "points", // Name of resource prestige is based on
+    exponent: 0.5,
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: "side", // Row the layer is in on the tree (0 is the first row)
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["display-text",
+                    function() {
+                    return "Display: " + player.t.code
+                    }],
+                    ["display-text",
+                    function() {
+                    return "The first digit of the code, Think of a telephone keypad and press the number which has \"C\" on it."
+                    }],
+                    ["display-text",
+                    function() {
+                    return "The second digit of the code is the amount of Trees MomentCookina has made modulo by 10."
+                    }],
+                    ["display-text",
+                    function() {
+                    return "The third digit of the code is the total sum of other four digits modulo by 10."
+                    }],
+                    ["display-text",
+                    function() {
+                    return "The fourth digit of the code is the multiplicative digital root of MomentCookina's discord tag."
+                    }],
+                    ["display-text",
+                    function() {
+                    return "The fifth digit of the code is 35 divided by the length of the code."
+                    }],
+                    ["display-text",
+                    function() {
+                    return "When you submit you will gain an access to Cookina's Blessings."
+                    }],
+                    ["row", [["clickable", 1], "blank", ["clickable", 2], "blank", ["clickable", 3]]],
+                    ["row", [["clickable", 4], "blank", ["clickable", 5], "blank", ["clickable", 6]]],
+                    ["row", [["clickable", 7], "blank", ["clickable", 8], "blank", ["clickable", 9]]],
+                    ["row", [["clickable", "C"], "blank", ["clickable", 0], "blank", ["clickable", "S"]]],
+            ]
+        },
+    },
+    clickables: {
+        1: {
+        title() {return "<h1>1</h1>"},
+        unlocked() {return player.ub.best.gte(10)},
+        canClick() {return true},
+        style() {
+            return {
+                "min-height": "80px",
+                width: "80px",
+            }
+        },
+        onClick() {
+            if (player.t.code.length < 5){
+                player.t.code = player.t.code+"1"
+            }
+        }
+        },
+        2: {
+            title() {return "<h1>2</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"2"
+                }
+            }
+        },
+        3: {
+                title() {return "<h1>3</h1>"},
+                unlocked() {return player.ub.best.gte(10)},
+                canClick() {return true},
+                style() {
+                    return {
+                        "min-height": "80px",
+                        width: "80px",
+                    }
+                },
+                onClick() {
+                    if (player.t.code.length < 5){
+                        player.t.code = player.t.code+"3"
+                    }
+                }
+        },
+        4: {
+            title() {return "<h1>4</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"4"
+                }
+            }
+        },
+        5: {
+            title() {return "<h1>5</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"5"
+                }
+            }
+        },
+        6: {
+            title() {return "<h1>6</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"6"
+                }
+            }
+        },
+        7: {
+            title() {return "<h1>7</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"7"
+                }
+            }
+        },
+        8: {
+            title() {return "<h1>8</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5
+                    ){
+                    player.t.code = player.t.code+"8"
+                }
+            }
+        },
+        9: {
+            title() {return "<h1>9</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"9"
+                }
+            }
+        },
+        0: {
+            title() {return "<h1>0</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code.length < 5){
+                    player.t.code = player.t.code+"0"
+                }
+            }
+        },
+        C: {
+            title() {return "<h1>C</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                player.t.code = ""
+            }
+        },
+        S: {
+            title() {return "<h1>S</h1>"},
+            unlocked() {return player.ub.best.gte(10)},
+            canClick() {return true},
+            style() {
+                return {
+                    "min-height": "80px",
+                    width: "80px",
+                }
+            },
+            onClick() {
+                if (player.t.code == "24307") {
+                    player.t.codefinish = true
+                }
+                player.t.code = ""
+            }
+        },
+    },
+    layerShown(){return player.ub.best.gte(10)},
+    update(diff) {
+    },
+    nodeStyle: {'opacity': '0'}
 })
 addLayer("p", {
     name: "prestige", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -450,7 +788,9 @@ addLayer("b", {
     effect() {
         let amt = player.b.best.max(0)
         if (hasAchievement('a', 51)) amt = amt.add(player.sb.best.max(0))
-        let boost = D(1.2).add(tmp.sb.effect).pow(amt)
+        let base = D(1.2)
+        if (player.ub.best.gte(8)) base = D(1.15)
+        let boost = base.add(tmp.sb.effect).pow(amt)
         return boost
     },
     effectDescription: function(){
@@ -511,6 +851,38 @@ addLayer("b", {
                 return Decimal.pow(2, x.max(0))
             },
         },
+        12: {
+            title: "Suspicious Exponents?",
+            style() {
+                if (tmp[this.layer].buyables[this.id].canAfford) return {
+                    "background-color" : "#31AEB0"
+                }
+            },
+            unlocked() {
+                return hasAchievement('a', 92)
+            },
+            cost(x) {
+                base = x.pow(3).add(1)
+                return base.floor().max(0)
+            },
+            tooltip() {
+                return "Cost Formula:<br>x<sup>3</sup>+1"
+            },
+            display() {
+                return "Increase this buyable's effect by +10% per level, Raise Cookina's Madness Nerf by [this buyable effect]th root [Because SUS]<br>Cost: "+format(this.cost())+" Boosters<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: √"+format(this.effect())
+            },
+            canAfford() {
+                return player[this.layer].points.gte(this.cost())
+            },
+            buy() {
+                let cost = new Decimal (1)
+                player[this.layer].points = player[this.layer].points.sub(this.cost().times(cost))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            effect(x) {
+                return Decimal.times(0.1, x.max(0)).add(1)
+            },
+        },
     },
     layerShown(){return hasAchievement('a', 34)||player.b.unlocked},
     update(diff) {
@@ -541,7 +913,7 @@ addLayer("sb", {
         return D(1)
     },
     effect() {
-        let boost = D(0.01)
+        let boost = D(0.01).add(tmp.hb.effect)
         boost = boost.add(D(player.sb.upgrades.length).times(0.00125))
         return boost.times(player.sb.best)
     },
@@ -953,6 +1325,7 @@ addLayer("up", {
                     ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24]]],
                     ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34]]],
                     ["row", [["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44]]],
+                    "clickables"
             ]
         },
     },
@@ -1090,7 +1463,78 @@ addLayer("up", {
             unlocked() {return player.up.best.gte(1)}
        	},
     },
+    clickables: {
+        11: {
+        title() {return "Respec Ultra Prestige Upgrades"},
+        unlocked() {return player.ub.best.gte(8)},
+        tooltip() {return "NOTE: This won't force an ultra prestige reset, However you do not gain any spent resources back."},
+        canClick() {return true},
+        onClick() {
+            player.up.upgrades = []
+        }
+        },
+    },
     layerShown(){return player.ub.best.gte(6)||player.up.unlocked},
+    update(diff) {
+    }
+})
+addLayer("hb", {
+    name: "hyper boosters", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "HB", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: D(0),
+        best: D(0),
+
+    }},
+    branches: ['hp','sb'],
+    color: "#6C6CA6",
+    requires: new Decimal(1), // Can be a function that takes requirement increases into account
+    resource: "hyper boosters", // Name of prestige currency
+    baseResource: "super boosters", // Name of resource prestige is based on
+    baseAmount() {return player.sb.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    effect() {
+        let boost = D(0.005)
+        return boost.times(player.hb.best)
+    },
+    effectDescription: function(){
+        return " translated to a +" + format(tmp[this.layer].effect) + " boost to super booster base (based on best)"
+    },
+    getResetGain() {
+        let gain = D(-1).add(D(1).add(player.sb.points.times(8)).pow(0.5)).div(2)
+        return gain.sub(player.hb.points).max(0).min(1).floor()
+    },
+    getNextAt(canMax=false) {
+        gain = player.hb.points.add(1).pow(2).add(player.hb.points.add(1)).div(2)
+        return gain.floor()},
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "H", description: "Shift+H: Hyper Boost", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+            ]
+        },
+    },
+    layerShown(){return player.ub.best.gte(9)||player.hb.unlocked},
     update(diff) {
     }
 })
@@ -1108,7 +1552,7 @@ addLayer("ub", {
     }},
     color: "#31AEB0",
     requires() {
-        if (player.ub.best.gte(8)) return Decimal.dInf
+        if (player.ub.best.gte(10)) return Decimal.dInf
         return D(10)}, // Can be a function that takes requirement increases into account
     resource: "unbalanced powers", // Name of prestige currency
     baseResource() {
@@ -1148,7 +1592,7 @@ addLayer("ub", {
                     "blank",
                     ["display-text",
                     function() {
-                    return "Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.min(8)] + "<br>Next Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.add(1).min(8)]
+                    return "Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8", "NM+9"][player.ub.best.min(10)] + "<br>Next Game mode: " + ["None", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8", "NM+9"][player.ub.best.add(1).min(10)]
                     }],
                     ["display-text",
                     function() {
@@ -1160,6 +1604,9 @@ addLayer("ub", {
                     if (player.ub.best.gte(5)) base = base + "[NM+4 - NightMare+4]<br>- Hide Numbruh. (You still keep their upgrades)<br>- Raise NM++'s effect to the "+format(tmp.ub.NMIV)+"th power. [Based on Unbalanced Power]<br>- Unlock Super Booster Upgrades.<br><br>"
                     if (player.ub.best.gte(6)) base = base + "[NM+5 - NightMare+5]<br>- Lose 5% of your points per second instead of 4%.<br>- Power up and Based Power's effect are +8% instead of +10%.<br>- Unlock Ultra Prestige.<br>- Unbalanced powers now require ultra prestige points.<br>- Unbalanced powers' cost is multiplied by 3 every unbalanced power instead of 4.<br><br>"
                     if (player.ub.best.gte(7)) base = base + "[NM+6 - NightMare+6]<br>- Unlock Booster Buyables.<br>- Unlock the Secret of the Super Booster Upgrades.<br><br>"
+                    if (player.ub.best.gte(8)) base = base + "[NM+7 - NightMare+7]<br>- Reduce Booster's base from 1.20 to 1.15<br>- Reunlock Numbruh. [Don't let Cookina know]<br>- Raise u, m, b, r to the [Unbalanced Powers]th root.<br><br>"
+                    if (player.ub.best.gte(9)) base = base + "[NM+8 - NightMare+8]<br>- Cookina's Madness Nerf start instantly.<br>- Unlock a new layer<br>- Unlock a tab?!?!?<br><br>"
+                    if (player.ub.best.gte(10)) base = base + "[NM+9 - NightMare+9]<br>- CORRUPTED PLEASE FIND A FIX<br>- Find the secret layer under the achievement<br>"
                     return base
                     }],
             ]
@@ -1187,7 +1634,7 @@ addLayer("ub", {
             ]
         },
         "Numbruh": {
-            unlocked(){return player.ub.best.eq(4)&&(hasAchievement('a', 53))},
+            unlocked(){return ((player.ub.best.eq(4))||player.ub.best.gte(8))&&(hasAchievement('a', 53))},
             content:[
                 "main-display",
                     "blank",
@@ -1206,7 +1653,11 @@ addLayer("ub", {
                     }],
                     ["display-text",
                     function() {
-                    if (player.ub.num.gte(1e10)) return "Your numbruh is bigger than "+format(1e10)+" Which makes Cookina mad, She is dividing the Numbruh Multiplier by "+format(player.ub.num.div(1e10).max(1).log(2).max(1).pow(0.5))+"."
+                    let base = D(1e10)
+                    if (player.ub.best.gte(9)) base = D(1)
+                    pow = D(1)
+                    if (hasAchievement('a', 102)) pow = D(0.5)
+                    if (player.ub.num.gte(base)) return "Your numbruh is bigger than "+format(base)+" Which makes Cookina mad, She is dividing the Numbruh Multiplier by "+format(player.ub.num.div(base).max(1).log(2).max(1).pow(0.5).pow(D(1).div(buyableEffect('b', 12))).pow(pow))+"."
                     }],
                     "blank",
                     "blank",
@@ -1214,6 +1665,26 @@ addLayer("ub", {
                     "blank",
                     "blank",
                     ["row", [["clickable", 12]]],
+            ]
+        },
+        "Cookina's Blessings": {
+            unlocked(){return player.ub.best.gte(4)},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["display-text",
+                    function() {
+                    if (!player.t.codefinish) return "You are not ready..."
+                    return "You may now choose an ending that i cannot revert back,"
+                    }],
+                    "blank",
+                    "blank",
+                    ["row", [["clickable", 13], ["clickable", 14]]],
             ]
         },
     },
@@ -1232,16 +1703,21 @@ addLayer("ub", {
     },
     NumbruhMult() {
         let base = D(1)
+        let sc = D(1e10)
+        pow = D(1)
+        if (hasAchievement('a', 102)) pow = D(0.5)
+        if (player.ub.best.gte(9)) sc = D(1)
         if (hasUpgrade('ub', 11)) base = base.times(upgradeEffect('ub', 11))
         if (hasUpgrade('ub', 13)) base = base.times(upgradeEffect('ub', 13))
         if (hasUpgrade('ub', 14)) base = base.times(upgradeEffect('ub', 14))
         if (hasUpgrade('ub', 22)) base = base.times(upgradeEffect('ub', 22))
-        if (player.ub.num.gte(1e10)) base = base.div(player.ub.num.div(1e10).max(1).log(2).max(1).pow(0.5))
+        if (hasUpgrade('ub', 24)) base = base.times(upgradeEffect('ub', 24))
+        if (player.ub.num.gte(sc)) base = base.div(player.ub.num.div(sc).max(1).log(2).max(1).pow(0.5).pow(D(1).div(buyableEffect('b', 12))).pow(pow))
         return base
     },
     upgrades: {
         11: {
-	        title: "N",
+	        title: "n",
         	description: "Increase Numbruh Multiplier by +5% per upgrade.",
             effect() {
                 return D(1).add(D(player.ub.upgrades.length).times(0.05))
@@ -1258,6 +1734,7 @@ addLayer("ub", {
 	        title: "u",
         	description: "Multiply point gain based on Numbruh",
             effect() {
+                if (player.ub.best.gte(8)) return player.ub.num.max(1).log(10).add(1).pow(0.4).pow(D(1).div(player.ub.best))
                 return player.ub.num.max(1).log(10).add(1).pow(0.4)
             },
             currencyDisplayName: "Numbruh",
@@ -1272,6 +1749,7 @@ addLayer("ub", {
 	        title: "m",
         	description: "Multiply Numbruh Multiplier based on points",
             effect() {
+                if (player.ub.best.gte(8)) return player.points.max(1).log(10).add(1).pow(0.5).div(16).add(1).pow(D(1).div(player.ub.best))
                 return player.points.max(1).log(10).add(1).pow(0.5).div(16).add(1)
             },
             currencyDisplayName: "Numbruh",
@@ -1286,6 +1764,7 @@ addLayer("ub", {
 	        title: "b",
         	description: "Multiply Numbruh Multiplier based on Numbruh",
             effect() {
+                if (player.ub.best.gte(8)) return player.ub.num.max(1).log(10).add(1).pow(0.5).div(16).add(1).pow(D(1).div(player.ub.best))
                 return player.ub.num.max(1).log(10).add(1).pow(0.5).div(16).add(1)
             },
             currencyDisplayName: "Numbruh",
@@ -1300,6 +1779,7 @@ addLayer("ub", {
 	        title: "r",
         	description: "Multiply Prestige gain based on Numbruh.",
             effect() {
+                if (player.ub.best.gte(8)) return player.ub.num.max(1).log(10).max(1).pow(0.5).pow(D(1).div(player.ub.best))
                 return player.ub.num.max(1).log(10).max(1).pow(0.5)
             },
             currencyDisplayName: "Numbruh",
@@ -1337,6 +1817,20 @@ addLayer("ub", {
             pay() {player.ub.num = player.ub.num.div(1e11).max(1)},
             effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
             unlocked() {return hasAchievement('a', 54)}
+       	},
+        24: {
+	        title: "e",
+        	description: "Increase Numbruh Multiplier by +40% per Super Booster.",
+            effect() {
+                return D(1).add(player.sb.best.max(0).div(2.5))
+            },
+            currencyDisplayName: "Numbruh",
+            currencyInternalName: "num",
+            currencyLocation() {return player.ub},
+            cost() {return D(5e11)},
+            pay() {player.ub.num = player.ub.num.div(5e11).max(1)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+            unlocked() {return hasAchievement('a', 92)&&player.ub.best.gte(8)}
        	},
     },
     buyables: {
@@ -1498,6 +1992,38 @@ addLayer("ub", {
                 }
             }
 		},
+        13: {
+            title() {
+                return "Skip this nightmare."
+            },
+            tooltip() {
+                return "Just skip this mode and get a simple ending."
+            },
+            unlocked() {return player.t.codefinish},
+            canClick() {return player.t.codefinish},
+            onClick() {
+                if (confirm("Do you want to end the game? This may not seems safe, Press Yes to Confirm.")) {
+                    if (confirm("Final Chance to change your mind, Do you want to proceed?")) {
+                    }
+                }
+            }
+		},
+        14: {
+            title() {
+                return "Play NM+9 mode."
+            },
+            tooltip() {
+                return "Fix Corrupted Text and allow you to get the true power."
+            },
+            unlocked() {return player.t.codefinish},
+            canClick() {return player.t.codefinish},
+            onClick() {
+                if (confirm("Do you want to play the NM+9 mode? This may not seems safe, Press Yes to Confirm.")) {
+                    if (confirm("Final Chance to change your mind, Do you want to proceed?")) {
+                    }
+                }
+            }
+		},
     },
     NMII() {
         let base = player.points.max(0).add(1).log(20).add(1).pow(1.25)
@@ -1508,11 +2034,15 @@ addLayer("ub", {
         return player.ub.best.max(4).div(4).pow(2)
     },
     gameMode() {
-        return ["", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8"][player.ub.best.min(8)]
+        return ["", "NM", "NM+", "NM++", "NM+3", "NM+4", "NM+5", "NM+6", "NM+7", "NM+8", "NM+9"][player.ub.best.min(10)]
+    },
+    NBLim() {
+        if (player.ub.best.gte(11)) return D(1e10)
+        return D("1.8e308")
     },
     layerShown(){return hasAchievement('a', 13)},
     update(diff) {
         VERSION.withmode = "Le Stupid Tree Game "+ tmp.ub.gameMode + " v" + VERSION.num
-        if (player.ub.best.eq(4)) {player.ub.num = player.ub.num.times(tmp.ub.NumbruhMult.pow(D(diff))).min(1e20)}
+        if ((player.ub.best.eq(4))||(player.ub.best.gte(8))) {player.ub.num = player.ub.num.times(tmp.ub.NumbruhMult.pow(D(diff))).min(tmp.ub.NBLim)}
     }
 })

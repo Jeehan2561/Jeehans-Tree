@@ -13,8 +13,9 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.2",
-	name: "Stuck in NM++++++",
+	num: "1.3",
+	truenum: "1.3", // Used for Achievement I1, Very dangerous to change. - Cookina
+	name: "All good things must end",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -39,6 +40,14 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 15 achievements.<br>
 		- Added a buyable.<br>
 		Endgame: - Beat NM+6 gamemode<br><br>
+	<h3>v1.3 - All good things must end</h3><br>
+	    - Added 3 Gamemodes.<br>
+		- Added a upgrade.<br>
+		- Added a prestige layer.<br>
+		- Added 15 achievements.<br>
+		- Added a buyable.<br>
+		Endgame: - Beat NM+8 gamemode<br><br>
+		Note: If you solve the puzzle then you'll be a great person in my server
 	`
 	
 
@@ -80,13 +89,16 @@ function getPointGen() {
 	if (hasAchievement('a', 42)) gain = gain.times(player.sb.best.max(0).add(1))
 	if (hasAchievement('a', 71)) gain = gain.times(player.ub.best.max(1).add(1))
 	if (hasAchievement('a', 84)) gain = gain.times(1.2)
+	if (hasAchievement('a', 95)) gain = gain.times(2.5)
+	if (hasAchievement('a', 103)) gain = gain.times(achievementEffect('a', 103))
 	if (hasUpgrade('ub', 12)) gain = gain.times(upgradeEffect('ub', 12))
 	gain = gain.times(buyableEffect('b', 11))
+	gain = gain.times(D(parseFloat(VERSION.truenum)))
 	if (player.ub.best.gte(1)) gain = gain.div(2)
 	if (player.ub.best.gte(2)) gain = gain.div(Decimal.pow(3, player.ub.best))
 	if (player.ub.best.gte(3)) gain = gain.div(tmp.ub.NMII)
 	gain = gain.pow(buyableEffect('ub', 14))
-	if (player.ub.best.gte(8)) gain = gain.times(0)
+	if (player.ub.best.gte(10)) gain = gain.times(0)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -102,7 +114,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.ub.best.gte(8)
+	return player.ub.best.gte(10)
 }
 
 
