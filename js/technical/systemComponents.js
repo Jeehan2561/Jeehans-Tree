@@ -132,6 +132,10 @@ var systemComponents = {
             <br>
             Made by {{modInfo.author}}	
         </span>
+		<span v-if="modInfo.authormore">
+            <br>
+            Including Mods from {{modInfo.authormore}}	
+        </span>
         <br>
         The Modding Tree <a v-bind:href="'https://github.com/Acamaeda/The-Modding-Tree/blob/master/changelog.md'" target="_blank" class="link" v-bind:style = "{'font-size': '14px', 'display': 'inline'}" >{{TMT_VERSION.tmtNum}}</a> by Acamaeda
         <br>

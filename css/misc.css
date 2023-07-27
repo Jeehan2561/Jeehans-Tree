@@ -39,8 +39,8 @@
     padding: 7px;
     font-family: 'Lato', monospace;
     -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
     opacity: 0;
     transition: opacity 0.5s;
   
