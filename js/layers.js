@@ -62,7 +62,7 @@ addLayer("a", {
                 "width": "200px",
             }
             },
-            cost() {return [D(10), D(100), D(1e3), D(4e4), Decimal.dInf][player.add.version]},
+            cost() {return [D(10), D(60), D(1e3), D(4e4), Decimal.dInf][player.add.version]},
             buy() {
                 let cost = new Decimal (1)
                 player.points = player.points.sub(this.cost().mul(cost))
