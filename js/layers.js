@@ -250,7 +250,7 @@ addLayer("add", {
     doReset(l) {
         if (!(layers[l].row > this.row)) return
         
-        let keep = ['version']
+        let keep = ['milestones', 'version']
         if (hasMilestone('add', 0)) keep.push('upgrades')
         layerDataReset(this.layer, keep)
     },
