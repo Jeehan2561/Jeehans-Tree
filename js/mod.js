@@ -13,13 +13,22 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1",
-	name: "Operation",
+	num: "1.0.1",
+	name: "Rebalancing",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
     <h2>Warning: This mod may be unbalanced</h2><br>
 	<h3>v1 - Operation</h3><br>
+	    - Added The Operator Tree from Harry.<br>
+		- Added v0, v0.1, v0.2, v0.3, v0.4 to The Operator Tree<br>
+		- Added 9 upgrades.<br>
+		- Added 3 buyables.<br>
+		- Added 5 milestones.<br>
+		- Added 4 prestige layers.<br>
+		- Added 10 achievements.<br>
+		Endgame: - Buy A new Addventure<br><br>
+	<h3>v1.0.1 - Rebalancing</h3><br>
 	    - Added The Operator Tree from Harry.<br>
 		- Added v0, v0.1, v0.2, v0.3, v0.4 to The Operator Tree<br>
 		- Added 9 upgrades.<br>
@@ -59,17 +68,17 @@ function getPointGen() {
 	if (hasUpgrade('mul', 11)) gain = gain.add(upgradeEffect('mul', 11))
 	gain = gain.add(buyableEffect('add', 11))
 	gain = gain.times(tmp.mul.effect)
-	if (hasUpgrade('mul', 13)) gain = gain.times(upgradeEffect('mul', 11))
+	if (hasUpgrade('mul', 13)) gain = gain.times(upgradeEffect('mul', 13))
 	gain = gain.times(buyableEffect('a', 11))
 	gain = gain.times(buyableEffect('sub', 11).p)
 	if (hasMilestone('rat', 1)) gain = gain.times(milestoneEffect('rat', 1))
 	if (hasMilestone('rat', 2)) gain = gain.times(milestoneEffect('rat', 2))
-	if (hasMilestone('rat', 1)) gain = gain.max(1)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
-	universe: D(0)
+	universe: D(0),
+	chalpow: D(0) // YACT:A Points [Challenge Powers]
 }}
 
 // Display extra things at the top of the page
@@ -81,7 +90,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return false
+	return hasUpgrade('add', 23)
 }
 
 

@@ -6,7 +6,7 @@ addLayer("a", {
         unlocked: true,
 		points: D(0),
         best: D(0),
-
+        trees: D(0)
     }},
     color: "#FFFF00",
     requires: new Decimal(1), // Can be a function that takes requirement increases into account
@@ -45,11 +45,44 @@ addLayer("a", {
                     "resource-display",
                     "blank",
                     "blank",
-                    ["row",[["display-text",function() {return "The Operator Tree<br>Author: Harry <br>Version: "+([tmp.add.versionList][0][player.add.version])}], "blank", ["buyable", 11]]]
+                    ["row",[["display-text",function() {if (hasUpgrade('add', 23)&&false) return "Le Underrated Forest<br>Author: MomentCookie (Cookina)<br>Version: "+([tmp.a.LUFversion][0][player.a.trees])}], "blank", ["buyable", "A1"]]],
+                    "blank",
+                    "blank",
+                    ["row",[["display-text",function() {return "The Operator Tree<br>Author: ψ<sub>ε<sub>Ω+1</sub></sub> (Harry) <br>Version: "+([tmp.add.versionList][0][player.add.version])}], "blank", ["buyable", 11]]]
             ]
         },
     },
+    LUFversion() {
+        return ["v1", "v1.1", "v1.2"]
+    },
+    LUFTrees() {
+        return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Classic", "The Meta Upgrades Incremental", "No Spoiler >:["]
+    },
     buyables: {
+        A1: {
+            unlocked() {return hasUpgrade('add', 23)&&false},
+            title() {return "Le Underrated Forest"},
+            display() {
+                return "Update Le Underrated Forest to "+[tmp.a.LUFversion][0][player.a.trees.add(1)]+"<br>, Unlock "+[tmp.a.LUFTrees][0][player.a.trees]+"<br>, Multiply Point gain by 2.5 per level<sup>2</sup><br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return D(2.5).pow(x.pow(2))},
+            style() {
+                return {
+                "min-height": "200px",
+                "width": "200px",
+            }
+            },
+            cost() {return [D(1e6), Decimal.dInf][player.a.trees]},
+            buy() {
+                let cost = new Decimal (1)
+                player.points = player.points.sub(this.cost().mul(cost))
+                player.a.trees = player.a.trees.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.points.gte(this.cost())
+            },
+        },
         11: {
             title() {return "Update"},
             display() {
@@ -62,11 +95,34 @@ addLayer("a", {
                 "width": "200px",
             }
             },
-            cost() {return [D(10), D(60), D(1e3), D(4e4), Decimal.dInf][player.add.version]},
+            cost() {return [D(10), D(300), D(6e3), D(1e5), Decimal.dInf][player.add.version]},
             buy() {
                 let cost = new Decimal (1)
                 player.points = player.points.sub(this.cost().mul(cost))
                 player.add.version = player.add.version.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.points.gte(this.cost())
+            },
+        },
+        12: {
+            title() {return "Update"},
+            display() {
+                return "Update Yet Another Challenge Tree: Adventure to "+[tmp.add.versionList][0][player.add.version.add(1)]+", Multiply Point gain by 2.5 per level<br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return D(2.5).pow(x)},
+            style() {
+                return {
+                "min-height": "200px",
+                "width": "200px",
+            }
+            },
+            cost() {return [D(1e10), Decimal.dInf][player.I.version]},
+            buy() {
+                let cost = new Decimal (1)
+                player.points = player.points.sub(this.cost().mul(cost))
+                player.I.version = player.I.version.add(1)
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             canAfford() {
@@ -180,7 +236,7 @@ addLayer("s", {
                 canClick() {return true},
                 onClick() {
                     player.s.blobclicks = player.s.blobclicks.add(1)
-                    doPopup(type = "none", text = "You have found "+formatWhole(player.s.blobclicks)+" blob.", title = "blob!", timer = 3, color = "#aa0000")},
+                    doPopup(type = "none", text = "You have found "+formatWhole(player.s.blobclicks)+" blobs.", title = "blob!", timer = 3, color = "#aa0000")},
         },
     },
     layerShown(){return true},
@@ -261,9 +317,9 @@ addLayer("add", {
     upgrades: {
         11: {
             title() {return "Adder"},
-            tooltip() {return "Effect Formula:<br>log<sub>2</sub>[addition points]/20"},
+            tooltip() {return "Effect Formula:<br>(log<sub>2</sub>[addition points]+1)/20"},
             description() {return "Increase Point gain base based on addition points."},
-            effect() {return player.add.points.max(0).add(1).log2().div(20)},
+            effect() {return player.add.points.max(0).add(1).log2().add(1).div(20)},
             cost() {return D(1)},
             effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))},
         },
@@ -356,7 +412,7 @@ addLayer("add", {
     versionList() {
         return ["v0.0", "v0.1", "v0.2", "v0.3", "v0.4", "v0.5"]
     },
-    layerShown(){return true},
+    layerShown(){return player.universe.eq(0)},
     update(diff) {
     }
 })
@@ -611,6 +667,80 @@ addLayer("rat", {
         return D(250).times(D(2).pow(player.rat.points.add(1).pow(2).sub(player.rat.points.add(1)).div(2)))
     },
     layerShown(){return player.add.version.gte(3)},
+    update(diff) {
+    }
+})
+addLayer("I", {
+    name: "Tier I", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "I", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: D(0),
+        best: D(0),
+        version: D(0),
+    }},
+    color: "#4BDC13",
+    requires() {return new Decimal(1)}, // Can be a function that takes requirement increases into account
+    resource: "Tier I Powers", // Name of prestige currency
+    baseResource: "Challenge Powers", // Name of resource prestige is based on
+    exponent: 0.5,
+    baseAmount() {return player.chalpow}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    "milestones",
+                    "buyables",
+                    "blank",
+                    "blank",
+                    "upgrades"
+            ]
+        },
+    },
+    doReset(l) {
+        if (!(layers[l].row > this.row)) return
+        
+        let keep = ['milestones', 'version']
+        if (hasMilestone('add', 0)) keep.push('upgrades')
+        layerDataReset(this.layer, keep)
+    },
+    hotkeys: [
+        {key: "", description: "Yet Another Challenge Tree: Adventure Hotkeys:", onPress(){}},
+        {key: "a", description: "A: Reset for Addition Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}}
+    ],
+    upgrades: {
+    },
+    milestones: {
+    },
+    getResetGain() {
+        if (player.points.lt(tmp.add.requires)) return D(0)
+        return player.points.times(2).div(tmp.add.requires).log(2).times(tmp.add.gainMult).pow(tmp.add.gainExp).floor()
+    },
+    getNextAt() {
+        if (player.points.lt(tmp.add.requires)) return tmp.add.requires
+        return D(2).pow(tmp.add.getResetGain.add(1).pow(D(1).div(tmp.add.gainExp)).div(tmp.add.gainMult)).div(2).times(tmp.add.requires)
+    },
+    versionList() {
+        return ["v0.0", "v0.1", "v0.2", "v0.3", "v0.4", "v0.5"]
+    },
+    layerShown(){return player.universe.eq(1)},
     update(diff) {
     }
 })
