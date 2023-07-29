@@ -13,9 +13,9 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.3",
-	truenum: "1.3", // Used for Achievement I1, Very dangerous to change. - Cookina
-	name: "All good things must end",
+	num: "1.4",
+	truenum: "1.4", // Used for Achievement I1, Very dangerous to change. - Cookina
+	name: "All good things must end quicker",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -46,6 +46,9 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added a prestige layer.<br>
 		- Added 15 achievements.<br>
 		- Added a buyable.<br>
+		Endgame: - Beat NM+8 gamemode<br><br>
+	<h3>v1.4 - All good things must end quicker</h3><br>
+	    - No more Contents<br>
 		Endgame: - Beat NM+8 gamemode<br><br>
 		Note: If you solve the puzzle then you'll be a great person in my server
 	`
