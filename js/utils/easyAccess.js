@@ -19,7 +19,7 @@ function maxedChallenge(layer, id) {
 }
 
 function challengeCompletions(layer, id) {
-	return (player[layer].challenges[id])
+	return D(player[layer].challenges[id])
 }
 
 function getBuyableAmount(layer, id) {

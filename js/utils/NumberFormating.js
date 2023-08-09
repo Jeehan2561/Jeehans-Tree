@@ -12,11 +12,11 @@ function exponentialFormat(num, precision, mantissa = false) {
     e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
     let SR = m.toStringWithDecimalPlaces(precision) + "e" + formatWhole(e)
     let ER = em.toStringWithDecimalPlaces(precision) + "e" + formatWhole(ee)
-    let LR = "e" + formatWhole(le)
+    let LR = "e" + format(le)
     if (Decimal.gte(e, 1e9)) SR = LR
     let TSR = m.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(e)
     let TER = em.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(ee)
-    let TLR = "10^" + formatWhole(le)
+    let TLR = "10^" + format(le)
     if (Decimal.gte(e, 1e9)) TSR = TLR
 
     if (options.notation=="Scientific") return SR

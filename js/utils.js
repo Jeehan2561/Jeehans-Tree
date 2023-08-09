@@ -196,6 +196,26 @@ function D(dec) {
 	return new Decimal (dec)
 }
 
+function makeRed(c){
+    return "<span style='color:#aa0000'>" + c + "</span>"
+}
+
+function makeBlue(c){
+    return "<span style='color:#4444bb'>" + c + "</span>"
+}
+
+function makeGreen(c){
+    return "<span style='color:#448844'>" + c + "</span>"
+}
+
+function makeCyan(c){
+    return "<span style='color:#00ffff'>" + c + "</span>"
+}
+
+function makeYellow(c){
+    return "<span style='color:#ffff00'>" + c + "</span>"
+}
+
 const caesarCipher = (str, shift, decrypt = false) => {
 	const s = decrypt ? (26 - shift) % 26 : shift;
 	const n = s > 0 ? s : 26 + (s % 26);

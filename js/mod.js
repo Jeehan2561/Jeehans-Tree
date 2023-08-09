@@ -2,7 +2,7 @@ let modInfo = {
 	name: "Le Underrated Forest",
 	id: "MCKLUF",
 	author: "MomentCookie (Cookina)",
-	authormore: "Harry",
+	authormore: "Harry, 42UR3",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 	discordName: "MomentCookie's Modded stuffs",
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.0.1",
-	name: "Rebalancing",
+	num: "1.1",
+	name: "Challenging Adventure",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -29,13 +29,7 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 10 achievements.<br>
 		Endgame: - Buy A new Addventure<br><br>
 	<h3>v1.0.1 - Rebalancing</h3><br>
-	    - Added The Operator Tree from Harry.<br>
-		- Added v0, v0.1, v0.2, v0.3, v0.4 to The Operator Tree<br>
-		- Added 9 upgrades.<br>
-		- Added 3 buyables.<br>
-		- Added 5 milestones.<br>
-		- Added 4 prestige layers.<br>
-		- Added 10 achievements.<br>
+	    - Rebalanced v1.<br>
 		Endgame: - Buy A new Addventure<br><br>
 	`
 	
@@ -67,30 +61,63 @@ function getPointGen() {
 	if (hasUpgrade('add', 13)) gain = gain.add(upgradeEffect('add', 13))
 	if (hasUpgrade('mul', 11)) gain = gain.add(upgradeEffect('mul', 11))
 	gain = gain.add(buyableEffect('add', 11))
+	if (hasMilestone('rat', 8)) gain = gain.add(player.rat.best.max(0).div(10))
 	gain = gain.times(tmp.mul.effect)
 	if (hasUpgrade('mul', 13)) gain = gain.times(upgradeEffect('mul', 13))
+	gain = gain.times(buyableEffect('a', "A1"))
 	gain = gain.times(buyableEffect('a', 11))
+	gain = gain.times(buyableEffect('a', 12))
 	gain = gain.times(buyableEffect('sub', 11).p)
 	if (hasMilestone('rat', 1)) gain = gain.times(milestoneEffect('rat', 1))
 	if (hasMilestone('rat', 2)) gain = gain.times(milestoneEffect('rat', 2))
+	if (hasMilestone('rat', 3)) gain = gain.times((hasMilestone('rat', 4)) ? player.rat.best.max(2) : 2)
+	if (hasMilestone('rat', 8)) gain = gain.times(player.add.version.max(1))
+	if (hasMilestone('div', 2)) gain = gain.times(milestoneEffect('div', 2))
+	if (inChallenge('I', 11)) gain = gain.div(tmp.I.ProveNerf)
+	if (hasChallenge('I', 21)) gain = gain.times(challengeEffect('I', 21))
+	gain = gain.times(tmp.I.effect)
+	gain = gain.times(tmp.II.effect)
+	gain = gain.pow(D(1).add(challengeEffect('I', 12)))
+	if (inChallenge('II', 12)) gain = gain.pow(0.5)
+	return gain
+}
+// YACT:A
+function getChalPowGen() {
+	let gain = D(challengeCompletions('I', 11)).max(0).div(10)
+	if (hasChallenge('I', 12)) gain = gain.add(challengeEffect('I', 12))
+	gain = gain.times(tmp.I.effect)
+	gain = gain.times(tmp.II.effect)
+	if (hasUpgrade('sub', 12)) gain = gain.times(upgradeEffect('sub', 12))
+	if (hasChallenge('I', 22)) gain = gain.times(challengeEffect('I', 22))
+	if (inChallenge('I', 12)) gain = gain.div(4)
+	gain = gain.times(challengeEffect('II', 11))
+	if (hasChallenge('II', 12)) gain = gain.times(challengeEffect('II', 12))
+	if (hasMilestone('rat', 4)) gain = gain.times(player.rat.best.max(1))
+	gain = gain.times(tmp.III.fteff)
+	if (inChallenge('II', 21)) gain = gain.div(tmp.II.BQII)
+	if (inChallenge('I', 21)&&gain.gte(1)) gain = gain.pow(0.5)
+	if (inChallenge('I', 21)&&gain.lt(1)) gain = gain.pow(2)
+	if (inChallenge('II', 12)) gain = gain.pow(0.5)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
+	newsTotal: D(0),
 	universe: D(0),
-	chalpow: D(0) // YACT:A Points [Challenge Powers]
+	chalpow: D(0) // YACT:A Points [Challenge Power]
 }}
 
 // Display extra things at the top of the page
 var displayThings = [
+	() => player.universe.eq(1) ? "<br>You have " + format(player.chalpow) + " Challenge Power (+"+format(getChalPowGen())+"/s)" : "",
 	() => "<br>If you found a bug or find yourself stuck Please contact MomentCookie#6268 on Discord.",
-	() => "<br>You're inside "+["The Operator Tree"][player.universe]+" "+[[tmp.add.versionList][0][player.add.version]][player.universe]+".",
+	() => "<br>You're inside "+["The Operator Tree", "Yet Another Challenge Tree: Adventure"][player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version]][player.universe]+".",
 	() => player.keepGoing ? "You're past endgame. The Game may not be balanced after this." : ""
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return hasUpgrade('add', 23)
+	return hasChallenge('III', 22)
 }
 
 
