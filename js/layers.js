@@ -925,7 +925,7 @@ addLayer("div", {
         },
     },
     effect() {
-        return player.div.points.max(0).pow(2).div(16).add(1).times(player.div.points.max(0))
+        return player.div.points.max(0).pow(2).div(16).add(1).times(player.div.points.max(1))
     },
     effectDescription() {
         return ", translated to a " + format(tmp.div.effect) + "x boost to row 2 resources gain."
