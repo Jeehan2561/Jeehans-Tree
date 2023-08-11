@@ -1475,7 +1475,7 @@ addLayer("III", {
             },
         4: {
                 requirementDescription: "5 Tier 3 Power",
-                done() {return player[this.layer].best.gte(4)},
+                done() {return player[this.layer].best.gte(5)},
                 effectDescription() {return "Unlock Exponential."},
             },
     },
