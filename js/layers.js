@@ -2437,7 +2437,7 @@ addLayer("pla", {
         42: {
             title() {return "Acai Palm"},
             tooltip() {return "Effect Formula: ([Completions]*2+1)<sup>[Zones]*2+1</sup>"},
-            unlocked() {return challengeCompletions('zon', 11).gte(2)},
+            unlocked() {return challengeCompletions('zon', 11).gte(1)},
             description() {
                 return "Multiply Plant point gain based on zones and The Tropical Zone completions."},
             effect() {return challengeCompletions('zon', 11).times(2).add(1).pow(player.zon.points.max(0).times(2).add(1))},
@@ -2468,7 +2468,7 @@ addLayer("pla", {
         45: {
             title() {return "Peace Lily"},
             tooltip() {return "Effect Formula: log<sub>10</sub>([Points]+1)+1"},
-            unlocked() {return challengeCompletions('zon', 11).gte(2)},
+            unlocked() {return challengeCompletions('zon', 11).gte(3)},
             description() {
                 return "Divide Plant cost based on points."},
             effect() {return player.points.max(0).add(1).log10().add(1)},
