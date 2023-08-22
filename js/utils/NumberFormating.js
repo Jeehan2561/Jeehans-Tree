@@ -1,5 +1,5 @@
 
-function exponentialFormat(num, precision, mantissa = false) {
+function exponentialFormat(num, precision = options.precisions, mantissa = false) {
     let e = num.log10().floor()
     let le = num.log10().toStringWithDecimalPlaces(precision)
     let ee = num.log10().div(3).floor().times(3)
@@ -55,7 +55,7 @@ function sumValues(x) {
     return x.reduce((a, b) => Decimal.add(a, b))
 }
 
-function format(decimal, precision = 3, small) {
+function format(decimal, precision = options.precisions, small) {
     small = small || modInfo.allowSmall
     decimal = new Decimal(decimal)
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
@@ -88,8 +88,8 @@ function format(decimal, precision = 3, small) {
 
 function formatWhole(decimal) {
     decimal = new Decimal(decimal)
-    if (decimal.gte(1e9)) return format(decimal, 3)
-    if (decimal.lte(0.99) && !decimal.eq(0)) return format(decimal, 3)
+    if (decimal.gte(1e9)) return format(decimal, options.precisions)
+    if (decimal.lte(0.99) && !decimal.eq(0)) return format(decimal, options.precisions)
     return format(decimal, 0)
 }
 
@@ -111,7 +111,7 @@ function toPlaces(x, precision, maxAccepted) {
 }
 
 // Will also display very small numbers
-function formatSmall(x, precision=3) { 
+function formatSmall(x, precision=options.precisions) { 
     return format(x, precision, true)    
 }
 

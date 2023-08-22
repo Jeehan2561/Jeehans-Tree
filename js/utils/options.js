@@ -14,18 +14,28 @@ function getStartOptions() {
 		forceOneTab: false,
 		oldStyle: false,
 		tooltipForcing: true,
-		notation: "Scientific"
+		notation: "Scientific",
+		precisions: D(3)
 	}
 }
 
 let notations = ["Scientific", "Engineering", "Logarithms", "True Scientific", "True Engineering", "True Logarithms"]
+let precisions = [D(1), D(2), D(3)]
 
 function changeNotation() {
 	options.notation = notations[(notations.indexOf(options.notation) + 1) % notations.length]
 }
 
+function changePrecisions() {
+	options.precisions = precisions[(precisions.indexOf(options.precisions) + 1) % precisions.length]
+}
+
 function getNotations() {
 	return options.notation
+}
+
+function getPrecisions() {
+	return options.precisions
 }
 
 function toggleOpt(name) {

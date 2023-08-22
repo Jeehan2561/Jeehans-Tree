@@ -196,6 +196,10 @@ function D(dec) {
 	return new Decimal (dec)
 }
 
+function colorText(elem, color, text) {
+	return "<" + elem + " style='color:" + color + ";text-shadow:0px 0px 10px;'>" + text + "</" + elem + ">"
+}
+
 function makeRed(c){
     return "<span style='color:#aa0000'>" + c + "</span>"
 }
@@ -215,21 +219,6 @@ function makeCyan(c){
 function makeYellow(c){
     return "<span style='color:#ffff00'>" + c + "</span>"
 }
-
-const caesarCipher = (str, shift, decrypt = false) => {
-	const s = decrypt ? (26 - shift) % 26 : shift;
-	const n = s > 0 ? s : 26 + (s % 26);
-	return [...str]
-	  .map((l, i) => {
-		const c = str.charCodeAt(i);
-		if (c >= 65 && c <= 90)
-		  return String.fromCharCode(((c - 65 + n) % 26) + 65);
-		if (c >= 97 && c <= 122)
-		  return String.fromCharCode(((c - 97 + n) % 26) + 97);
-		return l;
-	  })
-	  .join('');
-  };
 
 function prestigeNotify(layer) {
 	if (layers[layer].prestigeNotify) return layers[layer].prestigeNotify()
