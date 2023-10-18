@@ -1564,7 +1564,7 @@ addLayer("div", {
                 requirementDescription() {return ["6 divisong", "6 Divisions", "6 Division Points"][options.text]},
                 effect() {return player.div.best.max(1)},
                 done() {return player[this.layer].best.gte(6)},
-                effectDescription() {return ["Dvson deewide div kos, Currently: /", "Divide Division Cost by Division, Currently: /", "Divide Division Cost by Division points, Currently: /"]+format(this.effect())},
+                effectDescription() {return ["Dvson deewide div kos, Currently: /", "Divide Division Cost by Division, Currently: /", "Divide Division Cost by Division points, Currently: /"][options.text]+format(this.effect())},
             },
         6: {
                 requirementDescription() {return ["7 divisong", "7 Divisions", "7 Division Points"][options.text]},
