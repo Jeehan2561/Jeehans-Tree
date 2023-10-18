@@ -15,15 +15,21 @@ function getStartOptions() {
 		oldStyle: false,
 		tooltipForcing: true,
 		notation: "Scientific",
-		precisions: D(3)
+		precisions: D(3),
+		text: 0
 	}
 }
 
 let notations = ["Scientific", "Engineering", "Logarithms", "True Scientific", "True Engineering", "True Logarithms"]
 let precisions = [D(1), D(2), D(3)]
+let texts = ["Sillified", "Simple", "Original"]
 
 function changeNotation() {
 	options.notation = notations[(notations.indexOf(options.notation) + 1) % notations.length]
+}
+
+function changeText() {
+	options.text = (options.text+1)%texts.length
 }
 
 function changePrecisions() {
@@ -32,6 +38,10 @@ function changePrecisions() {
 
 function getNotations() {
 	return options.notation
+}
+
+function getText() {
+	return texts[options.text]
 }
 
 function getPrecisions() {

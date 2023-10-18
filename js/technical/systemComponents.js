@@ -178,6 +178,7 @@ var systemComponents = {
 			<tr>
 			<td><button class="opt" onclick="changeNotation()">Notation: {{ getNotations() }}</button></td>
 			<td><button class="opt" onclick="changePrecisions()">Precisions: {{ getPrecisions() }}</button></td>
+			<td><button class="opt" onclick="changeText()">Text: {{ getText() }}</button></td>
 				</tr> 
         </table>`
     },

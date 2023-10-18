@@ -110,6 +110,17 @@ function toPlaces(x, precision, maxAccepted) {
     return result
 }
 
+function formatTimePlus(s) {
+    let se = D(s)
+    if (se.lte(60)) return format(se) + "s"
+    if (se.lte(3600)) return formatWhole(Math.floor(se.div(60))) + "m " + format(se % 60) + "s"
+    if (se.lte(86400)) return formatWhole(Math.floor(se.div(3600))) + "h " + formatWhole(Math.floor(se.div(60)) % 60) + "m " + format(se % 60) + "s"
+    if (se.lte(31536000)) return formatWhole(Math.floor(se.div(86400)) % 365) + "d " + formatWhole(Math.floor(se.div(3600)) % 24) + "h " + formatWhole(Math.floor(se.div(60)) % 60) + "m " + format(se % 60) + "s"
+    if (se.lte(3.1536e16)) return format(se.div(31536000))+"y"
+    if (se.lte(D(3.1536e16).times(13.7))) return format(se.div(3.1536e16))+" eons"
+    return format(se.div(3.1536e16).div(13.7))+" uni"
+}
+
 // Will also display very small numbers
 function formatSmall(x, precision=options.precisions) { 
     return format(x, precision, true)    
