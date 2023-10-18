@@ -4584,7 +4584,7 @@ addLayer("shift", {
         },
     },
     hotkeys: [
-        {key: "s", description: "S: Reset for Meter of Waves", onPress(){if (canReset(this.layer)&&player.universe.eq(3)) doReset(this.layer)}, unlocked() {return player.universe.eq(3)}}
+        {key: "w", description: "W: Reset for Meter of Waves", onPress(){if (canReset(this.layer)&&player.universe.eq(3)) doReset(this.layer)}, unlocked() {return player.universe.eq(3)}}
     ],
     effect() {
         return D(2).pow(player.shift.points.max(0).add(1).log10())
