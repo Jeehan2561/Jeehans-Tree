@@ -3692,7 +3692,7 @@ addLayer("wild", {
         },
         34: {
             title() {return "Roe Deer"},
-            tooltip() {return "Requires Cave and Bigger Wildlife<br>Effect Formula: log<sub>4</sub>[Plant Points+4]<sup>0.25</sup>"},
+            tooltip() {return "Requires Meadow and Bigger Wildlife<br>Effect Formula: log<sub>4</sub>[Plant Points+4]<sup>0.25</sup>"},
             canAfford() {return hasUpgrade('wild', 14)&&hasUpgrade('wild', 21)},
             unlocked() {return true},
             description() {
@@ -3780,7 +3780,7 @@ addLayer("wild", {
         54: {
             title() {return "Kestral"},
             tooltip() {return "Requires Meadow and Faster Wildlife"},
-            canAfford() {return hasUpgrade('wild', 13)&&hasUpgrade('wild', 23)},
+            canAfford() {return hasUpgrade('wild', 14)&&hasUpgrade('wild', 23)},
             unlocked() {return true},
             description() {
                 return "Raise Larger Wildlife's Second Effect to the 2.5th power."},
