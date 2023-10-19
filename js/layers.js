@@ -408,7 +408,7 @@ addLayer("a", {
         81: {
             name() {return "Powerful"},
             tooltip() {return "Update YACT to v0.3."},
-            done() {return player.add.version.gte(6)},
+            done() {return player.I.version.gte(3)},
         },
         82: {
             name() {return "The Power Of Four"},
@@ -1261,7 +1261,7 @@ addLayer("rat", {
                 unlocked() {return player.a.trees.gte(1)},
                 done() {return player[this.layer].best.gte(10)},
                 toggles: [["add", "AB"]],
-                effectDescription() {return ["autoby adiong bo an it fre.", "Autobuy Addition Boost and it's free'.", "Autobuy Addition Boost and it doesn't spend anything."][options.text]},
+                effectDescription() {return ["autoby adiong bo an it fre.", "Autobuy Addition Boost and it's free.", "Autobuy Addition Boost and it doesn't spend anything."][options.text]},
             },
         10: {
                 requirementDescription() {return ["11 ratonl", "11 Rationals", "11 Rational Points"][options.text]},
