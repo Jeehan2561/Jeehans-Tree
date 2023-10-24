@@ -307,7 +307,7 @@ function completeChallenge(layer, x) {
 	updateChallengeTemp(layer)
 }
 
-VERSION.withoutName = "Le Underrated Forest v" + VERSION.num + (VERSION.pre ? " Pre-Release " + VERSION.pre : VERSION.pre ? " Beta " + VERSION.beta : "")
+VERSION.withoutName = modInfo.name + " v" + VERSION.num + (VERSION.pre ? " Pre-Release " + VERSION.pre : VERSION.pre ? " Beta " + VERSION.beta : "")
 VERSION.withName = VERSION.withoutName + (VERSION.name ? ": " + VERSION.name : "")
 
 
