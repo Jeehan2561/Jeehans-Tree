@@ -555,13 +555,13 @@ addLayer("g", {
         },
         1: {
             requirementDescription: "2 Generators",
-            done() {return player[this.layer].points.gte(1)},
+            done() {return player[this.layer].points.gte(2)},
             effect() {return player.g.points.max(0).pow_base(1e15)},
             effectDescription() {return "Multiply Point gain by "+format(1e15)+" per Generator."},
         },
         2: {
             requirementDescription: "3 Generators",
-            done() {return player[this.layer].points.gte(1)},
+            done() {return player[this.layer].points.gte(3)},
             effect() {return player.g.points.max(0)},
             effectDescription() {return "Decrease Tier Cost by Generator."},
         },
