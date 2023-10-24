@@ -866,7 +866,7 @@ addLayer("t", {
         },
         6: {
             requirementDescription: "Tier 7",
-            done() {return player[this.layer].points.gte(6)},
+            done() {return player[this.layer].points.gte(7)},
             effect() {return player.g.points.max(0)},
             effect() {return player.t.points.max(0).add(1)},
             effectDescription() {return "Multiply Generator Power gain by [Tier]+1."},
