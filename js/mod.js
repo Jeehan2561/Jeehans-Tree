@@ -244,7 +244,7 @@ var displayThings = [
 	() => player.universe.eq(2) ? "<br>You have " + format(player.planpts) + " Plant Points (+"+format(getPlaPtsGen())+"/s)" : "",
 	() => player.universe.eq(3) ? hasUpgrade('meta', 11) ? "<br>You have " + format(player.meta.points) + " Meta Points (+"+format(getMetGain())+"/s)" : "<br>You have " + format(player.meta.points) + " Meta Points" : "",
 	() => "<br>If you found a bug or find yourself stuck Please contact momentcookie on Discord.",
-	() => "<br>You're inside "+["The Operator Tree", "Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental"][player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version], [tmp.pla.versionList][0][player.pla.version], [tmp.meta.versionList][0][player.meta.version]][player.universe]+".",
+	() => "<br>You're inside "+tmp.a.LUFTrees[player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version], [tmp.pla.versionList][0][player.pla.version], [tmp.meta.versionList][0][player.meta.version]][player.universe]+".",
 	() => player.keepGoing ? "<br>"+makeCyan("You're past endgame. The Game may not be balanced after this.") : "<br>Endgame: Reach "+makeCyan(format(1e127))+" Points",
 ]
 

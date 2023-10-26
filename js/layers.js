@@ -59,7 +59,7 @@ addLayer("a", {
         return ["v1", "v1.1", "v1.2", "v1.3", "v1.4"]
     },
     LUFTrees() {
-        return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "No Spoiler >:[",]
+        return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "Incremental God Tree" ,"No Spoiler >:[",]
     },
     buyables: {
         A1: {
@@ -3306,7 +3306,7 @@ addLayer("pla", {
                 return "Divide Prickly Pear cost by [Saguro]+1."},
             effect() {return getBuyableAmount('pla', 12).add(1)},
             cost() {return hasUpgrade('pla', 61) ? D(165) : D(158)},
-            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+            effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id))},
         },
         63: {
             title() {return "Primrose"},
@@ -3842,11 +3842,11 @@ addLayer("wild", {
     update(diff) {
         if (player.pla.points.gte(233)) {
             player.wild.unlocked = true
-            player.wild.points = player.wild.points.add(tmp.wild.gainMult.sub(player.wild.points.times(tmp.wild.DecayRate)).times(diff).times(tmp.wild.ALM))
+            player.wild.points = player.wild.points.add(tmp.wild.gainMult.sub(player.wild.points.times(tmp.wild.DecayRate).max(0)).times(diff).times(tmp.wild.ALM)).max(0).min(tmp.wild.gainMult.div(tmp.wild.DecayRate)).max(0)
             player.wild.best = player.wild.points.max(player.wild.best)
         }
         if (hasUpgrade('wild', 33)) {
-            player.wild.large = player.wild.large.add(tmp.wild.LWgain.sub(player.wild.large.times(tmp.wild.DecayRate)).times(diff))
+            player.wild.large = player.wild.large.add(tmp.wild.LWgain.sub(player.wild.large.times(tmp.wild.DecayRate).max(0)).times(diff)).max(0).min(tmp.wild.LWgain.div(tmp.wild.DecayRate)).max(0)
         }
     }
 })
@@ -4890,7 +4890,7 @@ addLayer("recur", {
         },
     },
     hotkeys: [
-        {key: "r", description: "R: Reset for Recursivity", onPress(){if (canReset(this.layer)&&player.universe.eq(3)) doReset(this.layer)}, unlocked() {return player.universe.eq(3)}}
+        {key: "c", description: "C: Reset for Recursivity", onPress(){if (canReset(this.layer)&&player.universe.eq(3)) doReset(this.layer)}, unlocked() {return player.universe.eq(3)}}
     ],
     effect() {
         return player.recur.points.max(0).add(1).log2().add(1).pow(3)
