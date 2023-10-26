@@ -3842,11 +3842,11 @@ addLayer("wild", {
     update(diff) {
         if (player.pla.points.gte(233)) {
             player.wild.unlocked = true
-            player.wild.points = player.wild.points.add(tmp.wild.gainMult.sub(player.wild.points.times(tmp.wild.DecayRate).max(0)).times(diff).times(tmp.wild.ALM)).max(0).min(tmp.wild.gainMult.div(tmp.wild.DecayRate)).max(0)
+            player.wild.points = player.wild.points.add(tmp.wild.gainMult.sub(player.wild.points.times(tmp.wild.DecayRate)).times(diff).times(tmp.wild.ALM)).max(0).min(tmp.wild.gainMult.div(tmp.wild.DecayRate)).max(0)
             player.wild.best = player.wild.points.max(player.wild.best)
         }
         if (hasUpgrade('wild', 33)) {
-            player.wild.large = player.wild.large.add(tmp.wild.LWgain.sub(player.wild.large.times(tmp.wild.DecayRate).max(0)).times(diff)).max(0).min(tmp.wild.LWgain.div(tmp.wild.DecayRate)).max(0)
+            player.wild.large = player.wild.large.add(tmp.wild.LWgain.sub(player.wild.large.times(tmp.wild.DecayRate)).times(diff)).max(0).min(tmp.wild.LWgain.div(tmp.wild.DecayRate)).max(0)
         }
     }
 })
