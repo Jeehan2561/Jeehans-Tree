@@ -59,14 +59,17 @@ addLayer("a", {
         return ["v1", "v1.1", "v1.2", "v1.3", "v1.4"]
     },
     LUFTrees() {
-        return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "Incremental God Tree" ,"No Spoiler >:[",]
+        return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "Incremental God Tree" ,"No Spoiler >:["]
+    },
+    LUFAll() {
+        return ["The Operator Tree", "Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "Incremental God Tree" ,"No Spoiler >:["]
     },
     buyables: {
         A1: {
             unlocked() {return hasUpgrade('add', 23)},
             title() {return "Le Underrated Forest"},
             display() {
-                return "Update Le Underrated Forest to "+[tmp.a.LUFversion][0][player.a.trees.add(1)]+"<br>, Unlock "+[tmp.a.LUFTrees][0][player.a.trees]+"<br>, Multiply Point gain by 2.5 per level<sup>2</sup><br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+                return "Update Le Underrated Forest to "+[tmp.a.LUFversion][0][player.a.trees.add(1)]+"<br>, Unlock "+tmp.a.LUFTrees[player.a.trees]+"<br>, Multiply Point gain by 2.5 per level<sup>2</sup><br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
             },
             effect(x) {return D(2.5).pow(x.pow(2))},
             style() {
