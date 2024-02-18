@@ -2,7 +2,7 @@ let modInfo = {
 	name: "Le Underrated Forest",
 	id: "MCKLUF",
 	author: "MomentCookie (Cookina)",
-	authormore: "Harry, 42UR3, Thenonymous, ThatOneKobold",
+	authormore: "Harry, 42UR3, Thenonymous, ThatOneKobold, Icecreamdude",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
 	discordName: "MomentCookie's Modded stuffs",
