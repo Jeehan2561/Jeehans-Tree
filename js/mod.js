@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.3",
-	name: "Meta Phase",
+	num: "1.4",
+	name: "Truly Modded",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -69,6 +69,16 @@ let changelog = `<h1>Changelog:</h1><br>
 		- Added 20 achievements.<br>
 		- Also Happy Halloween y'all spooker :3<br>
 		Endgame: - Reach 1e127 Points<br><br>
+	<h3>v1.4 - Truly Modded</h3><br>
+	    - Added Incremental God Tree from Icecreamdude.<br>
+		- Added v0.4 to YACT:A<br>
+		- Added some upgrades.<br>
+		- Added some buyables.<br>
+		- Added some milestones.<br>
+		- Added some prestige layers.<br>
+		- Added some achievements.<br>
+		- Added some hardcap for next update<br>
+		Endgame: - Reach 1.798e308 Points<br><br>
 	`
 	
 
@@ -113,6 +123,7 @@ function RPG() {
 	gain = gain.add(buyableEffect('add', 11))
 	if (hasMilestone('rat', 8)) gain = gain.add(player.rat.best.max(0).div(10))
 	gain = gain.times(tmp.mul.effect)
+	if (hasMilestone('expo', 12)) gain = gain.pow(tmp.expo.effect)
 	if (hasUpgrade('sub', 23)) gain = gain.times(upgradeEffect('sub', 23))
 	if (hasUpgrade('mul', 13)) gain = gain.times(upgradeEffect('mul', 13))
 	gain = gain.times(buyableEffect('a', "A1"))
@@ -120,6 +131,7 @@ function RPG() {
 	gain = gain.times(buyableEffect('a', 12))
 	gain = gain.times(buyableEffect('a', 13))
 	gain = gain.times(buyableEffect('a', 14))
+	gain = gain.times(buyableEffect('a', 15))
 	gain = gain.times(buyableEffect('sub', 11).p)
 	if (hasMilestone('rat', 1)) gain = gain.times(milestoneEffect('rat', 1))
 	if (hasMilestone('rat', 2)) gain = gain.times(milestoneEffect('rat', 2))
@@ -137,11 +149,17 @@ function RPG() {
 	gain = gain.times(tmp.meta.effect)
 	gain = gain.times(tmp.shift.effect)
 	gain = gain.times(tmp.recur.effect)
+	gain = gain.times(tmp.inc.effect)
 	if (hasMilestone('pla', 1)) gain = gain.times(milestoneEffect('pla', 1))
 	if (hasUpgrade('pla', 31)) gain = gain.times(upgradeEffect('pla', 31))
 	if (hasUpgrade('pla', 55)) gain = gain.times(upgradeEffect('pla', 55))
 	if (hasUpgrade('pla', 65)) gain = gain.times(upgradeEffect('pla', 65))
 	if (hasUpgrade('wild', 51)) gain = gain.times(upgradeEffect('wild', 51))
+	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
+	gain = gain.times(buyableEffect('inc', 41).m)
+	gain = gain.times(tmp.V.effect)
+	if (player.V.boost.eq(1)) gain = gain.times(tmp.V.timeEffect.pot)
+	gain = gain.times(tmp.inc.ModEffect)
 	gain = gain.pow(D(1).add(challengeEffect('I', 12)))
 	if (inChallenge('II', 12)) gain = gain.pow(0.5)
 	gain = gain.pow(tmp.expo.effect)
@@ -153,6 +171,7 @@ function getChalPowGen() {
 	if (hasChallenge('I', 12)) gain = gain.add(challengeEffect('I', 12))
 	gain = gain.times(tmp.I.effect)
 	gain = gain.times(tmp.II.effect)
+	gain = gain.times(tmp.V.effect)
 	if (hasUpgrade('sub', 12)) gain = gain.times(upgradeEffect('sub', 12))
 	if (hasChallenge('I', 22)) gain = gain.times(challengeEffect('I', 22))
 	if (inChallenge('I', 12)) gain = gain.div(4)
@@ -165,9 +184,16 @@ function getChalPowGen() {
 	if (hasMilestone('gar', 0)) gain = gain.times(milestoneEffect('gar', 0))
 	if (inChallenge('II', 21)) gain = gain.div(tmp.II.BQII)
 	gain = gain.times(buyableEffect('IV', 11).C)
+	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
+	gain = gain.times(buyableEffect('inc', 41).m)
+	if (player.V.boost.eq(2)) gain = gain.times(tmp.V.timeEffect.cp)
+	if (inChallenge('V', 21)) gain = gain.div(challengeCompletions('V', 21).pow_base(10))
+	gain = gain.times(tmp.inc.ModEffect)
+    if (hasMilestone('expo', 9)) gain = gain.pow(tmp.expo.effect)
 	if (inChallenge('I', 21)&&gain.gte(1)) gain = gain.pow(0.5)
 	if (inChallenge('I', 21)&&gain.lt(1)) gain = gain.pow(2)
 	if (inChallenge('II', 12)) gain = gain.pow(0.5)
+	if (inChallenge('V', 22)) gain = gain.pow(1/3)
 	return gain
 }
 // TPT:O
@@ -216,6 +242,10 @@ function getPlaPtsGen() {
 	if (hasMilestone('div', 7)) gain = gain.times(milestoneEffect('div', 7))
 	if (hasMilestone('rat', 10)) gain = gain.times(milestoneEffect('rat', 10))
 	if (hasMilestone('expo', 2)) gain = gain.times(milestoneEffect('expo', 2))
+	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
+	gain = gain.times(buyableEffect('inc', 41).m)
+	gain = gain.times(tmp.inc.ModEffect)
+	if (hasMilestone('expo', 13)) gain = gain.pow(tmp.expo.effect)
 	return gain
 }
 function getMetGain(){
@@ -228,6 +258,9 @@ function getMetGain(){
 	gain = gain.times(buyableEffect('shift', 11))
 	gain = gain.times(tmp.shift.effect)
 	gain = gain.times(tmp.recur.effect)
+	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
+	gain = gain.times(buyableEffect('inc', 41).m)
+	gain = gain.times(tmp.inc.ModEffect)
 	return gain
 }
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -244,13 +277,13 @@ var displayThings = [
 	() => player.universe.eq(2) ? "<br>You have " + format(player.planpts) + " Plant Points (+"+format(getPlaPtsGen())+"/s)" : "",
 	() => player.universe.eq(3) ? hasUpgrade('meta', 11) ? "<br>You have " + format(player.meta.points) + " Meta Points (+"+format(getMetGain())+"/s)" : "<br>You have " + format(player.meta.points) + " Meta Points" : "",
 	() => "<br>If you found a bug or find yourself stuck Please contact momentcookie on Discord.",
-	() => "<br>You're inside "+tmp.a.LUFAll[player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version], [tmp.pla.versionList][0][player.pla.version], [tmp.meta.versionList][0][player.meta.version]][player.universe]+".",
-	() => player.keepGoing ? "<br>"+makeCyan("You're past endgame. The Game may not be balanced after this.") : "<br>Endgame: Reach "+makeCyan(format(1e127))+" Points",
+	() => "<br>You're inside "+tmp.a.LUFAll[player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version], [tmp.pla.versionList][0][player.pla.version], [tmp.meta.versionList][0][player.meta.version], [tmp.inc.versionList][0][player.inc.version]][player.universe]+".",
+	() => player.keepGoing ? "<br>"+makeCyan("You're past endgame. The Game may not be balanced after this.") : "<br>Endgame: Reach "+makeCyan(format(D(1024).pow_base(2)))+" Points",
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(1e127)
+	return player.points.gte(D(2).pow(1024))
 }
 
 

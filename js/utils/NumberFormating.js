@@ -1,15 +1,15 @@
 
 function exponentialFormat(num, precision = options.precisions, mantissa = false) {
-    let e = num.log10().floor()
-    let le = num.log10().toStringWithDecimalPlaces(precision)
-    let ee = num.log10().div(3).floor().times(3)
-    let m = num.div(Decimal.pow(10, e))
-    let em = num.div(Decimal.pow(10, ee))
+    let e = D(num).log10().floor()
+    let le = D(num).log10().toStringWithDecimalPlaces(precision)
+    let ee = D(num).log10().div(3).floor().times(3)
+    let m = D(num).div(Decimal.pow(10, e))
+    let em = D(num).div(Decimal.pow(10, ee))
     if (m.toStringWithDecimalPlaces(precision) == 10) {
         m = decimalOne
         e = e.add(1)
     }
-    e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
+    // e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
     let SR = m.toStringWithDecimalPlaces(precision) + "e" + formatWhole(e)
     let ER = em.toStringWithDecimalPlaces(precision) + "e" + formatWhole(ee)
     let LR = "e" + format(le)
@@ -25,6 +25,19 @@ function exponentialFormat(num, precision = options.precisions, mantissa = false
     if (options.notation=="True Scientific") return TSR
     if (options.notation=="True Engineering") return TER
     if (options.notation=="True Logarithms") return TLR
+}
+
+function formatByte(num, precision = 3) {
+    num = D(num)
+    if (num.lte(1024)) return format(num, precision)+" Bytes"
+    if (num.lte(D(1024).pow(2))) return format(num.div(1024), precision)+" Kilobytes"
+    if (num.lte(D(1024).pow(3))) return format(num.div(D(1024).pow(2)), precision)+" Megabytes"
+    if (num.lte(D(1024).pow(4))) return format(num.div(D(1024).pow(3)), precision)+" Gigabytes"
+    if (num.lte(D(1024).pow(5))) return format(num.div(D(1024).pow(4)), precision)+" Terabytes"
+    if (num.lte(D(1024).pow(6))) return format(num.div(D(1024).pow(5)), precision)+" Petabytes"
+    if (num.lte(D(1024).pow(7))) return format(num.div(D(1024).pow(6)), precision)+" Exabytes"
+    if (num.lte(D(1024).pow(8))) return format(num.div(D(1024).pow(7)), precision)+" Zettabytes"
+    return format(num.div(D(1024).pow(8)))+" Zettabytes"
 }
 
 function commaFormat(num, precision) {

@@ -51,12 +51,13 @@ addLayer("a", {
                     ["row",[["display-text",function() {if (player.a.trees.gte(1)) return "Yet Another Challenge Tree: Adventure<br>Author: new42ur3jeans (42UR3) <br>Version: "+([tmp.I.versionList][0][player.I.version])}], "blank", ["buyable", 12]]],
                     ["row",[["display-text",function() {if (player.a.trees.gte(2)) return "The Plant Tree: Original<br>Author: Thenonymous <br>Version: "+([tmp.pla.versionList][0][player.pla.version])}], "blank", ["buyable", 13]]],
                     ["row",[["display-text",function() {if (player.a.trees.gte(3)) return "The Meta Upgrades Incremental<br>Author: ThatOneKobold <br>Version: "+([tmp.meta.versionList][0][player.meta.version])}], "blank", ["buyable", 14]]],
-                    ["row", [ ["clickable", 11], ["clickable", 12], ["clickable", 13], ["clickable", 14]]],
+                    ["row",[["display-text",function() {if (player.a.trees.gte(3)) return "Incremental God Tree<br>Author: Icecreamdude <br>Version: "+([tmp.inc.versionList][0][player.inc.version])}], "blank", ["buyable", 15]]],
+                    ["row", [ ["clickable", 11], ["clickable", 12], ["clickable", 13], ["clickable", 14], ["clickable", 15]]],
             ]
         },
     },
     LUFversion() {
-        return ["v1", "v1.1", "v1.2", "v1.3", "v1.4"]
+        return ["v1", "v1.1", "v1.2", "v1.3", "v1.4", "v1.5"]
     },
     LUFTrees() {
         return ["Yet Another Challenge Tree: Adventure", "The Plant Tree Original", "The Meta Upgrades Incremental", "Incremental God Tree" ,"No Spoiler >:["]
@@ -78,7 +79,7 @@ addLayer("a", {
                 "width": "200px",
             }
             },
-            cost() {return [D(1e6), D(1e25), D(1e101), Decimal.dInf][player.a.trees]},
+            cost() {return [D(1e6), D(1e25), D(1e101), D(1e126), Decimal.dInf][player.a.trees]},
             buy() {
                 let cost = D(1)
                 player.points = player.points.sub(this.cost().mul(cost))
@@ -125,7 +126,7 @@ addLayer("a", {
                 "width": "200px",
             }
             },
-            cost() {return [D(6e9), D(1e15), D(1e73), Decimal.dInf][player.I.version]},
+            cost() {return [D(6e9), D(1e15), D(1e73), D(1e137), Decimal.dInf][player.I.version]},
             buy() {
                 let cost = D(1)
                 player.points = player.points.sub(this.cost().mul(cost))
@@ -184,6 +185,30 @@ addLayer("a", {
                 return player.points.gte(this.cost())
             },
         },
+        15: {
+            unlocked() {return player.a.trees.gte(4)},
+            title() {return "Update"},
+            display() {
+                return "Update Incremental God Tree to "+[tmp.meta.versionList][0][player.meta.version.add(1)]+", Multiply Point gain by 8.5 per level<br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return D(8.5).pow(x)},
+            style() {
+                return {
+                "min-height": "200px",
+                "width": "200px",
+            }
+            },
+            cost() {return [D(1e131), D(1e195), Decimal.dInf][player.inc.version]},
+            buy() {
+                let cost = D(1)
+                player.points = player.points.sub(this.cost().mul(cost))
+                player.inc.version = player.inc.version.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.points.gte(this.cost())
+            },
+        },
     },
     clickables: {
         P: {
@@ -227,6 +252,13 @@ addLayer("a", {
             unlocked() {return player.a.trees.gte(3)},
             canClick() {return !player.universe.eq(3)},
             onClick() {player.universe = D(3)},
+        },
+        15: {
+            title() {return "Switch to"},
+            display() {return "Incremental God Tree"},
+            unlocked() {return player.a.trees.gte(4)},
+            canClick() {return !player.universe.eq(4)},
+            onClick() {player.universe = D(4)},
         },
     },
     achievements: {
@@ -510,6 +542,106 @@ addLayer("a", {
             tooltip() {return "Gain 4 exponentials."},
             done() {return player.expo.points.gte(4)},
         },
+        121: {
+            name() {return "God of Trees"},
+            tooltip() {return "Unlock Incremental God Tree."},
+            done() {return player.a.trees.gte(3)},
+        },
+        122: {
+            name() {return "A Lovely Tree"},
+            tooltip() {return "Beat your first Tree."},
+            done() {return player.inc.trees.gte(1)},
+        },
+        123: {
+            name() {return "A Lovely Forest"},
+            tooltip() {return "Gain 20 Trees."},
+            done() {return player.inc.trees.gte(20)},
+        },
+        124: {
+            name() {return "We have technology."},
+            tooltip() {return "Update Incremental God Tree to v0.1."},
+            done() {return player.inc.version.gte(1)},
+        },
+        125: {
+            name() {return "Digital Money"},
+            tooltip() {return "Gain a crypto."},
+            done() {return player.inc.crypto.gte(1)},
+        },
+        131: {
+            name() {return "Another AD Reference?"},
+            tooltip() {return "Unlock crypto dimensions."},
+            done() {return hasUpgrade('inc', 51)},
+        },
+        132: {
+            name() {return "8-Bit"},
+            tooltip() {return "Gain a byte."},
+            done() {return player.inc.byte.gte(1)},
+        },
+        133: {
+            name() {return "Final Update."},
+            tooltip() {return "Update YACT:A to v1.0"},
+            done() {return player.I.version.gte(4)},
+        },
+        134: {
+            name() {return "Final Tier."},
+            tooltip() {return "Gain a tier 5 power."},
+            done() {return player.V.points.gte(1)},
+        },
+        135: {
+            name() {return "Time is relative"},
+            tooltip() {return "Gain a Time Energy."},
+            done() {return player.chalpow.gte(1e100)},
+        },
+        141: {
+            name() {return "Inflation?"},
+            tooltip() {return "Gain "+format(1e100)+" Challenge Power."},
+            done() {return player.chalpow.gte(1e100)},
+        },
+        142: {
+            name() {return "Another one."},
+            tooltip() {return "Gain 8 Exponential Points."},
+            done() {return player.expo.points.gte(8)},
+        },
+        143: {
+            name() {return "But We haven't- nvm."},
+            tooltip() {return "Update Incremental God Tree to v0.2."},
+            done() {return player.inc.version.gte(2)},
+        },
+        144: {
+            name() {return "Start Coding"},
+            tooltip() {return "Gain a code experience."},
+            done() {return player.inc.ce.gte(1)},
+        },
+        145: {
+            name() {return "You're now a Mod Creator"},
+            tooltip() {return "Gain a mod."},
+            done() {return player.inc.mods.gte(1)},
+        },
+        151: {
+            name() {return "The Incrementalverse"},
+            tooltip() {return "Unlock realm mods."},
+            done() {return hasUpgrade('inc', 65)},
+        },
+        152: {
+            name() {return "Scaled Time"},
+            tooltip() {return "Gain 10 Exponential Points."},
+            done() {return player.expo.points.gte(8)},
+        },
+        153: {
+            name() {return "Another Zone?"},
+            tooltip() {return "Gain 6 Zones."},
+            done() {return player.zon.points.gte(6)},
+        },
+        154: {
+            name() {return "Limit Reached"},
+            tooltip() {return "Gain "+format(D(2).pow(1024))+" Points."},
+            done() {return player.points.gte(D(2).pow(1024))},
+        },
+        155: {
+            name() {return "The end of the adventure"},
+            tooltip() {return "Gain "+format(D(2).pow(1024))+" Challenge Power."},
+            done() {return player.chalpow.gte(D(2).pow(1024))},
+        },
     },
     layerShown(){return true},
     update(diff) {
@@ -573,6 +705,60 @@ addLayer("s", {
     },
     nodeStyle: {'opacity': '0'}
 })
+addLayer("c", {
+    name: "cookina", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: D(0),
+        best: D(0),
+    }},
+    color: "#aa0000",
+    requires: D(1), // Can be a function that takes requirement increases into account
+    resource: "secrets", // Name of prestige currency
+    baseResource: "points", // Name of resource prestige is based on
+    exponent: 0.5,
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: "side", // Row the layer is in on the tree (0 is the first row)
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                    "blank",
+                    "blank",
+                    "blank",
+                    "blank",
+                    ["row", [["clickable", "blob"]]]
+            ]
+        },
+    },
+    clickables: {
+        blob: {
+                title: "blob",
+                display(){
+                    return ""
+                },
+                unlocked() {return false},
+                canClick() {return true},
+                onClick() {
+                    player.s.blobclicks = player.s.blobclicks.add(1)
+                    doPopup(type = "none", text = "You have found "+formatWhole(player.s.blobclicks)+" blobs.", title = "blob!", timer = 3, color = "#aa0000")},
+        },
+    },
+    layerShown(){return true},
+    update(diff) {
+    },
+    nodeStyle: {'opacity': '0'}
+})
 addLayer("add", {
     name: "addition", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "A", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -599,6 +785,7 @@ addLayer("add", {
         if (hasUpgrade('add', 22)) mult = mult.times(upgradeEffect('add', 22))
         if (hasUpgrade('add', 31)) mult = mult.times(upgradeEffect('add', 31))
         if (hasUpgrade('sub', 22)) mult = mult.times(upgradeEffect('sub', 22))
+        if (hasUpgrade('inc', 14)) mult = mult.times(upgradeEffect('inc', 14))
         mult = mult.times(tmp.rat.effect)
         mult = mult.times(challengeEffect('II', 21))
         mult = mult.times(challengeEffect('III', 21))
@@ -615,10 +802,13 @@ addLayer("add", {
         if (hasMilestone('pla', 4)) mult = mult.times(milestoneEffect('pla', 4))
         if (hasMilestone('gar', 3)) mult = mult.times(milestoneEffect('gar', 3))
         if (hasMilestone('recur', 0)) mult = mult.times(milestoneEffect('recur', 0))
+        if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return D(1)
+        let expo = D(1)
+        if (hasMilestone('expo', 12)) expo = expo.times(tmp.expo.effect)
+        return expo
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     tabFormat: {
@@ -796,11 +986,13 @@ addLayer("add", {
         11: {
             title() {let texts = ["adiong bost", "Additional Boost", "Additional Boost"]
                 return texts[options.text]},
-            purchaseLimit() {return D(100)},
+            purchaseLimit() {
+                if (hasUpgrade('mul', 21)) return D(2).pow(1024)
+                return D(100)},
             display() {
-                if (options.text==0)return "each +"+format(tmp.add.ABBase)+" to poin gain bas<br>cos: "+format(this.cost())+" adion poins<br>lvl: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>efec: +"+format(this.effect())
-                if (options.text==1)return "Add "+format(tmp.add.ABBase)+" to point gain base per level<br>Cost: "+format(this.cost())+" Addition Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>Effect: +"+format(this.effect())
-                if (options.text==2)return "Increase point gain base by "+format(tmp.add.ABBase)+" per level<br>Cost: "+format(this.cost())+" Addition Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>Effect: +"+format(this.effect())
+                if (options.text==0)return "each +"+format(tmp.add.ABBase)+" to poin gain bas<br>cos: "+format(this.cost())+" adion poins<br>lvl: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(this.purchaseLimit())+"<br>efec: +"+format(this.effect())
+                if (options.text==1)return "Add "+format(tmp.add.ABBase)+" to point gain base per level<br>Cost: "+format(this.cost())+" Addition Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(this.purchaseLimit())+"<br>Effect: +"+format(this.effect())
+                if (options.text==2)return "Increase point gain base by "+format(tmp.add.ABBase)+" per level<br>Cost: "+format(this.cost())+" Addition Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(this.purchaseLimit())+"<br>Effect: +"+format(this.effect())
             },
             effect(x) {return x.times(tmp.add.ABBase)},
             unlocked() {return hasUpgrade('mul', 13)},
@@ -808,8 +1000,10 @@ addLayer("add", {
                 if (hasUpgrade('add', 33)) return "Cost Formula: 10*2<sup>x</sup>"
                 return "Cost Formula: x*2<sup>x</sup>"},
             cost(x) {
-                if (hasUpgrade('add', 33)) return D(10).times(D(2).pow(x)).floor()
-                return x.max(0).times(D(2).pow(x)).floor()},
+                let amt = x
+                if (x.gte(100)) amt = D(100).add(x.sub(99).times(x.sub(100)).div(2))
+                if (hasUpgrade('add', 33)) return D(10).times(D(2).pow(amt)).floor()
+                return amt.max(0).times(D(2).pow(amt)).floor()},
             buy() {
                 let cost = D(1)
                 if (hasMilestone('rat', 9)) cost = D(0)
@@ -862,6 +1056,7 @@ addLayer("sub", {
         if (hasUpgrade('gar', 13)) mult = mult.times(upgradeEffect('gar', 11))
         if (hasMilestone('rat', 16)) mult = mult.times(milestoneEffect('rat', 16))
         if (hasMilestone('div', 17)) mult = mult.times(milestoneEffect('div', 17))
+        if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
         mult = mult.times(tmp.div.effect)
         return mult
     },
@@ -1023,11 +1218,15 @@ addLayer("mul", {
         if (hasUpgrade('shift', 12)) mult = mult.times(upgradeEffect('shift', 12).M)
         if (hasMilestone('shift', 0)) mult = mult.times(milestoneEffect('shift', 0))
         if (hasMilestone('recur', 0)) mult = mult.times(milestoneEffect('recur', 0))
+        if (hasUpgrade('inc', 14)) mult = mult.times(upgradeEffect('inc', 14))
+        if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
         mult = mult.times(tmp.div.effect)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return D(1)
+        let exp = D(1)
+        if (hasUpgrade('mul', 22)) exp = exp.times(tmp.expo.effect)
+        return exp
     },
     branches: ["add"],
     row: 1, // Row the layer is in on the tree (0 is the first row)
@@ -1095,16 +1294,45 @@ addLayer("mul", {
             cost() {return D(2)},
             effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
         },
+        21: {
+            title() {return ["limles adtion", "Limitless Additional", "Limitless Additional"][options.text]},
+            description() {
+                return "You may buy Additional Boost past 100 except its cost scales, Improve Time Energy's 5th boost."},
+            unlocked() {return hasMilestone('expo', 6)},
+            cost() {return D(1e48)},
+        },
+        22: {
+            title() {return ["mul mul mul mul", "Repeating Multiplication", "Repeating Multiplication"][options.text]},
+            description() {
+                return "Raise Multiplication gain by Exponential Layer's effect."},
+            unlocked() {return hasMilestone('expo', 6)},
+            cost() {return D(1e50)},
+        },
+        23: {
+            title() {return ["markiler", "Incremental Multiplier", "Incremental Multiplier"][options.text]},
+            description() {
+                return "Multiply Incremental Point gain based on Multiplication."},
+            effect() {return player.mul.points.max(1).log2().add(1)},
+            unlocked() {return hasMilestone('expo', 6)},
+            cost() {return D(4e57)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
     },
     buyables: {
         11: {
             title() {return ["multcativ bos", "Multiplicative Boost", "Multiplicative Boost"][options.text]},
+            purchaseLimit() {
+                return D(100)},
             display() {
-                if(options.text==0) return "each bo adion gain wif 1.25<br>cos: "+format(this.cost())+" multapaton Points<br>lvl: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>efec: "+format(this.effect())+"x"
-                if(options.text==1) return "Boost addition gain by 1.25 per level<br>Cost: "+format(this.cost())+" Multiplication Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
-                return "Multiply addition gain by 1.25 per level<br>Cost: "+format(this.cost())+" Multiplication Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+                let base = "1.25"
+                if (hasMilestone('expo', 6)) base = "2"
+                if(options.text==0) return "each bo adion gain wif "+base+"<br>cos: "+format(this.cost())+" multapaton Points<br>lvl: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>efec: "+format(this.effect())+"x"
+                if(options.text==1) return "Boost addition gain by "+base+" per level<br>Cost: "+format(this.cost())+" Multiplication Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>Effect: "+format(this.effect())+"x"
+                return "Multiply addition gain by "+base+" per level<br>Cost: "+format(this.cost())+" Multiplication Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/100<br>Effect: "+format(this.effect())+"x"
             },
-            effect(x) {return D(1.25).pow(x)},
+            effect(x) {
+                if (hasMilestone('expo', 6)) return D(2).pow(x)
+                return D(1.25).pow(x)},
             unlocked() {return hasMilestone('rat', 7)},
             tooltip() {return "Cost Formula: 10*3<sup>x<sup>1.2</sup></sup>"},
             cost(x) {return D(3).pow(x.pow(1.2)).times(10).floor()},
@@ -1353,6 +1581,8 @@ addLayer("rat", {
                 effectDescription() {return ["bo mul gin bason ", "Boost Multiplication gain based on ", "Multiply Multiplication gain based on "][options.text]+makeBlue("t")+", Currently: "+format(this.effect())+"x"},
             },
     },
+    autoPrestige() {return hasMilestone('expo', 5)},
+    resetsNothing() {return hasMilestone('expo', 5)},
     getResetGain() {
         if (player.add.points.lt(tmp.rat.getNextAt)) return D(0)
         return D(1)
@@ -1458,6 +1688,68 @@ addLayer("expo", {
                     return player[this.layer].best.pow_base(2)},
                 effectDescription() {return ["halv divisong cuz eac expont.", "Half Division cost per exponential points.", "Half Division cost per exponential points."][options.text]},
             },
+        4: {
+                requirementDescription() {return ["5 expont", "5 Exponentials", "5 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(5)},
+                effectDescription() {return ["xpot afec adion.", "This layer's effect affect Addition gain.", "Raise Addition gain to the this layer's effect."][options.text]},
+            },
+        5: {
+                requirementDescription() {return ["6 expont", "6 Exponentials", "6 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(6)},
+                effectDescription() {return ["auto rta an /.", "Automate Rational and Division.", "Automate Rational and Division."][options.text]},
+            },
+        6: {
+                requirementDescription() {return ["7 expont", "7 Exponentials", "7 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(7)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["3 new tim upg, mor mult bos bas.", "Unlock 3 new Multiplication Upgrades, Increase Multiplicative Boost base.", "Unlock 3 new Multiplication Upgrades, Increase Multiplicative Boost base."][options.text]},
+            },
+        7: {
+                requirementDescription() {return ["8 expont", "8 Exponentials", "8 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(8)},
+                effect() {
+                    return player[this.layer].best.pow_base(2)},
+                    unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["dulb tim engi gain eac expont.", "Double Time Energy gain per exponential.", "Double Time Energy gain per exponential points."][options.text]},
+            },
+        8: {
+                requirementDescription() {return ["9 expont", "9 Exponentials", "9 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(9)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["xpo afecc timothy energy.", "This layer's effect affect Time energy gain.", "Raise Time Energy gain to the this layer's effect."][options.text]},
+            },
+        9: {
+                requirementDescription() {return ["10 expont", "10 Exponentials", "10 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(10)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["xpo afecc chal enery.", "This layer's effect affect Challenge Power gain.", "Raise Challenge Power gain to the this layer's effect."][options.text]},
+            },
+        10: {
+                requirementDescription() {return ["11 expont", "11 Exponentials", "11 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(11)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["xpo afecc one gain.", "This layer's effect affect Tier 1 gain.", "Raise Tier 1 gain to the this layer's effect."][options.text]},
+            },
+        11: {
+                requirementDescription() {return ["12 expont", "12 Exponentials", "12 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(12)},
+                effect() {
+                    return player[this.layer].best.pow_base(2)},
+                    unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["dulb +- gain eac expon.", "Double Positive and Negative gain per Exponential.", "Double Positive and Negative gain per Exponential Points."][options.text]},
+            },
+        12: {
+                requirementDescription() {return ["13 expont", "13 Exponentials", "13 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(13)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["expon do pon gan bas.", "This layer's effect affects Point gain base.", "Raise Point gain base to the this layer's effect."][options.text]},
+            },
+        13: {
+                requirementDescription() {return ["14 expont", "14 Exponentials", "14 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(14)},
+                unlocked() {return player.I.version.gte(4)},
+                effectDescription() {return ["expon do plapon gan bas.", "This layer's effect affects Plant point gain.", "Raise Plant point gain to the this layer's effect."][options.text]},
+            },
     },
     layerShown(){return player.add.version.gte(6)&&(player.universe.eq(0))},
     getResetGain() {
@@ -1465,7 +1757,8 @@ addLayer("expo", {
         return D(1)
     },
     getNextAt() {
-        return D(20).add(player.expo.points.times(10))
+        let base = D(20).add(player.expo.points.times(10)).add(player.expo.points.sub(9).max(0).times(player.expo.points.sub(8).max(0)).div(2))
+        return base
     },
     update(diff) {
     }
@@ -1486,6 +1779,7 @@ addLayer("div", {
     baseResource() {return ["multipatong poins", "multiplication points", "multiplication points"][options.text]}, // Name of resource prestige is based on
     base: 3,
     exponent: 1.25,
+    resetsNothing() {return hasMilestone('expo', 5)},
     baseAmount() {return player.mul.points}, // Get the current amount of baseResource
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -1666,6 +1960,7 @@ addLayer("div", {
                 effectDescription() {return ["multa bos levl bost mul gain.", "Boost Multiplication gain by Multiplicative Boost Level.", "Multiply Multiplication gain by Multiplicative Boost Level."][options.text]},
             },
     },
+    autoPrestige() {return hasMilestone('expo', 5)},
     layerShown(){return player.add.version.gte(5)&&(player.universe.eq(0))},
     update(diff) {
     }
@@ -1692,11 +1987,15 @@ addLayer("I", {
         mult = mult.times(challengeEffect('II', 11))
         if (hasMilestone('rat', 15)) mult = mult.times(milestoneEffect('rat', 15))
         if (hasMilestone('div', 14)) mult = mult.times(milestoneEffect('div', 14))
+        if (hasMilestone('V', 0)) mult = mult.times(milestoneEffect('V', 0))
         if (inChallenge('II', 22)) mult = D(0)
+        if (player.V.boost.eq(8)) mult = mult.times(tmp.V.timeEffect.t1)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
-        return D(1)
+        let base = D(1)
+        if (hasMilestone('expo', 10)) base = base.times(tmp.expo.effect)
+        return base
     },
     onPrestige() {
         player.chalpow = D(0)
@@ -1731,7 +2030,7 @@ addLayer("I", {
         }, unlocked() {return true}}
     ],
     effect() {
-        return D(1).add(player.I.points.pow(0.4).div(20))
+        return D(1).add(player.I.points.pow(0.4).div(20)).min(1e40)
     },
     effectDescription() {
         return ", translated to a "+format(tmp.I.effect)+"x boost to point and challenge power gain"
@@ -1819,11 +2118,11 @@ addLayer("I", {
             },
     },
     versionList() {
-        return ["v0.0", "v0.1", "v0.2", "v0.3", "v0.4", "v0.5"]
+        return ["v0.0", "v0.1", "v0.2", "v0.3", "v1.0", "v1.0"]
     },
     layerShown(){return player.universe.eq(1)},
     update(diff) {
-        player.chalpow = player.chalpow.add(getChalPowGen().times(diff))
+        player.chalpow = player.chalpow.add(getChalPowGen().times(diff)).min(D(2).pow(1024))
     }
 })
 addLayer("II", {
@@ -1847,7 +2146,9 @@ addLayer("II", {
         mult = mult.times(tmp.III.effect)
         mult = mult.times(challengeEffect('III', 12))
         if (hasMilestone('div', 8)) mult = mult.times(milestoneEffect('div', 8))
+        if (player.V.boost.eq(5)) mult = mult.times(tmp.V.timeEffect.t2)
         mult = mult.times(tmp.IV.ChalRew.T)
+        if (!inChallenge('V', 22)) mult = mult.times(challengeEffect('V', 22))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -1888,7 +2189,7 @@ addLayer("II", {
         {key: "2", description: "2: Reset for Tier 2 Power", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.universe.eq(1)}}
     ],
     effect() {
-        return D(1).add(player.II.points.pow(0.5).div(20))
+        return D(1).add(player.II.points.pow(0.5).div(20)).min(1e40)
     },
     effectDescription() {
         return ", translated to a "+format(tmp.II.effect)+"x boost to point and challenge power gain"
@@ -2005,6 +2306,8 @@ addLayer("III", {
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
         if (hasMilestone('III', 5)) mult = mult.div(40)
+        if (hasMilestone('V', 1)) mult = mult.div(milestoneEffect('V', 1))
+        if (player.V.boost.eq(6)) mult = mult.div(tmp.V.timeEffect.t3)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -2083,6 +2386,7 @@ addLayer("III", {
         base = base.div(tmp.IV.PNBN.nn)
         if (hasChallenge('IV', 42)) base = base.times(challengeEffect('IV', 42))
         if (hasChallenge('IV', 51)) base = base.times(challengeEffect('IV', 51))
+        if (player.V.boost.eq(3)) base = base.times(tmp.V.timeEffect.dt)
         return base
     },
     ftgain() {
@@ -2440,6 +2744,7 @@ addLayer("III", {
             }
         },
     },
+    autoPrestige() {return hasMilestone('V', 0)},
     layerShown(){return player.universe.eq(1)&&player.I.version.gte(2)},
     update(diff) {
         player.III.diff = D(diff)
@@ -2472,9 +2777,13 @@ addLayer("IV", {
         mult = D(1)
         mult = mult.times(tmp.IV.PNBN.nb)
         mult = mult.div(tmp.IV.PNBN.pn)
+        if (player.V.boost.eq(4)) mult = mult.times(tmp.V.timeEffect.t4)
+        if (hasMilestone('V', 4)) mult = mult.times(milestoneEffect('V', 4))
         if (hasChallenge('IV', 41)) mult = mult.times(challengeEffect('IV', 41))
         if (hasChallenge('IV', 52)) mult = mult.times(challengeEffect('IV', 52))
+        if (!inChallenge('V', 21)) mult = mult.times(challengeEffect('V', 21))
         if (inChallenge('IV', 22)) mult = mult.div(20)
+        mult = mult.times(tmp.V.ChallengesCompletions.add(1).pow(hasMilestone('V', 8) ? player.V.points.max(1) : D(1)))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -2521,7 +2830,7 @@ addLayer("IV", {
         {key: "4", description: "4: Reset for Tier 4 Power", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.universe.eq(1)}}
     ],
     effect() {
-        return D(1).add(player.IV.points.pow(0.4).div(10))
+        return D(1).add(player.IV.points.pow(0.4).div(10)).min(1e40)
     },
     effectDescription() {
         return ", translated to a "+format(tmp.IV.effect)+"x boost to point and challenge power gain"
@@ -2566,6 +2875,10 @@ addLayer("IV", {
         if (hasChallenge('IV', 52)) N = N.times(2)
         if (hasChallenge('IV', 61)) P = P.times(challengeEffect('IV', 61))
         if (hasChallenge('IV', 62)) N = N.times(challengeEffect('IV', 62))
+        if (hasMilestone('V', 2)) P = P.times(milestoneEffect('V', 2))
+        if (hasMilestone('V', 2)) N = N.times(milestoneEffect('V', 2))
+        if (hasMilestone('expo', 11)) P = P.times(milestoneEffect('expo', 11))
+        if (hasMilestone('expo', 11)) N = N.times(milestoneEffect('expo', 11))
         return {
             p:P,
             n:N
@@ -2596,14 +2909,17 @@ addLayer("IV", {
             },
             buy() {
                 let cost = D(1)
-                player.IV.pos = D(0)
-                player.IV.neg = D(0)
+                if (!hasMilestone('V', 1)){player.IV.pos = D(0)
+                player.IV.neg = D(0)}
                 setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
             },
             canAfford() {
                 return player.IV.pos.min(player.IV.neg).gte(this.cost())
             },
         },
+    },
+    automate() {
+        if (hasMilestone('V', 1)) buyBuyable('IV', 11)
     },
     challenges: {
         11: {
@@ -2704,7 +3020,7 @@ addLayer("IV", {
             goalDescription() {return "Reach "+format(this.goal())+" Tier 4 Power"},
             completionLimit() {return D(1)},
             rewardEffect() {return D(5)},
-            rewardDescription() {return "Divide Negative Buff and Divide Negative Nerf by 5."},
+            rewardDescription() {return "Multiply Negative Buff and Divide Negative Nerf by 5."},
             canComplete: function() {return player.IV.points.gte(this.goal())},
         },
         41: {
@@ -2863,6 +3179,300 @@ addLayer("IV", {
     update(diff) {
         player.IV.pos = player.IV.pos.add(tmp.IV.PNgain.p.times(diff)).min(tmp.IV.PNLim.p)
         player.IV.neg = player.IV.neg.add(tmp.IV.PNgain.n.times(diff)).min(tmp.IV.PNLim.n)
+    }
+})
+addLayer("V", {
+    name: "Tier 5", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "V", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: D(0),
+        best: D(0),
+        timeEnergy: D(0),
+        boost: D(0),
+    }},
+    color: "#FF0000",
+    requires() {return D(1e10)}, // Can be a function that takes requirement increases into account
+    resource: "Tier 5 Power", // Name of prestige currency
+    baseResource: "Tier 4 Power", // Name of resource prestige is based on
+    base: D(10),
+    exponent: D(2),
+    baseAmount() {return player.IV.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    onPrestige() {
+        if (!hasMilestone('V', 4)) player.chalpow = D(0)
+    },
+    resetsNothing() {return hasMilestone('V', 4)},
+    branches: ["III", "IV"],
+    row: 3, // Row the layer is in on the tree (0 is the first row)
+    passiveGeneration() {
+        return 0
+    },
+    ChallengesCompletions() {
+        return D(Object.values(player[this.layer].challenges).reduce((a,b) => a+b))
+    },
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    "milestones",
+                    ["display-text",function() {return "You have "+format(player.V.timeEnergy)+" Time Energy, You currently have "+formatWhole(tmp.V.Unlocked)+" choices of boosts to choose."}],
+                    ["row",[["display-text",function() {return "Your Time Energy and Tier 4 gain is multiplied by "+formatWhole(tmp.V.ChallengesCompletions.add(1).pow(hasMilestone('V', 8) ? player.V.points.max(1) : D(1)))+". ([Tier 5 Challenges Completions]+1)"}]]],
+                    ["row",[["display-text",function() {return "You're currently choosing the "+tmp.V.Ordinal[player.V.boost]+" boost."}]]],
+                    ["row", [["clickable", 11], ["clickable", 12]]],
+                    "blank",
+                    ["row",[["display-text",function() {return "Lists of Boosts:<br>"+format(tmp.V.timeEffect.asm)+"x boost to Addition, Subtraction, Multiplication gain"}]]],
+                    ["row",[["display-text",function() {return format(tmp.V.timeEffect.pot)+"x boost to Points gain"}]]],
+                    ["row",[["display-text",function() {return format(tmp.V.timeEffect.cp)+"x boost to Challenge Power gain"}]]],
+                    ["row",[["display-text",function() {return format(tmp.V.timeEffect.dt)+"x boost to "+makeBlue("dt")}]]],
+                    ["row",[["display-text",function() {return format(tmp.V.timeEffect.t4)+"x boost to Tier 4 gain"}]]],
+                    ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(6)) return format(tmp.V.timeEffect.t2)+"x boost to Tier 2 gain"}]]],
+                    ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(7)) return "/"+format(tmp.V.timeEffect.t3)+" discount to Tier 3 cost"}]]],
+                    ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(8)) return format(tmp.V.timeEffect.inc)+"x boost to Incremental Points gain"}]]],
+                    ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(9)) return format(tmp.V.timeEffect.t1)+"x boost to Tier 1 gain"}]]],
+                    "blank",
+                    "blank",
+                    "buyables",
+                    "challenges"
+            ]
+        },
+    },
+    doReset(l) {
+        if (!(layers[l].row > this.row)) return
+        
+        let keep = ['milestones', 'challenges']
+        if (player.universe.eq(1)){layerDataReset(this.layer, keep)}
+    },
+    hotkeys: [
+        {key: "5", description: "5: Reset for Tier 5 Power", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.universe.eq(1)}}
+    ],
+    effect() {
+        return player.V.points.add(1).pow(player.V.points.add(1))
+    },
+    effectDescription() {
+        return ", translated to a "+format(tmp.V.effect)+"x boost to point and challenge power gain"
+    },
+    timeEffect() {
+        let ti4 = player.V.timeEnergy.max(0).add(10).log10().pow(2)
+        if (hasUpgrade('mul', 21)) ti4 = player.V.timeEnergy.max(0).add(10).log10().pow_base(1.4)
+        return {
+            asm: player.V.timeEnergy.max(0).add(1).log10().pow_base(2).min(1e100), // Addtion, Subtraction, Multiplication Gain.
+            pot: player.V.timeEnergy.max(0).add(1).log10().pow_base(3).min(1e100), // Point gain.
+            cp: player.V.timeEnergy.max(0).add(1).pow(player.V.timeEnergy.max(10).log10().pow(0.5).min(4)).min(softcap(player.V.timeEnergy.max(1).log10(), D(100), D(0.25)).pow_base(10).max(1e100).min(1e200)), // Challenge Power Gain.
+            dt: player.V.timeEnergy.max(0).add(1).pow(0.5).min(1e100), // dt.
+            t4: ti4, // Tier 4 gain.
+            t2: player.V.timeEnergy.max(0).add(10).log10().pow(5), // Tier 2 gain.
+            t3: player.V.timeEnergy.max(0).add(10).log10().pow(1.6), // Tier 3 cost.
+            inc: player.V.timeEnergy.max(0).add(10).log10().pow_base(1.1), // Tier 3 cost.
+            t1: player.V.timeEnergy.max(0).add(2).log2().pow(10), // Tier 1 gain.
+        }
+    },
+    Unlocked() {
+        return D(5).add(challengeCompletions('V', 11).min(10).div(2).floor())
+    },
+    TimeChamber() {
+        let base = player.chalpow.max(0).add(1).log10().sub(50).pow_base(1.6).times(challengeEffect('V', 11))
+        if (!inChallenge('V', 21)) base = base.times(challengeEffect('V', 21))
+        if (!inChallenge('V', 22)) base = base.times(challengeEffect('V', 22))
+        if (!inChallenge('V', 31)) base = base.times(challengeEffect('V', 31))
+        if (inChallenge('V', 32)) base = player.chalpow.max(0).add(1).log10().sub(50).pow_base(1.6).times(challengeEffect('V', 11))
+        if (hasUpgrade('inc', 63)) base = base.times(upgradeEffect('inc', 63))
+        if (hasMilestone('expo', 7)) base = base.times(milestoneEffect('expo', 7))
+        base = base.times(tmp.V.ChallengesCompletions.max(0).add(1).pow(hasMilestone('V', 8) ? player.V.points.max(1) : D(1)))
+        if (hasMilestone('expo', 8)) base = base.pow(tmp.expo.effect)
+        if (inChallenge('V', 22)) base = base.pow(1/3)
+        if (inChallenge('V', 21)) base = base.div(challengeCompletions('V', 21).pow_base(10))
+        base = base.pow(challengeEffect('V', 32))
+        return base
+    },
+    Nerfed() {
+        return player.V.timeEnergy.max(10).log10().pow(challengeCompletions('V', 31).div(4).add(1))
+    },
+    Ordinal() {
+        return ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th"]
+    },
+    clickables: {
+        11: {
+            title() {return "<"},
+            tooltip() {return "This will force a tier 5 reset."},
+            display() {return "Choose Previous Boost"},
+            unlocked() {return player.V.points.gte(1)},
+            canClick() {return player.V.boost.gt(0)},
+            onClick() {
+                doReset(this.layer, true)
+                if (!hasMilestone('V', 4)) player.chalpow = D(0)
+                player.V.boost = player.V.boost.sub(1)
+            },
+        },
+        12: {
+            title() {return ">"},
+            tooltip() {return "This will force a tier 5 reset."},
+            display() {return "Choose Next Boost"},
+            unlocked() {return player.V.points.gte(1)},
+            canClick() {return player.V.boost.lt(tmp.V.Unlocked.sub(1))},
+            onClick() {
+                doReset(this.layer, true)
+                if (!hasMilestone('V', 4)) player.chalpow = D(0)
+                player.V.boost = player.V.boost.add(1)
+            },
+        },
+    },
+    challenges: {
+        11: {
+            name: "The Time Chamber.",
+            onEnter() {player.chalpow = D(0)},
+            unlocked() {return hasMilestone('V', 0)},
+            challengeDescription() {return "Generate time energy per second based on challenge power, Currently: +"+format(tmp.V.TimeChamber)+"/s<br>Completions: "+formatWhole(challengeCompletions('V', 11))+"/10"},
+            goal() {
+                return D(2).pow(challengeCompletions('V', 11).add(1).pow(3))
+            },
+            goalDescription() {return "Reach "+format(this.goal())+" Time Energy"},
+            completionLimit() {return D(10)},
+            rewardEffect() {return challengeCompletions('V', 11).pow(2).pow_base(2)},
+            rewardDescription() {return "Each 2 Completion adds a new boost choice to time energy and Double Time Energy gain per Completion<sup>2</sup>, Currently: "+format(challengeEffect('V', 11))+"x"},
+            canComplete: function() {return player.V.timeEnergy.gte(this.goal())},
+        },
+        21: {
+            name: "Divide yet again.",
+            onEnter() {player.chalpow = D(0)
+                player.V.timeEnergy = D(0)
+            },
+            unlocked() {return hasMilestone('V', 3)},
+            countsAs: [11],
+            challengeDescription() {return "Stuck in The Time Chamber, Divide Time Energy and Challenge Power gain by 10 per completions<br>Completions: "+formatWhole(challengeCompletions('V', 21))},
+            goal() {
+                return D(20).pow(challengeCompletions(this.layer, this.id)).pow(challengeCompletions(this.layer, this.id).div(10).floor().pow_base(2))
+            },
+            goalDescription() {return "Reach "+format(this.goal())+" Time Energy"},
+            completionLimit() {return D(1e6)},
+            rewardEffect() {return challengeCompletions('V', 21).pow_base(4)},
+            rewardDescription() {return "Quadruple Time Energy and Tier 4 gain per Completion (works outside this challenge), Currently: "+format(challengeEffect('V', 21))+"x"},
+            canComplete: function() {return player.V.timeEnergy.gte(this.goal())},
+        },
+        22: {
+            name: "Square root's friend.",
+            onEnter() {player.chalpow = D(0)
+                player.V.timeEnergy = D(0)
+            },
+            unlocked() {return hasMilestone('V', 5)},
+            countsAs: [11],
+            challengeDescription() {return "Stuck in The Time Chamber, Cube root Time Energy and Challenge Power gain<br>Completions: "+formatWhole(challengeCompletions('V', 22))},
+            goal() {
+                return D(10).pow(challengeCompletions(this.layer, this.id)).pow(challengeCompletions(this.layer, this.id).div(10).floor().pow_base(2))
+            },
+            goalDescription() {return "Reach "+format(this.goal())+" Time Energy"},
+            completionLimit() {return D(1e6)},
+            rewardEffect() {return challengeCompletions('V', 22).pow_base(4)},
+            rewardDescription() {return "Quadruple Time Energy and Tier 2 gain per Completion (works outside this challenge), Currently: "+format(challengeEffect('V', 22))+"x"},
+            canComplete: function() {return player.V.timeEnergy.gte(this.goal())},
+        },
+        31: {
+            name: "Get Nerfed.",
+            onEnter() {player.chalpow = D(0)
+                player.V.timeEnergy = D(0)
+            },
+            unlocked() {return hasMilestone('V', 5)},
+            countsAs: [11],
+            challengeDescription() {return "Stuck in The Time Chamber, Time Energy gain is nerfed based on Time Energy, Currently: /"+format(tmp.V.Nerfed)+"<br>Completions: "+formatWhole(challengeCompletions('V', 31))},
+            goal() {
+                return D(15).pow(challengeCompletions(this.layer, this.id)).pow(challengeCompletions(this.layer, this.id).div(10).floor().pow_base(2))
+            },
+            goalDescription() {return "Reach "+format(this.goal())+" Time Energy"},
+            completionLimit() {return D(1e6)},
+            rewardEffect() {return challengeCompletions('V', 31).div(4).pow_base(player.V.timeEnergy.max(0).add(2).log2())},
+            rewardDescription() {return "Multiply Time Energy gain based on Time Energy per Completion (works outside this challenge), Currently: "+format(challengeEffect('V', 31))+"x"},
+            canComplete: function() {return player.V.timeEnergy.gte(this.goal())},
+        },
+        32: {
+            name: "Truly By Yourself.",
+            onEnter() {player.chalpow = D(0)
+                player.V.timeEnergy = D(0)
+            },
+            unlocked() {return hasMilestone('V', 5)},
+            countsAs: [11],
+            challengeDescription() {return "Stuck in The Time Chamber, \"Divide Yet Again\", \"Square root's friend\", \"Get Nerfed\"'s rewards are disabled.<br>Completions: "+formatWhole(challengeCompletions('V', 32))},
+            goal() {
+                return D(200).pow(challengeCompletions(this.layer, this.id)).pow(challengeCompletions(this.layer, this.id).div(10).floor().pow_base(1.5))
+            },
+            goalDescription() {return "Reach "+format(this.goal())+" Time Energy"},
+            completionLimit() {return D(1e6)},
+            rewardEffect() {return challengeCompletions('V', 32).pow(0.5).div(25).add(1)},
+            rewardDescription() {return "Raise Time Energy gain based Completion, Currently: ^"+format(challengeEffect('V', 32))},
+            canComplete: function() {return player.V.timeEnergy.gte(this.goal())},
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription: "1 Tier 5 Power",
+            tooltip() {return "Effect Formula: ([T5]+1)<sup>10</sup>"},
+            effect() {return player.V.points.max(0).add(1).pow(10)},
+            done() {return player[this.layer].best.gte(1)},
+            effectDescription() {return "Automate Tier 3 gain, Multiply Tier 1 gain based on Tier 5 Power, Currently: "+format(milestoneEffect('V', 0))+"x"},
+            },
+        1: {
+                requirementDescription: "2 Tier 5 Power",
+                tooltip() {return "Effect Formula: ([T5]+1)<sup>5</sup>"},
+                effect() {return player.V.points.max(0).add(1).pow(5)},
+                done() {return player[this.layer].best.gte(2)},
+                effectDescription() {return "Automate Limit Break, Divide Tier 3 cost based on Tier 5 Power, Currently: /"+format(milestoneEffect('V', 1))},
+            },
+        2: {
+                requirementDescription: "3 Tier 5 Power",
+                effect() {return player.V.points.max(0).pow_base(3)},
+                done() {return player[this.layer].best.gte(3)},
+                effectDescription() {return "Triple Positive and Negative Energy gain per Tier 5 Power, Currently: "+format(milestoneEffect('V', 2))+"x"},
+            },
+        3: {
+                requirementDescription() {return format(1e30)+" Time Energy"},
+                done() {return player[this.layer].timeEnergy.gte(1e30)},
+                effectDescription() {return "Unlock your \"first\" tier 5 challenge. (Square its goal every 10 completions)"},
+            },
+        4: {
+                requirementDescription: "4 Tier 5 Power",
+                effect() {return player.V.points.max(0).pow_base(10)},
+                done() {return player[this.layer].best.gte(4)},
+                effectDescription() {return "Tier 5 resets nothing, Multiply Tier 4 gain by 10 per Tier 5 Power, Currently: "+format(milestoneEffect('V', 4))+"x"},
+            },
+        5: {
+                requirementDescription: "5 Tier 5 Power",
+                done() {return player[this.layer].best.gte(5)},
+                effectDescription() {return "Unlock your \"second\" tier 5 challenge. (Square its goal every 10 completions)"},
+            },
+        6: {
+                requirementDescription() {return format(1e32)+" Tier 4 Power"},
+                effect() {return player.V.points.max(0).pow_base(2)},
+                done() {return player.IV.points.gte(1e32)},
+                effectDescription() {return "Unlock your \"third\" tier 5 challenge. (Square its goal every 10 completions)"},
+            },
+        7: {
+                requirementDescription: "6 Tier 5 Power",
+                done() {return player[this.layer].best.gte(6)},
+                effectDescription() {return "Unlock your \"fourth\" tier 5 challenge. (Raise its goal to the 1.5th power every 10 completions)"},
+            },
+        8: {
+                requirementDescription: "7 Tier 5 Power",
+                done() {return player[this.layer].best.gte(7)},
+                effectDescription() {return "Raise Tier 5 Challenge Completions' effect to the Tier 5 Power"},
+            },
+    },
+    layerShown(){return player.universe.eq(1)&&player.I.version.gte(4)},
+    update(diff) {
+        if (inChallenge('V', 11)) player.V.timeEnergy = player.V.timeEnergy.add(tmp.V.TimeChamber.times(diff))
     }
 })
 addLayer("pla", {
@@ -4052,7 +4662,7 @@ addLayer("gar", {
         return D(1)
     },
     row: 1, // Row the layer is in on the tree (0 is the first row)
-    onPrestige() {player.planpts = D(0)},
+    onPrestige() {if (!hasMilestone('zon', 5)) player.planpts = D(0)},
     resetsNothing() {return hasMilestone('zon', 5)},
     tabFormat: {
         "Main": {
@@ -4850,6 +5460,7 @@ addLayer("recur", {
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
+        if (hasUpgrade('inc', 21)) mult = mult.times(upgradeEffect('inc', 21))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -5041,12 +5652,1382 @@ addLayer("recur", {
         0: {
             requirementDescription: "50 Recursivity",
             effect() {return tmp.shift.SMAmount.add(1)},
-            done() {return player[this.layer].best.gte(50)},
+            done() {return player[this.layer].points.gte(50)},
             effectDescription() {return "Multiply Addition and Multiplication gain by [Shift Multipliers Amount]+1, Currently: "+format(this.effect())+"x"},
             },
     },
     layerShown(){return player.meta.version.gte(2)&&(player.universe.eq(3))},
     update(diff) {
         if (hasUpgrade('recur', 11)) player.recur.pres = player.recur.pres.add(tmp.recur.PressGain.times(diff))
+    }
+})
+addLayer("inc", {
+    name: "Incremental God", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "I", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: D(0),
+        best: D(0),
+        version: D(0),
+        // Trees
+        leaves: D(0),
+        trees: D(0),
+        // Computer
+        crypto: D(0),
+        byte: D(0),
+        cd1: D(0),
+        cd2: D(0),
+        cd3: D(0),
+        cd4: D(0),
+        // Coding
+        ce: D(0),
+        loc: D(0),
+        mods: D(0),
+        // Realm Mods
+        balv: D(0),
+        crlv: D(0),
+        delv: D(0),
+        dilv: D(0),
+        hilv: D(0),
+        volv: D(0),
+        bad: D(0), // Deposit
+        crd: D(0),
+        ded: D(0),
+        did: D(0),
+        hid: D(0),
+        vod: D(0),
+        bap: D(0), // Power
+        crp: D(0),
+        dep: D(0),
+        dip: D(0),
+        hip: D(0),
+        vop: D(0),
+        rpage: D(0),
+    }},
+    nodeStyle: {
+        background: "linear-gradient(90deg, #ff0000, #ff7700, #ffff00, #77ff00, #00ff00, #00ff77, #00ffff, #0077ff, #0000ff, #7700ff, #ff00ff, #ff0077)",
+        "background-origin": "border-box",
+    },
+    color: "#FFFFFF",
+    exponent: D(1),
+    requires: D(1), // Can be a function that takes requirement increases into account
+    resource: "incremental points", // Name of prestige currency
+    baseResource: "incremental points", // Name of resource prestige is based on
+    baseAmount() {return player.inc.points}, // Get the current amount of baseResource
+    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: 0, // Row the layer is in on the tree (0 is the first row)
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["row", [["bar", 0]]],
+                    "blank",
+                    ["row", [["upgrade", 11], ["upgrade", 12], ["upgrade", 13], ["upgrade", 14], ["upgrade", 15]]],
+                    ["row", [["upgrade", 21], ["upgrade", 22], ["upgrade", 23], ["upgrade", 24], ["upgrade", 25]]],
+                    "blank",
+                    ["display-text",function() {return "You are gaining "+format(tmp.inc.Leafgain)+" leaves per second.<br>You have "+format(player.inc.trees)+" trees, which are generating "+format(tmp.inc.TreeEffect)+" incremental points per second"}],
+                    ["display-text",function() {if (player.inc.trees.gte(tmp.inc.TSoftcap)) return makeRed("After "+formatWhole(tmp.inc.TSoftcap.add(1))+" Trees, Your leaf gain will be divided by 1.5 per tree starting at "+formatWhole(tmp.inc.TSoftcap.add(1))+", Currently: /"+format(tmp.inc.TreeNerf))}],
+                    ["row", [["buyable", 11], ["buyable", 12]]],
+                    ["row", [["buyable", 21], ["buyable", 22]]],
+            ]
+        },
+        "Computer": {
+            unlocked(){return player.inc.version.gte(1)},
+            content:[
+                ["display-text",function() {return "You have <h3>"+formatWhole(player.inc.crypto)+"</h3> Crypto, translated to a "+format(tmp.inc.CryptoEffect)+"x boost to Leaf and Incremental Point gain"}],
+                    "blank",
+                    ["row", [["clickable", 11]]],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["row", [["upgrade", 31], ["upgrade", 32], ["upgrade", 33], ["upgrade", 34], ["upgrade", 35]]],
+                    ["row", [["upgrade", 41], ["upgrade", 42], ["upgrade", 43], ["upgrade", 44], ["upgrade", 45]]],
+                    ["row", [["upgrade", 51], ["upgrade", 52], ["upgrade", 53], ["upgrade", 54], ["upgrade", 55]]],
+                    "blank",
+                    "blank",
+                    ["display-text",function() {if (hasUpgrade('inc', 51)) return "You have "+format(player.inc.byte)+" bytes or "+formatByte(player.inc.byte)+", Translated to a "+format(tmp.inc.ByteEffect)+"x boost to incremental point and leaf gain."}],
+                    "blank",
+                    ["row", [["buyable", 31], ["buyable", 32], ["buyable", 33], ["buyable", 34]]],
+                    ["row", [["buyable", 41], ["buyable", 42], ["buyable", 43]]],
+                    
+            ]
+        },
+        "Coding": {
+            unlocked(){return player.inc.version.gte(2)},
+            content:[
+                ["display-text",function() {return "You have <h3>"+formatWhole(player.inc.ce)+"</h3> Code Experience, translated to a "+format(tmp.inc.CodeEffect)+"x boost to Leaf and Incremental Point gain"}],
+                    "blank",
+                    ["row", [["clickable", 12]]],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["row", [["bar", 1]]],
+                    "blank",
+                    ["row", [["upgrade", 61], ["upgrade", 62], ["upgrade", 63], ["upgrade", 64], ["upgrade", 65]]],
+                    ["row", [["upgrade", 71], ["upgrade", 72], ["upgrade", 73], ["upgrade", 74], ["upgrade", 75]]],
+                    ["row", [["upgrade", 81], ["upgrade", 82], ["upgrade", 83], ["upgrade", 84], ["upgrade", 85]]],
+                    "blank",
+                    ["display-text",function() {return "You are gaining "+format(tmp.inc.LoCgain)+" lines of code per second (based on code experience).<br>You have "+format(player.inc.mods)+" mods, translated to a "+format(tmp.inc.ModEffect)+"x boost to \"All Previous Main Point\", Incremental Point, Leaf gain"}],
+                    "blank",
+                    "blank",
+                    ["row", [["clickable", 13], ["bar", 2]]],
+                    ["row", [["clickable", 14], ["bar", 3]]],
+                    ["row", [["clickable", 15], ["bar", 4]]],
+                    ["row", [["clickable", 16], ["bar", 5]]],
+                    ["row", [["clickable", 17], ["bar", 6]]],
+                    ["row", [["clickable", 18], ["bar", 7]]],
+                    "blank",
+                    ["display-text",function() {if (hasUpgrade('inc', 65)) return tmp.inc.RealmList[player.inc.rpage]}],
+                    "blank",
+                    ["row", [["buyable", 51], ["buyable", 52], ["buyable", 53]]],
+                    ["row", [["clickable", 21], ["clickable", 22]]],
+            ]
+        },
+        "Milestones": {
+            unlocked(){return player.inc.version.gte(1)},
+            content:[
+                    "milestones"
+                    
+            ]
+        },
+    },
+    RealmBoost() {
+        return {
+            cr: player.inc.crlv.pow(0.75).pow_base(7),
+            hi: player.inc.hilv.pow(0.75).pow_base(3),
+            de: player.inc.delv.max(0).pow(0.5).div(2).add(1),
+            di: player.inc.dilv.max(0).pow(2).div(5).add(1),
+            ba: player.inc.balv.pow(0.75).pow_base(5),
+            vo: player.inc.volv.pow_base(1.1).times(player.inc.volv.max(0).add(1).pow(0.5)),
+        }
+    },
+    RealmList() {
+        return ["Translated to a "+format(tmp.inc.RealmBoost.cr)+"x Boost to Incremental point and Leaf gain" 
+        , "Translated to a "+format(tmp.inc.RealmBoost.hi)+"x Boost to Lines of Code gain"
+        , "Translated to a "+format(tmp.inc.RealmBoost.de)+"x Boost to The start of Tree's Nerf"
+        , "Translated to a "+format(tmp.inc.RealmBoost.di)+"x Boost to Crypto Dimensions' Multipliers"
+        , "Translated to a "+format(tmp.inc.RealmBoost.ba)+"x Boost to Crypto gain"
+        , "Translated to a "+format(tmp.inc.RealmBoost.vo)+"x Boost to Code Experience gain"
+    ]
+    },
+    LoCgain() {
+        let mult = player.inc.ce.max(0).pow(0.5)
+        if (hasUpgrade('inc', 61)) mult = mult.times(upgradeEffect('inc', 61))
+        if (hasUpgrade('inc', 65)) mult = mult.times(upgradeEffect('inc', 65))
+        if (hasUpgrade('inc', 71)) mult = mult.times(upgradeEffect('inc', 71))
+        if (hasUpgrade('inc', 75)) mult = mult.times(upgradeEffect('inc', 75))
+        mult = mult.times(tmp.inc.RealmBoost.hi)
+        mult = mult.times(buyableEffect('inc', 51))
+        return mult
+    },
+    effect() {
+        return player.inc.points.max(0).add(1).log10().pow(0.4).pow_base(10)
+    },
+    effectDescription() {
+        return ", translated to a " + format(tmp.inc.effect) + "x boost to point gain."
+    },
+    TSoftcap() {
+        let base = D(20)
+        if (hasUpgrade('inc', 24)) base = base.add(upgradeEffect('inc', 24))
+        if (hasUpgrade('inc', 25)) base = base.times(upgradeEffect('inc', 25))
+        base = base.times(tmp.inc.RealmBoost.de)
+        return base.floor().sub(1)
+    },
+    TreeNerf() {
+        return D(1.5).pow(player.inc.trees.sub(tmp.inc.TSoftcap).max(0))
+    },
+    Scaling() {
+        let scalespeed = buyableEffect('inc', 21)
+        if (hasUpgrade('inc', 35)) scalespeed = scalespeed.times(upgradeEffect('inc', 35))
+        if (hasUpgrade('inc', 45)) scalespeed = scalespeed.times(upgradeEffect('inc', 45))
+        if (hasUpgrade('inc', 55)) scalespeed = scalespeed.times(upgradeEffect('inc', 55))
+        scalespeed = scalespeed.times(buyableEffect('inc', 41).s)
+        return scalespeed
+    },
+    TreeDiv() {
+        let base = buyableEffect('inc', 22)
+        if (hasUpgrade('inc', 55)) base = base.times(upgradeEffect('inc', 55))
+        return base
+    },
+    TreeReq() {
+        return player.inc.trees.max(0).times(tmp.inc.Scaling).pow(2).pow_base(1.05).times(4).div(tmp.inc.TreeDiv)
+    },
+    ModReq() {
+        let base = player.inc.mods.max(0).times(1).pow(2.5).pow_base(1.1).times(10).div(1)
+        if (hasUpgrade('inc', 72)) base = base.div(upgradeEffect('inc', 72))
+        return base
+    },
+    TreeEffect() {
+        let free = D(0)
+        let base = D(0.1)
+        let pow = D(1)
+        base = base.add(buyableEffect('inc', 12))
+        if (hasUpgrade('inc', 34)) base = base.add(upgradeEffect('inc', 34))
+        if (hasUpgrade('inc', 44)) base = base.add(upgradeEffect('inc', 44))
+        if (hasUpgrade('mul', 23)) base = base.times(upgradeEffect('mul', 23))
+        if (hasUpgrade('inc', 13)) base = base.times(upgradeEffect('inc', 13))
+        if (hasUpgrade('inc', 21)) base = base.times(upgradeEffect('inc', 21))
+        if (hasUpgrade('inc', 31)) base = base.times(upgradeEffect('inc', 31))
+        if (hasUpgrade('inc', 41)) base = base.times(upgradeEffect('inc', 41))
+        base = base.times(tmp.inc.CryptoEffect)
+        base = base.times(tmp.inc.ByteEffect)
+        base = base.times(tmp.inc.CodeEffect)
+        base = base.times(tmp.inc.ModEffect)
+        base = base.times(tmp.inc.RealmBoost.cr)
+        if (player.V.boost.eq(7)) base = base.times(tmp.V.timeEffect.inc)
+        if (hasUpgrade('inc', 33)) pow = pow.times(upgradeEffect('inc', 33))
+        if (hasUpgrade('inc', 43)) free = free.add(upgradeEffect('inc', 43))
+        return player.inc.trees.add(free).pow(pow).times(base)
+    },
+    ByteEffect() {
+        return player.inc.byte.max(0).add(1).pow(0.4)
+    },
+    CodeEffect() {
+        return player.inc.ce.max(0).add(1).pow(0.5).times(player.inc.ce.max(10).log10())
+    },
+    ModEffect() {
+        return player.inc.mods.max(0).pow_base(2.5).times(player.inc.mods.max(0).add(1).pow(2))
+    },
+    Leafgain() {
+        let base = D(0)
+        if (hasUpgrade('inc', 11)) base = upgradeEffect('inc', 11)
+        if (hasUpgrade('inc', 12)) base = base.times(upgradeEffect('inc', 12))
+        if (hasUpgrade('inc', 15)) base = base.times(upgradeEffect('inc', 15))
+        if (hasUpgrade('inc', 22)) base = base.times(upgradeEffect('inc', 22))
+        if (hasUpgrade('inc', 23)) base = base.times(player.inc.trees.max(0).add(1))
+        if (hasUpgrade('inc', 32)) base = base.times(upgradeEffect('inc', 32))
+        if (hasUpgrade('inc', 42)) base = base.times(upgradeEffect('inc', 42))
+        if (hasUpgrade('inc', 53)) base = base.times(upgradeEffect('inc', 53))
+        if (hasUpgrade('inc', 54)) base = base.times(upgradeEffect('inc', 54))
+        base = base.times(buyableEffect('inc', 11))
+        base = base.times(tmp.inc.CryptoEffect)
+        base = base.times(tmp.inc.ByteEffect)
+        base = base.times(tmp.inc.ModEffect)
+        base = base.times(tmp.inc.CodeEffect)
+        base = base.times(buyableEffect('inc', 41).m)
+        base = base.times(tmp.inc.RealmBoost.cr)
+        return base.div(tmp.inc.TreeNerf)
+    },
+    CryptoMult() {
+        let mult = buyableEffect('inc', 42)
+        if (hasUpgrade('inc', 23)) mult = mult.times(upgradeEffect('inc', 23))
+        if (hasUpgrade('inc', 51)) mult = mult.times(upgradeEffect('inc', 51))
+        if (hasUpgrade('inc', 52)) mult = mult.times(upgradeEffect('inc', 52))
+        if (hasUpgrade('inc', 54)) mult = mult.times(upgradeEffect('inc', 54))
+        if (hasUpgrade('inc', 61)) mult = mult.times(upgradeEffect('inc', 61))
+        mult = mult.times(tmp.inc.RealmBoost.ba)
+        return mult
+    },
+    CodeMult() {
+        let mult = D(1)
+        mult = mult.times(tmp.inc.RealmBoost.vo)
+        if (hasUpgrade('inc', 71)) mult = mult.times(upgradeEffect('inc', 71))
+        if (hasUpgrade('inc', 73)) mult = mult.times(upgradeEffect('inc', 73))
+        if (hasUpgrade('inc', 74)) mult = mult.times(upgradeEffect('inc', 74))
+        mult = mult.times(buyableEffect('inc', 52))
+        return mult
+    },
+    CryptoGain() {
+        if (player.inc.points.lt(2e6)) return D(0)
+        return player.inc.points.max(1).div(200000).log10().max(0).pow(2).times(tmp.inc.CryptoMult).floor()
+    },
+    CodeGain() {
+        if (player.inc.crypto.lt(1e8)) return D(0)
+        return player.inc.crypto.max(1).div(5e7).log2().max(0).pow(2).times(tmp.inc.CodeMult).floor()
+    },
+    CryptoEffect() {
+        return player.inc.crypto.max(0).add(1).log10().pow(0.4).pow_base(10)
+    },
+    NextCrypto() {
+        return tmp.inc.CryptoGain.max(0).add(1).div(tmp.inc.CryptoMult).max(1).pow(0.5).pow_base(10).times(2e5)
+    },
+    NextCode() {
+        return tmp.inc.CodeGain.max(0).add(1).div(tmp.inc.CodeMult).max(1).pow(0.5).pow_base(2).times(5e7)
+    },
+    upgrades: {
+        11: {
+            title() {return "Growing Trees"},
+            description() {
+                return "Start generating 0.5 leaves per second."},
+            effect() {return D(0.5)},
+            cost() {return D(0)},
+            effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))+"/s"},
+        },
+        12: {
+            title() {return "Blooming"},
+            description() {
+                return "Multiply leaf gain based on upgrades."},
+            effect() {return D(player.inc.upgrades.length).pow(2).div(4).add(1)},
+            cost() {return D(3)},
+            unlocked() {return hasUpgrade('inc', 11)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        13: {
+            title() {return "Determined"},
+            description() {
+                return "Multiply incremental point gain based on upgrades."},
+            effect() {return D(player.inc.upgrades.length).pow(3).div(8).add(1)},
+            cost() {return D(40)},
+            unlocked() {return hasUpgrade('inc', 12)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        14: {
+            title() {return "Don't Stop."},
+            description() {
+                return "Multiply addition and multiplication gain by [Tree]+1."},
+            effect() {return player.inc.trees.add(1)},
+            cost() {return D(1200)},
+            unlocked() {return hasUpgrade('inc', 13)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        15: {
+            title() {return "Trees' Powers."},
+            description() {
+                return "Multiply leaf gain based on amount of trees you've unlocked."},
+            effect() {return player.a.trees.max(0).add(1).pow(2)},
+            cost() {return D(13)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 14)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        21: {
+            title() {return "Pointy Leaves"},
+            description() {
+                return "Multiply recursivity and Incremental point gain based on leaves."},
+            effect() {return player.inc.leaves.max(0).add(10).log10()},
+            cost() {return D(16)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 15)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        22: {
+            title() {return "Incremental Boost"},
+            description() {
+                return "Multiply leaf gain based on incremental points."},
+            effect() {return player.inc.points.max(0).add(1).log10().pow_base(1.4)},
+            cost() {return D(19)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 21)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        23: {
+            title() {return "Tree Boost"},
+            description() {
+                return "Multiply Leaf gain by [Trees]+1, Multiply Crypto gain by 1.05 per Trees starting at 20."},
+            effect() {return softcap(player.inc.trees.sub(19), D(200)).max(0).pow_base(1.05)},
+            cost() {return D(35)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 22)&&hasUpgrade('inc', 51)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"+(player.inc.trees.gte(220) ? " (softcapped)" : "")},
+        },
+        24: {
+            title() {return "Softercap"},
+            description() {
+                return "Tree's Nerf starts later based on upgrades."},
+            effect() {return D(player.inc.upgrades.length).div(2).floor()},
+            cost() {return D(50)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 23)&&hasUpgrade('inc', 51)},
+            effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))},
+        },
+        25: {
+            title() {return "Gentle cap"},
+            description() {
+                return "Tree's Nerf starts 2.5x later [The Start of the softcap will be floored]."},
+            effect() {return D(2.5)},
+            cost() {return D(59)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Trees",
+            currencyInternalName: "trees",
+            unlocked() {return hasUpgrade('inc', 24)&&hasUpgrade('inc', 51)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        31: {
+            title() {return "Point Booster I"},
+            tooltip() {return "Point, Challenge Power, Plant Point, Meta Point"},
+            description() {
+                return "Triple All Previous \"Main Point\" and Incremental Point gain."},
+            effect() {return D(3)},
+            cost() {return D(1)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        32: {
+            title() {return "Leaf Booster I"},
+            description() {
+                return "Triple Leaf gain."},
+            effect() {return D(3)},
+            cost() {return D(1)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        33: {
+            title() {return "Tree Effective Booster I"},
+            description() {
+                return "Square Effective Tree Amount."},
+            effect() {return D(2)},
+            cost() {return D(1)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "^"+format(upgradeEffect(this.layer, this.id))},
+        },
+        34: {
+            title() {return "Tree Base Booster I"},
+            description() {
+                return "Increase Tree base by 0.4."},
+            effect() {return D(0.4)},
+            cost() {return D(1)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))},
+        },
+        35: {
+            title() {return "Speed Booster I"},
+            description() {
+                return "Reduce the scaling of the Tree's requirement by 10%."},
+            effect() {return D(0.9)},
+            cost() {return D(1)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "/"+format(D(1).div(upgradeEffect(this.layer, this.id)))},
+        },
+        41: {
+            title() {return "Point Booster II"},
+            description() {
+                return "Multiply Incremental Point gain based on crypto."},
+            effect() {return player.inc.crypto.max(1).log10().add(2)},
+            cost() {return D(10)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        42: {
+            title() {return "Leaf Booster II"},
+            description() {
+                return "Multiply Leaf gain based on crypto."},
+            effect() {return player.inc.crypto.max(1).log10().add(3)},
+            cost() {return D(10)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        43: {
+            title() {return "Tree Effective Booster II"},
+            description() {
+                return "Gain free effective trees based on crypto."},
+            effect() {return player.inc.crypto.max(1).log2().add(1).floor()},
+            cost() {return D(10)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))},
+        },
+        44: {
+            title() {return "Tree Effect Booster II"},
+            description() {
+                return "Increase Tree base based on crypto."},
+            effect() {return player.inc.crypto.max(1).log2().div(7)},
+            cost() {return D(10)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "+"+format(upgradeEffect(this.layer, this.id))},
+        },
+        45: {
+            title() {return "Speed Booster II"},
+            description() {
+                return "Decrease Tree Scaling based on crypto, hardcaps at /1.25."},
+            effect() {return D(0.96).pow(player.inc.crypto.max(1).log10()).max(0.8)},
+            cost() {return D(10)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "/"+format(D(1).div(upgradeEffect(this.layer, this.id)))},
+        },
+        51: {
+            title() {return "Another Dimension"},
+            description() {
+                return "Double Crypto Gain, Unlock crypto dimensions."},
+            effect() {return D(2)},
+            cost() {return D(40)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        52: {
+            title() {return "Tree Quality"},
+            description() {
+                return "You can bulk beating trees, Triple Crypto Gain."},
+            effect() {return D(3)},
+            cost() {return D(250)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        53: {
+            title() {return "Tree Automating"},
+            description() {
+                return "Automate Tree Buyables, Quadruple Leaf Gain, Unlock Byte Buyable."},
+            effect() {return D(4)},
+            cost() {return D(5000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        54: {
+            title() {return "A Good Byte"},
+            description() {
+                return "Multiply Leaf and Crypto gain based on Bytes."},
+            effect() {return player.inc.byte.max(1).log10().pow_base(1.4)},
+            cost() {return D(20000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        55: {
+            title() {return "Slower.."},
+            description() {
+                return "Divide Trees' cost by [Tree]+1, Decrease Tree's Scaling by 15%."},
+            effect() {return D(0.85)},
+            cost() {return D(100000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Crypto",
+            currencyInternalName: "crypto",
+            effectDisplay() {return "/"+format(D(1).div(upgradeEffect(this.layer, this.id)))},
+        },
+        61: {
+            title() {return "Make Your Mods NFTS!"},
+            description() {
+                return "Multiply Line of Code and Crypto gain by [Mods]+2."},
+            effect() {return player.inc.mods.max(0).add(2)},
+            cost() {return D(2)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        62: {
+            title() {return "Modified Dimensions"},
+            description() {
+                return "Multiply Crypto Dimensions' Multiplier based on Mods."},
+            effect() {return player.inc.mods.max(0).div(5).add(1)},
+            cost() {return D(8)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        63: {
+            title() {return "Mod Time."},
+            description() {
+                return "Gain 10% of Crypto gain per second, Multiply Time Energy gain by 5 per mod."},
+            effect() {return player.inc.mods.max(0).pow_base(5)},
+            cost() {return D(20)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        64: {
+            title() {return "Cryptomator"},
+            description() {
+                return "Automate Crypto Buyables, Multiply Incremental Point gain based on it."},
+            effect() {return player.inc.points.max(0).add(1).log2().pow(0.6).pow_base(1.1)},
+            cost() {return D(60)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        65: {
+            title() {return "Welcome to the Realm!"},
+            description() {
+                return "Multiply Lines of Code gain by [Upgrades]+1, Unlock Realm mods."},
+            effect() {return D(1).add(player.inc.upgrades.length)},
+            cost() {return D(200)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        71: {
+            title() {return "Critical Byte"},
+            description() {
+                return "Multiply Code Experience and Lines of Code gain based on Byte."},
+            effect() {return player.inc.byte.max(0).add(2).log2().pow(0.5)},
+            cost() {return D(1000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        72: {
+            title() {return "Slight Optimization"},
+            description() {
+                return "Half Mod Requirement per Mod."},
+            effect() {return player.inc.mods.pow_base(2)},
+            cost() {return D(10000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id))},
+        },
+        73: {
+            title() {return "Time to Buy!"},
+            description() {
+                return "Multiply Code Experience gain by [Mods]+1, Unlock Coding Buyables."},
+            effect() {return player.inc.mods.max(0).add(1)},
+            cost() {return D(40000)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        74: {
+            title() {return "#js-help"},
+            description() {
+                return "Multiply Code Experience gain based on Lines of Code."},
+            effect() {return player.inc.loc.max(0).add(10).log10().add(1).pow(2)},
+            cost() {return D(1e7)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        75: {
+            title() {return "#tmt-help"},
+            description() {
+                return "Multiply Lines of Code gain based on Code Experience."},
+            effect() {return player.inc.ce.max(0).add(2).log2().add(1).pow(2)},
+            cost() {return D(3e8)},
+            currencyLocation() {return player.inc},
+            currencyDisplayName: "Code Experience",
+            currencyInternalName: "ce",
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+    },
+    automate() {
+        if (hasUpgrade('inc', 53)) {
+            buyBuyable('inc', 11)
+            buyBuyable('inc', 12)
+            buyBuyable('inc', 21)
+            buyBuyable('inc', 22)
+        }
+        if (hasUpgrade('inc', 64)) {
+            buyBuyable('inc', 31)
+            buyBuyable('inc', 32)
+            buyBuyable('inc', 33)
+            buyBuyable('inc', 34)
+            buyBuyable('inc', 41)
+            buyBuyable('inc', 42)
+            buyBuyable('inc', 43)
+        }
+    },
+    buyables: {
+        11: {
+            title() {return "Leaves Multiplier"},
+            display() {
+                return "Increase leaves gain by 25% per level, Double this effect every 10 levels<br>Cost: "+format(this.cost())+" Incremental Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return D(0.25).times(x).add(1).times(D(2).pow(x.div(10).floor()))},
+            unlocked() {return hasUpgrade('inc', 12)},
+            tooltip() {return "Cost Formula: 1.25<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(1.25).pow(x.pow(1.25))
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 53)) cost = D(0)
+                player.inc.points = player.inc.points.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.points.gte(this.cost())
+            },
+        },
+        12: {
+            title() {return "Incremental Multiplier"},
+            display() {
+                return "Increase incremental point gain base by 0.1 per level, Double this effect every 5 levels<br>Cost: "+format(this.cost())+" Trees<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: +"+format(this.effect())
+            },
+            effect(x) {return D(0.1).times(x).times(D(2).pow(x.div(5).floor()))},
+            unlocked() {return hasUpgrade('inc', 12)},
+            tooltip() {return "Cost Formula: 1.1<sup>x<sup>1.25</sup></sup>*3"},
+            cost(x) {let base = D(1.1).pow(x.pow(1.25)).times(3).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 53)) cost = D(0)
+                player.inc.trees = player.inc.trees.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.trees.gte(this.cost())
+            },
+        },
+        21: {
+            title() {return "Slow Trees"},
+            display() {
+                return "Reduce the scaling of the Tree's Requirement by 5% per level<br>Cost: "+format(this.cost())+" Incremental Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: /"+format(D(1).div(this.effect()))
+            },
+            effect(x) {return D(0.95).pow(softcap(x, D(20), D(0.5)))},
+            unlocked() {return hasUpgrade('inc', 13)},
+            tooltip() {return "Cost Formula: 3<sup>x<sup>1.5</sup></sup>"},
+            cost(x) {let base = D(3).pow(x.pow(1.5))
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 53)) cost = D(0)
+                player.inc.points = player.inc.points.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.points.gte(this.cost())
+            },
+        },
+        22: {
+            title() {return "Cheap Trees"},
+            display() {
+                return "Divide Tree Requirement by 1.5 per level<sup>2</sup><br>Cost: "+format(this.cost())+" Trees<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: /"+format(this.effect())
+            },
+            effect(x) {return D(1.5).pow(x.pow(2))},
+            unlocked() {return hasUpgrade('inc', 13)},
+            tooltip() {return "Cost Formula: 3<sup>x</sup>*3"},
+            cost(x) {let base = D(3).pow(x.add(1)).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 53)) cost = D(0)
+                player.inc.trees = player.inc.trees.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.trees.gte(this.cost())
+            },
+        },
+        31: {
+            title() {return "1st Crypto Dimension"},
+            display() {
+                return "Generating "+format(this.effect().g)+" bytes per second<br>Cost: "+format(this.cost())+" Crypto<br>Multiplier: "+format(this.effect().m)+"x<br>Amount: "+format(player.inc.cd1)+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))
+            },
+            effect(x) {
+                let gen = player.inc.cd1.max(0).div(2)
+                let mult = D(1.05).pow(x.sub(1).max(0).pow(2)).times(buyableEffect('inc', 43))
+                if (hasUpgrade('inc', 62)) mult = mult.times(upgradeEffect('inc', 62))
+                mult = mult.times(tmp.inc.RealmBoost.di)
+                return {
+                    g: gen.times(mult),
+                    m: mult
+                }
+            },
+            unlocked() {return hasUpgrade('inc', 51)},
+            tooltip() {return "Cost Formula: 10*2<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(2).pow(x.pow(1.25)).times(10).floor()
+                if (x.gte(19)) base = D(2).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(10).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.crypto = player.inc.crypto.sub(this.cost().mul(cost)).max(0)
+                player.inc.cd1 = player.inc.cd1.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.crypto.gte(this.cost())
+            },
+        },
+        32: {
+            title() {return "2nd Crypto Dimension"},
+            display() {
+                return "Generating "+format(this.effect().g)+" 1st crypto dimensions per second<br>Cost: "+format(this.cost())+" Crypto<br>Multiplier: "+format(this.effect().m)+"x<br>Amount: "+format(player.inc.cd2)+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))
+            },
+            effect(x) {
+                let gen = player.inc.cd2.max(0).pow(0.8).div(5)
+                let mult = D(1.05).pow(x.sub(1).max(0).pow(2)).times(buyableEffect('inc', 43))
+                if (hasUpgrade('inc', 62)) mult = mult.times(upgradeEffect('inc', 62))
+                mult = mult.times(tmp.inc.RealmBoost.di)
+                return {
+                    g: gen.times(mult),
+                    m: mult
+                }
+            },
+            unlocked() {return hasUpgrade('inc', 51)},
+            tooltip() {return "Cost Formula: 40*10<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(10).pow(x.pow(1.25)).times(40).floor()
+                if (x.gte(19)) base = D(10).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(40).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.crypto = player.inc.crypto.sub(this.cost().mul(cost)).max(0)
+                player.inc.cd2 = player.inc.cd2.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.crypto.gte(this.cost())
+            },
+        },
+        33: {
+            title() {return "3rd Crypto Dimension"},
+            display() {
+                return "Generating "+format(this.effect().g)+" 2nd crypto dimensions per second<br>Cost: "+format(this.cost())+" Crypto<br>Multiplier: "+format(this.effect().m)+"x<br>Amount: "+format(player.inc.cd3)+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))
+            },
+            effect(x) {
+                let gen = player.inc.cd3.max(0).pow(0.8).div(12.5)
+                let mult = D(1.05).pow(x.sub(1).max(0).pow(2)).times(buyableEffect('inc', 43))
+                if (hasUpgrade('inc', 62)) mult = mult.times(upgradeEffect('inc', 62))
+                mult = mult.times(tmp.inc.RealmBoost.di)
+                return {
+                    g: gen.times(mult),
+                    m: mult
+                }
+            },
+            unlocked() {return hasUpgrade('inc', 51)},
+            tooltip() {return "Cost Formula: 640*50<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(50).pow(x.pow(1.25)).times(640).floor()
+                if (x.gte(19)) base = D(50).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(640).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.crypto = player.inc.crypto.sub(this.cost().mul(cost)).max(0)
+                player.inc.cd3 = player.inc.cd3.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.crypto.gte(this.cost())
+            },
+        },
+        34: {
+            title() {return "4th Crypto Dimension"},
+            display() {
+                return "Generating "+format(this.effect().g)+" 3rd crypto dimensions per second<br>Cost: "+format(this.cost())+" Crypto<br>Multiplier: "+format(this.effect().m)+"x<br>Amount: "+format(player.inc.cd4)+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))
+            },
+            effect(x) {
+                let gen = player.inc.cd4.max(0).pow(0.8).div(31.25)
+                let mult = D(1.05).pow(x.sub(1).max(0).pow(2)).times(buyableEffect('inc', 43))
+                if (hasUpgrade('inc', 62)) mult = mult.times(upgradeEffect('inc', 62))
+                mult = mult.times(tmp.inc.RealmBoost.di)
+                return {
+                    g: gen.times(mult),
+                    m: mult
+                }
+            },
+            unlocked() {return hasUpgrade('inc', 51)},
+            tooltip() {return "Cost Formula: 40,960*250<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(250).pow(x.pow(1.25)).times(40960).floor()
+                if (x.gte(19)) base = D(250).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(40960).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.crypto = player.inc.crypto.sub(this.cost().mul(cost)).max(0)
+                player.inc.cd4 = player.inc.cd4.add(1)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.crypto.gte(this.cost())
+            },
+        },
+        41: {
+            title() {return "Digital Tree"},
+            display() {
+                return "Double all previous \"main point\", incremental point, leaf gain, Tree scales 5% slower per level<br>Cost: "+format(this.cost())+" Byte<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effects: "+format(this.effect().m)+"x, /"+format(D(1).div(this.effect().s))
+            },
+            effect(x) {
+                let mult = x.max(0).pow_base(2)
+                let scale = softcap(x.max(0), D(20), D(0.5)).pow_base(0.95)
+                return {
+                    m: mult,
+                    s: scale
+                }
+            },
+            unlocked() {return hasUpgrade('inc', 53)},
+            tooltip() {return "Cost Formula: 100*5<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(5).pow(x.pow(1.25)).times(100).floor()
+                if (x.gte(19)) base = D(5).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(100).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.byte = player.inc.byte.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.byte.gte(this.cost())
+            },
+        },
+        42: {
+            title() {return "Digital Income"},
+            display() {
+                return "Multiply Crypto gain by 1.25 per level<br>Cost: "+format(this.cost())+" Byte<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {
+                return x.max(0).pow_base(1.25)
+            },
+            unlocked() {return hasUpgrade('inc', 53)},
+            tooltip() {return "Cost Formula: 500*4<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(4).pow(x.pow(1.25)).times(500).floor()
+                if (x.gte(19)) base = D(4).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(500).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.byte = player.inc.byte.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.byte.gte(this.cost())
+            },
+        },
+        43: {
+            title() {return "Digital Dimensions"},
+            display() {
+                return "Multiply Crypto dimensions' multiplier by 1.2 per level<br>Cost: "+format(this.cost())+" Byte<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {
+                return x.max(0).pow_base(1.2)
+            },
+            unlocked() {return hasUpgrade('inc', 53)},
+            tooltip() {return "Cost Formula: 10,000*5<sup>x<sup>1.25</sup></sup>"},
+            cost(x) {let base = D(5).pow(x.pow(1.25)).times(1e4).floor()
+                if (x.gte(19)) base = D(5).pow(D(19).add(x.sub(19).times(x.sub(18)).div(2)).pow(1.25)).times(1e4).floor()
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                if (hasUpgrade('inc', 64)) cost = D(0)
+                player.inc.byte = player.inc.byte.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.byte.gte(this.cost())
+            },
+        },
+        51: {
+            title() {return "Extra Coder"},
+            display() {
+                return "Double Lines of code gain per level<br>Cost: "+format(this.cost())+" Code Experience<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return x.pow_base(2)},
+            unlocked() {return hasUpgrade('inc', 73)},
+            tooltip() {return "Cost Formula: 10<sup>x</sup>"},
+            cost(x) {let base = D(10).pow(x)
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                player.inc.ce = player.inc.ce.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.ce.gte(this.cost())
+            },
+        },
+        52: {
+            title() {return "Coding Lessons"},
+            display() {
+                return "Double Code Experience gain per level<br>Cost: "+format(this.cost())+" Mods<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return x.pow_base(2)},
+            unlocked() {return hasUpgrade('inc', 73)},
+            tooltip() {return "Cost Formula: x<sup>2</sup>+1"},
+            cost(x) {let base = x.pow(2).add(1)
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                player.inc.mods = player.inc.mods.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.mods.gte(this.cost())
+            },
+        },
+        53: {
+            title() {return "Hyper Realms"},
+            display() {
+                return "Double All Realm power gain per level<br>Cost: "+format(this.cost())+" Code Experience<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return x.pow_base(2)},
+            unlocked() {return hasUpgrade('inc', 73)},
+            tooltip() {return "Cost Formula: 10<sup>x</sup>"},
+            cost(x) {let base = D(25).pow(x)
+                return base
+            },
+            buy() {
+                let cost = D(1)
+                player.inc.ce = player.inc.ce.sub(this.cost().mul(cost)).max(0)
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.inc.ce.gte(this.cost())
+            },
+        },
+    },
+    clickables: {
+        11: {
+            title() {return "<h2>Reset for "+formatWhole(tmp.inc.CryptoGain)+" Crypto</h2>"+ ((tmp.inc.CryptoGain.lte(10000)) ? "<br>Next at "+formatWhole(tmp.inc.NextCrypto)+" Incremental Points" : "")},
+            canClick() {return player.inc.points.gte(4e5)&&tmp.inc.CryptoGain.gte(1)},
+            onClick() {
+                player.points = D(0)
+                player.inc.crypto = player.inc.crypto.add(tmp.inc.CryptoGain)
+                player.inc.trees = D(0)
+                player.inc.points = D(0)
+                player.inc.leaves = D(0)
+                setBuyableAmount(this.layer, 11, D(0))
+                setBuyableAmount(this.layer, 12, D(0))
+                setBuyableAmount(this.layer, 21, D(0))
+                setBuyableAmount(this.layer, 22, D(0))
+                if (!hasMilestone('inc', 0)){for (let i = 0; i < player.inc.upgrades.length; i++) {
+                    if (player.inc.upgrades[i]<26) {
+                        player.inc.upgrades.splice(i, 1);
+                        i--;
+                    }
+                }}
+            },
+            style: { width: '400px', "min-height": '100px', "background-color": "blue" }
+        },
+        12: {
+            title() {return "<h2>Reset for "+formatWhole(tmp.inc.CodeGain)+" Code Experience</h2>"+ ((tmp.inc.CodeGain.lte(10000)) ? "<br>Next at "+formatWhole(tmp.inc.NextCode)+" Crypto" : "")},
+            canClick() {return player.inc.crypto.gte(1e8)&&tmp.inc.CodeGain.gte(1)},
+            onClick() {
+                player.inc.ce = player.inc.ce.add(tmp.inc.CodeGain)
+                player.points = D(0)
+                player.inc.crypto = D(0)
+                player.inc.byte = D(0)
+                player.inc.cd1 = D(0)
+                player.inc.cd2 = D(0)
+                player.inc.cd3 = D(0)
+                player.inc.cd4 = D(0)
+                player.inc.trees = D(0)
+                player.inc.points = D(0)
+                player.inc.leaves = D(0)
+                setBuyableAmount(this.layer, 11, D(0))
+                setBuyableAmount(this.layer, 12, D(0))
+                setBuyableAmount(this.layer, 21, D(0))
+                setBuyableAmount(this.layer, 22, D(0))
+                setBuyableAmount(this.layer, 31, D(0))
+                setBuyableAmount(this.layer, 32, D(0))
+                setBuyableAmount(this.layer, 33, D(0))
+                setBuyableAmount(this.layer, 34, D(0))
+                setBuyableAmount(this.layer, 41, D(0))
+                setBuyableAmount(this.layer, 42, D(0))
+                setBuyableAmount(this.layer, 43, D(0))
+                for (let i = 0; i < player.inc.upgrades.length; i++) {
+                    if (player.inc.upgrades[i]<56) {
+                        player.inc.upgrades.splice(i, 1);
+                        i--;
+                    }
+                }
+                if (hasMilestone('inc', 0)) {
+                    player.inc.upgrades.push(11, 12, 13, 14, 15, 21, 22, 23, 24, 25)
+                }
+            },
+            style: { width: '400px', "min-height": '100px', "background-color": "purple" }
+        },
+        13: {
+            title() {return "<img src='resources/symbolcreator.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.crd)+" mods to the creator realm<br>Creator Realm Lv. "+formatWhole(player.inc.crlv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(0)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.crd = player.inc.crd.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        14: {
+            title() {return "<img src='resources/symbolhigh.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.hid)+" mods to the higher plane<br>Higher Plane Lv. "+formatWhole(player.inc.hilv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(1)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.hid = player.inc.hid.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        15: {
+            title() {return "<img src='resources/symboldeath.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.ded)+" mods to the death realm<br>Death Realm Lv. "+formatWhole(player.inc.delv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(2)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.ded = player.inc.ded.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        16: {
+            title() {return "<img src='resources/symboldimension.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.did)+" mods to the dimensional realm<br>Dimensional Realm Lv. "+formatWhole(player.inc.dilv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(3)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.did = player.inc.did.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        17: {
+            title() {return "<img src='resources/symbolbackrooms.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.bad)+" mods to the backrooms<br>Backrooms Lv. "+formatWhole(player.inc.balv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(4)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.bad = player.inc.bad.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        18: {
+            title() {return "<img src='resources/symbolvoid.png' style='width:calc(80%);height:calc(80%);margin:10%'></img>"},
+            tooltip() {return "You have deposited "+formatWhole(player.inc.vod)+" mods to the void<br>Void Lv. "+formatWhole(player.inc.volv)},
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(5)},
+            canClick() {return player.inc.mods.gte(1)},
+            onClick() {
+                player.inc.vod = player.inc.vod.add(player.inc.mods)
+                player.inc.mods = D(0)
+            },
+        },
+        21: {
+            title() {return "<"},
+            unlocked() {return hasUpgrade('inc', 65)},
+            canClick() {return player.inc.rpage.gt(0)},
+            onClick() {
+                player.inc.rpage = player.inc.rpage.sub(1)
+            },
+        },
+        22: {
+            title() {return ">"},
+            unlocked() {return hasUpgrade('inc', 65)},
+            canClick() {return player.inc.rpage.lt(5)},
+            onClick() {
+                player.inc.rpage = player.inc.rpage.add(1)
+            },
+        },
+    },
+    CrRealmReq() {
+        return D(5).pow(player.inc.crlv.pow(1.25))
+    },
+    HiRealmReq() {
+        return D(5).pow(player.inc.hilv.pow(1.25))
+    },
+    DeRealmReq() {
+        return D(5).pow(player.inc.delv.pow(1.25))
+    },
+    DiRealmReq() {
+        return D(5).pow(player.inc.dilv.pow(1.25))
+    },
+    BaRealmReq() {
+        return D(5).pow(player.inc.balv.pow(1.25))
+    },
+    VoRealmReq() {
+        return D(5).pow(player.inc.volv.pow(1.25))
+    },
+    bars: {
+        0: {
+            direction: RIGHT,
+            width: 250,
+            height: 50,
+            progress() {return player.inc.leaves.div(tmp.inc.TreeReq)},
+            display() {return format(player.inc.leaves)+" / "+format(tmp.inc.TreeReq)+"<br>leaves to beat a tree"},
+            instant: false,
+            unlocked() {return true},
+            fillStyle: {'background-color' : "green"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        1: {
+            direction: RIGHT,
+            width: 250,
+            height: 50,
+            progress() {return player.inc.loc.div(tmp.inc.ModReq)},
+            display() {return format(player.inc.loc)+" / "+format(tmp.inc.ModReq)+"<br>lines of code to make a mod"},
+            instant: false,
+            unlocked() {return true},
+            fillStyle: {'background-color' : "purple"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        2: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.crp.div(tmp.inc.CrRealmReq)},
+            display() {return format(player.inc.crp)+" / "+format(tmp.inc.CrRealmReq)+"<br>creation power to make a creation mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(0)},
+            fillStyle: {'background-color' : "red"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        3: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.hip.div(tmp.inc.HiRealmReq)},
+            display() {return format(player.inc.hip)+" / "+format(tmp.inc.HiRealmReq)+"<br>divine power to make a divine mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(1)},
+            fillStyle: {'background-color' : "orange"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        4: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.dep.div(tmp.inc.DeRealmReq)},
+            display() {return format(player.inc.dep)+" / "+format(tmp.inc.DeRealmReq)+"<br>fatal power to make a fatal mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(2)},
+            fillStyle: {'background-color' : "yellow"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        5: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.dip.div(tmp.inc.DiRealmReq)},
+            display() {return format(player.inc.dip)+" / "+format(tmp.inc.DiRealmReq)+"<br>dimensional power to make a dimensional mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(3)},
+            fillStyle: {'background-color' : "green"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        6: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.bap.div(tmp.inc.BaRealmReq)},
+            display() {return format(player.inc.bap)+" / "+format(tmp.inc.BaRealmReq)+"<br>liminal power to make a liminal mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(4)},
+            fillStyle: {'background-color' : "blue"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+        7: {
+            direction: RIGHT,
+            width: 250,
+            height: 117,
+            progress() {return player.inc.vop.div(tmp.inc.VoRealmReq)},
+            display() {return format(player.inc.vop)+" / "+format(tmp.inc.VoRealmReq)+"<br>shadow power to make a shadow mod"},
+            instant: false,
+            unlocked() {return hasUpgrade('inc', 65)&&player.inc.rpage.eq(5)},
+            fillStyle: {'background-color' : "purple"},
+            baseStyle: {'background-color' : "#000000"},
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription() {return "Incremental God Tree v0.2"},
+            done() {return player[this.layer].version.gte(2)},
+            effect() {
+                return player[this.layer].best.pow_base(2)},
+            effectDescription() {return "Keep all trees upgrades on all reset, Double Crypto gain per update."},
+        },
+    },
+    doReset(l) {
+        if (!(layers[l].row > this.row)) return
+        
+        let keep = ['milestones']
+        if (player.universe.eq(4)){layerDataReset(this.layer, keep)}
+    },
+    versionList() {
+        return ['v0.0', 'v0.1', 'v0.2', 'v0.3']
+    },
+    layerShown(){return (player.universe.eq(4))},
+    update(diff) {
+        addPoints('inc', tmp.inc.TreeEffect.times(diff))
+        player.inc.leaves = player.inc.leaves.add(tmp.inc.Leafgain.times(diff)).max(0)
+        if (player.inc.leaves.gte(tmp.inc.TreeReq)) {
+            if (hasUpgrade('inc', 52)) {player.inc.trees = player.inc.leaves.max(0).div(4).times(buyableEffect('inc', 22)).times(tmp.inc.TreeDiv).log(1.05).pow(0.5).max(player.inc.trees.add(1)).floor()}
+            if (!hasUpgrade('inc', 52)) {player.inc.trees = player.inc.trees.add(1).floor()}
+            player.inc.leaves = D(0)
+        }
+        if (player.inc.loc.gte(tmp.inc.ModReq)) {
+            player.inc.mods = player.inc.mods.add(1)
+            player.inc.loc = D(0)
+        }
+        if (hasUpgrade('inc', 63)) {
+            player.inc.crypto = player.inc.crypto.add(tmp.inc.CryptoGain.div(10).times(diff))
+        }
+        player.inc.byte = player.inc.byte.add(buyableEffect('inc', 31).g.times(diff)).max(0)
+        player.inc.cd1 = player.inc.cd1.add(buyableEffect('inc', 32).g.times(diff)).max(0)
+        player.inc.cd2 = player.inc.cd2.add(buyableEffect('inc', 33).g.times(diff)).max(0)
+        player.inc.cd3 = player.inc.cd3.add(buyableEffect('inc', 34).g.times(diff)).max(0)
+        player.inc.loc = player.inc.loc.add(tmp.inc.LoCgain.times(diff))
+        player.inc.crp = player.inc.crp.add(player.inc.crd.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        player.inc.hip = player.inc.hip.add(player.inc.hid.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        player.inc.dep = player.inc.dep.add(player.inc.ded.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        player.inc.dip = player.inc.dip.add(player.inc.did.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        player.inc.bap = player.inc.bap.add(player.inc.bad.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        player.inc.vop = player.inc.vop.add(player.inc.vod.pow(0.5).div(10).times(buyableEffect('inc', 53)).times(diff))
+        if (player.inc.crp.gte(tmp.inc.CrRealmReq)) {
+            player.inc.crlv = player.inc.crlv.add(1)
+            player.inc.crp = D(0)
+        }
+        if (player.inc.hip.gte(tmp.inc.HiRealmReq)) {
+            player.inc.hilv = player.inc.hilv.add(1)
+            player.inc.hip = D(0)
+        }
+        if (player.inc.dep.gte(tmp.inc.DeRealmReq)) {
+            player.inc.delv = player.inc.delv.add(1)
+            player.inc.dep = D(0)
+        }
+        if (player.inc.dip.gte(tmp.inc.DiRealmReq)) {
+            player.inc.dilv = player.inc.dilv.add(1)
+            player.inc.dip = D(0)
+        }
+        if (player.inc.bap.gte(tmp.inc.BaRealmReq)) {
+            player.inc.balv = player.inc.balv.add(1)
+            player.inc.bap = D(0)
+        }
+        if (player.inc.vop.gte(tmp.inc.VoRealmReq)) {
+            player.inc.volv = player.inc.volv.add(1)
+            player.inc.vop = D(0)
+        }
     }
 })
