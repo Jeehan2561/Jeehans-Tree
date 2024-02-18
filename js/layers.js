@@ -545,7 +545,7 @@ addLayer("a", {
         121: {
             name() {return "God of Trees"},
             tooltip() {return "Unlock Incremental God Tree."},
-            done() {return player.a.trees.gte(3)},
+            done() {return player.a.trees.gte(4)},
         },
         122: {
             name() {return "A Lovely Tree"},
