@@ -590,7 +590,7 @@ addLayer("a", {
         135: {
             name() {return "Time is relative"},
             tooltip() {return "Gain a Time Energy."},
-            done() {return player.chalpow.gte(1e100)},
+            done() {return player.V.timeEnergy.gte(1e100)},
         },
         141: {
             name() {return "Inflation?"},
@@ -625,7 +625,7 @@ addLayer("a", {
         152: {
             name() {return "Scaled Time"},
             tooltip() {return "Gain 10 Exponential Points."},
-            done() {return player.expo.points.gte(8)},
+            done() {return player.expo.points.gte(10)},
         },
         153: {
             name() {return "Another Zone?"},
