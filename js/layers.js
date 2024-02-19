@@ -189,7 +189,7 @@ addLayer("a", {
             unlocked() {return player.a.trees.gte(4)},
             title() {return "Update"},
             display() {
-                return "Update Incremental God Tree to "+[tmp.meta.versionList][0][player.meta.version.add(1)]+", Multiply Point gain by 8.5 per level<br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+                return "Update Incremental God Tree to "+[tmp.inc.versionList][0][player.inc.version.add(1)]+", Multiply Point gain by 8.5 per level<br>Cost: "+format(this.cost())+" Points<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
             },
             effect(x) {return D(8.5).pow(x)},
             style() {
