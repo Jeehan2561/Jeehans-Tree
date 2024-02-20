@@ -3386,7 +3386,7 @@ addLayer("V", {
             onEnter() {player.chalpow = D(0)
                 player.V.timeEnergy = D(0)
             },
-            unlocked() {return hasMilestone('V', 5)},
+            unlocked() {return hasMilestone('V', 6)},
             countsAs: [11],
             challengeDescription() {return "Stuck in The Time Chamber, Time Energy gain is nerfed based on Time Energy, Currently: /"+format(tmp.V.Nerfed)+"<br>Completions: "+formatWhole(challengeCompletions('V', 31))},
             goal() {
@@ -3403,7 +3403,7 @@ addLayer("V", {
             onEnter() {player.chalpow = D(0)
                 player.V.timeEnergy = D(0)
             },
-            unlocked() {return hasMilestone('V', 5)},
+            unlocked() {return hasMilestone('V', 7)},
             countsAs: [11],
             challengeDescription() {return "Stuck in The Time Chamber, \"Divide Yet Again\", \"Square root's friend\", \"Get Nerfed\"'s rewards are disabled.<br>Completions: "+formatWhole(challengeCompletions('V', 32))},
             goal() {
