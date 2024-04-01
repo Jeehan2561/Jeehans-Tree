@@ -1,11 +1,11 @@
 let modInfo = {
 	name: "Le Underrated Forest",
 	id: "MCKLUF",
-	author: "MomentCookie (Cookina)",
+	author: "JardOCookie (Jard)",
 	authormore: "Harry, 42UR3, Thenonymous, ThatOneKobold, Icecreamdude",
 	pointsName: "points",
 	modFiles: ["layers.js", "tree.js"],
-	discordName: "MomentCookie's Modded stuffs",
+	discordName: "Jard's Modded stuffs",
 	discordLink: "https://discord.gg/ccbBZHYsTv",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 1,  // In hours
@@ -13,8 +13,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "1.4",
-	name: "Truly Modded",
+	num: "1.4.1",
+	name: "Small April Fool",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -107,7 +107,9 @@ function getPointGen() {
 }
 function RPGD() {
 	let ner = D(1)
-	if (RPG().gte(1e100)) ner = ner.times(D(3).pow((RPG().max(1).log10().sub(100)).max(0)))
+	let basenerf = D(3)
+	if (hasUpgrade('sin', 13)) basenerf = D(2.96)
+	if (RPG().gte(D(1e100).times(tmp.sin.SingPow))) ner = ner.times(basenerf.pow((RPG().max(1).log10().sub(100).sub(tmp.sin.SingPow.log10())).max(0)))
 	return ner
 }
 function RPG() {
@@ -160,6 +162,8 @@ function RPG() {
 	gain = gain.times(tmp.V.effect)
 	if (player.V.boost.eq(1)) gain = gain.times(tmp.V.timeEffect.pot)
 	gain = gain.times(tmp.inc.ModEffect)
+    gain = gain.times(tmp.sin.effect.mp)
+	if (getBuyableAmount('expo', 11).gte(1)) gain = gain.times(buyableEffect('expo', 11).pg)
 	gain = gain.pow(D(1).add(challengeEffect('I', 12)))
 	if (inChallenge('II', 12)) gain = gain.pow(0.5)
 	gain = gain.pow(tmp.expo.effect)
@@ -187,13 +191,15 @@ function getChalPowGen() {
 	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
 	gain = gain.times(buyableEffect('inc', 41).m)
 	if (player.V.boost.eq(2)) gain = gain.times(tmp.V.timeEffect.cp)
-	if (inChallenge('V', 21)) gain = gain.div(challengeCompletions('V', 21).pow_base(10))
 	gain = gain.times(tmp.inc.ModEffect)
+	gain = gain.times(tmp.sin.effect.mp)
+	if (hasMilestone('sin', 1)) gain = gain.times(100)
     if (hasMilestone('expo', 9)) gain = gain.pow(tmp.expo.effect)
 	if (inChallenge('I', 21)&&gain.gte(1)) gain = gain.pow(0.5)
 	if (inChallenge('I', 21)&&gain.lt(1)) gain = gain.pow(2)
 	if (inChallenge('II', 12)) gain = gain.pow(0.5)
 	if (inChallenge('V', 22)) gain = gain.pow(1/3)
+	if (inChallenge('V', 21)) gain = gain.div(challengeCompletions('V', 21).pow_base(10))
 	return gain
 }
 // TPT:O
@@ -239,15 +245,21 @@ function getPlaPtsGen() {
 	gain = gain.times(challengeEffect('zon', 22))
 	gain = gain.times(tmp.zon.effect)
 	gain = gain.times(tmp.wild.effect.po)
+	gain = gain.times(tmp.resear.effect)
 	if (hasMilestone('div', 7)) gain = gain.times(milestoneEffect('div', 7))
 	if (hasMilestone('rat', 10)) gain = gain.times(milestoneEffect('rat', 10))
 	if (hasMilestone('expo', 2)) gain = gain.times(milestoneEffect('expo', 2))
 	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
 	gain = gain.times(buyableEffect('inc', 41).m)
 	gain = gain.times(tmp.inc.ModEffect)
+	gain = gain.times(tmp.sin.effect.mp)
+	if (inChallenge('zon', 31)) gain = gain.div(player.zon.eaters)
+	if (hasMilestone('zon', 6)) gain = gain.times(milestoneEffect('zon', 6))
 	if (hasMilestone('expo', 13)) gain = gain.pow(tmp.expo.effect)
+	if (inChallenge('zon', 31)) gain = gain.pow(0.5)
 	return gain
 }
+// TMUI
 function getMetGain(){
 	let gain = D(0)
 	if (hasUpgrade('meta', 11)) gain = gain.add(upgradeEffect('meta', 11))
@@ -261,8 +273,11 @@ function getMetGain(){
 	if (hasUpgrade('inc', 31)) gain = gain.times(upgradeEffect('inc', 31))
 	gain = gain.times(buyableEffect('inc', 41).m)
 	gain = gain.times(tmp.inc.ModEffect)
+	gain = gain.times(tmp.sin.effect.mp)
+	if (hasMilestone('expo', 14)) gain = gain.pow(tmp.expo.effect)
 	return gain
 }
+// CHECK IGT in layers.js :P
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { return {
 	universe: D(0),
@@ -272,18 +287,19 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-	() => (RPG().gte(1e100)) ? "<br>You're getting softcapped buddy, Divide point gain by "+format(RPGD()) : "",
+	() => (RPG().gte(D(1e100).times(tmp.sin.SingPow))) ? "<br>You're getting softcapped buddy, Divide point gain by "+format(RPGD()) : "",
 	() => player.universe.eq(1) ? "<br>You have " + format(player.chalpow) + " Challenge Power (+"+format(getChalPowGen())+"/s)" : "",
 	() => player.universe.eq(2) ? "<br>You have " + format(player.planpts) + " Plant Points (+"+format(getPlaPtsGen())+"/s)" : "",
 	() => player.universe.eq(3) ? hasUpgrade('meta', 11) ? "<br>You have " + format(player.meta.points) + " Meta Points (+"+format(getMetGain())+"/s)" : "<br>You have " + format(player.meta.points) + " Meta Points" : "",
 	() => "<br>If you found a bug or find yourself stuck Please contact momentcookie on Discord.",
 	() => "<br>You're inside "+tmp.a.LUFAll[player.universe]+" "+[[tmp.add.versionList][0][player.add.version], [tmp.I.versionList][0][player.I.version], [tmp.pla.versionList][0][player.pla.version], [tmp.meta.versionList][0][player.meta.version], [tmp.inc.versionList][0][player.inc.version]][player.universe]+".",
-	() => player.keepGoing ? "<br>"+makeCyan("You're past endgame. The Game may not be balanced after this.") : "<br>Endgame: Reach "+makeCyan(format(D(1024).pow_base(2)))+" Points",
+	() => inChallenge('zon', 31) ? "<br>You have "+format(player.zon.eaters)+" Eaters." : "",
+	() => player.keepGoing ? "<br>"+makeCyan("You're past endgame. The Game may not be balanced after this.") : "<br>Endgame: Reach "+makeCyan(format("1e435"))+" Points",
 ]
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(D(2).pow(1024))
+	return player.points.gte("1e435")
 }
 
 

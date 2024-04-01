@@ -1,7 +1,6 @@
 
 function exponentialFormat(num, precision = options.precisions, mantissa = false) {
     let e = D(num).log10().floor()
-    let le = D(num).log10().toStringWithDecimalPlaces(precision)
     let ee = D(num).log10().div(3).floor().times(3)
     let m = D(num).div(Decimal.pow(10, e))
     let em = D(num).div(Decimal.pow(10, ee))
@@ -12,12 +11,12 @@ function exponentialFormat(num, precision = options.precisions, mantissa = false
     // e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e))
     let SR = m.toStringWithDecimalPlaces(precision) + "e" + formatWhole(e)
     let ER = em.toStringWithDecimalPlaces(precision) + "e" + formatWhole(ee)
-    let LR = "e" + format(le)
-    if (Decimal.gte(e, 1e9)) SR = LR
+    let LR = "e" + format(e)
+    if (Decimal.gte(e, "1e9")) SR = LR
     let TSR = m.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(e)
     let TER = em.toStringWithDecimalPlaces(precision) + "x10^" + formatWhole(ee)
-    let TLR = "10^" + format(le)
-    if (Decimal.gte(e, 1e9)) TSR = TLR
+    let TLR = "10^" + format(e)
+    if (Decimal.gte(e, "1e9")) TSR = TLR
 
     if (options.notation=="Scientific") return SR
     if (options.notation=="Engineering") return ER
@@ -37,7 +36,7 @@ function formatByte(num, precision = 3) {
     if (num.lte(D(1024).pow(6))) return format(num.div(D(1024).pow(5)), precision)+" Petabytes"
     if (num.lte(D(1024).pow(7))) return format(num.div(D(1024).pow(6)), precision)+" Exabytes"
     if (num.lte(D(1024).pow(8))) return format(num.div(D(1024).pow(7)), precision)+" Zettabytes"
-    return format(num.div(D(1024).pow(8)))+" Zettabytes"
+    return format(num.div(D(1024).pow(8)))+" Yottabytes"
 }
 
 function commaFormat(num, precision) {

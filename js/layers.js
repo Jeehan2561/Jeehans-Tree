@@ -51,7 +51,7 @@ addLayer("a", {
                     ["row",[["display-text",function() {if (player.a.trees.gte(1)) return "Yet Another Challenge Tree: Adventure<br>Author: new42ur3jeans (42UR3) <br>Version: "+([tmp.I.versionList][0][player.I.version])}], "blank", ["buyable", 12]]],
                     ["row",[["display-text",function() {if (player.a.trees.gte(2)) return "The Plant Tree: Original<br>Author: Thenonymous <br>Version: "+([tmp.pla.versionList][0][player.pla.version])}], "blank", ["buyable", 13]]],
                     ["row",[["display-text",function() {if (player.a.trees.gte(3)) return "The Meta Upgrades Incremental<br>Author: ThatOneKobold <br>Version: "+([tmp.meta.versionList][0][player.meta.version])}], "blank", ["buyable", 14]]],
-                    ["row",[["display-text",function() {if (player.a.trees.gte(3)) return "Incremental God Tree<br>Author: Icecreamdude <br>Version: "+([tmp.inc.versionList][0][player.inc.version])}], "blank", ["buyable", 15]]],
+                    ["row",[["display-text",function() {if (player.a.trees.gte(4)) return "Incremental God Tree<br>Author: Icecreamdude <br>Version: "+([tmp.inc.versionList][0][player.inc.version])}], "blank", ["buyable", 15]]],
                     ["row", [ ["clickable", 11], ["clickable", 12], ["clickable", 13], ["clickable", 14], ["clickable", 15]]],
             ]
         },
@@ -651,7 +651,7 @@ addLayer("a", {
 addLayer("s", {
     name: "secret", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "S", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
         unlocked: true,
 		points: D(0),
@@ -705,22 +705,26 @@ addLayer("s", {
     },
     nodeStyle: {'opacity': '0'}
 })
-addLayer("c", {
-    name: "cookina", // This is optional, only used in a few places, If absent it just uses the layer id.
-    symbol: "C", // This appears on the layer's node. Default is the id with the first letter capitalized
-    position: 2, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+addLayer("sin", {
+    name: "Singularity", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "S", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: D(0),
         best: D(0),
+        pow: D(0),
     }},
-    color: "#aa0000",
-    requires: D(1), // Can be a function that takes requirement increases into account
-    resource: "secrets", // Name of prestige currency
+    color: "#bb00bb",
+    requires() {
+        if (player.sin.points.gte(1)) return D(1e300)
+        return D(2).pow(1024)}, // Can be a function that takes requirement increases into account
+    resource: "Singulatity", // Name of prestige currency
     baseResource: "points", // Name of resource prestige is based on
-    exponent: 0.5,
+    base: D(1e100),
+    exponent: D(1.25),
     baseAmount() {return player.points}, // Get the current amount of baseResource
-    type: "none", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
         return mult
@@ -733,31 +737,115 @@ addLayer("c", {
         "Main": {
             unlocked(){return true},
             content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    ["display-text",function() {return "Singularity Resets All Main Layers, Each Increases All Main Point caps"}],
+                    "blank",
+                    "resource-display",
                     "blank",
                     "blank",
-                    "blank",
-                    "blank",
-                    ["row", [["clickable", "blob"]]]
+                    "milestones",
+                    ["display-text",function() {return "You have "+format(player.sin.pow)+" Singularity Power, translated to a "+format(tmp.sin.SingPow)+"x boost to the start of point gain softcap"}],
+                    "upgrades"
             ]
         },
     },
-    clickables: {
-        blob: {
-                title: "blob",
-                display(){
-                    return ""
-                },
-                unlocked() {return false},
-                canClick() {return true},
-                onClick() {
-                    player.s.blobclicks = player.s.blobclicks.add(1)
-                    doPopup(type = "none", text = "You have found "+formatWhole(player.s.blobclicks)+" blobs.", title = "blob!", timer = 3, color = "#aa0000")},
+    effect() {
+        return {
+        mp: player.sin.best.max(0).times(2).add(1).pow(D(3).add(player.sin.best.max(0))),
+        lim: player.sin.best.max(0).pow(1.25).pow_base(1e100).times(1e300).max(D(2).pow(1024))
+    }},
+    SingGain() {
+        let spgain = player.sin.best.max(0).div(10).div(player.sin.pow.max(0).add(1).log10().pow_base(2))
+        if (hasUpgrade('sin', 11)) spgain = spgain.times(upgradeEffect('sin', 11))
+        if (getBuyableAmount('expo', 11).gte(2)) spgain = spgain.times(buyableEffect('expo', 11).sg)
+        if (player.V.boost.eq(9)) spgain = spgain.times(tmp.V.timeEffect.sp)
+        return spgain
+    },
+    SingPow() {return player.sin.pow.max(0).add(1).log10().pow(0.8).pow_base(10).pow(10)},
+    effectDescription() {return ", translated to a "+format(tmp.sin.effect.mp)+"x boost to All Main Points gain and Generating "+format(tmp.sin.SingGain)+" Singularity power per second"},
+    onPrestige() {
+        layerDataReset("add", "milestones")
+        layerDataReset("sub", "milestones")
+        layerDataReset("mul", "milestones")
+        layerDataReset("rat", "milestones")
+        layerDataReset("expo", "milestones")
+        layerDataReset("div", "milestones")
+        layerDataReset("I", "milestones")
+        layerDataReset("II", "milestones")
+        layerDataReset("III", "milestones")
+        layerDataReset("IV", "milestones")
+        layerDataReset("V", "milestones")
+        layerDataReset("pla", "milestones")
+        layerDataReset("gar", "milestones")
+        layerDataReset("zon", "milestones")
+        layerDataReset("wild", "milestones")
+        layerDataReset("meta", "milestones")
+        layerDataReset("shift", "milestones")
+        layerDataReset("recur", "milestones")
+        layerDataReset("inc", "milestones")
+        player.chalpow = D(0)
+        player.planpts = D(0)
+
+        player.add.version = getBuyableAmount("a", 11)
+        player.I.version = getBuyableAmount("a", 12)
+        player.pla.version = getBuyableAmount("a", 13)
+        player.meta.version = getBuyableAmount("a", 14)
+        player.inc.version = getBuyableAmount("a", 15)
+    },
+    upgrades: {
+        11: {
+            title() {return "Singular Boost I"},
+            tooltip() {return "Effect Formula: log<sub>2</sub>[Points+2]"},
+            description() {return "Multiply Singularity Power gain based on Points."},
+            effect() {return player.points.max(0).add(2).log2()},
+            currencyLocation() {return player},
+            currencyDisplayName: "Points",
+            currencyInternalName: "points",
+            cost() {return D("1e325")},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        12: {
+            title() {return "Discover I"},
+            tooltip() {return "A resource that increase or decrease based on resources in The Operator Tree"},
+            description() {return "Exponential Layer Effect is Better, Unlock The Ultimate Number in The Operator Tree."},
+            currencyLocation() {return player},
+            currencyDisplayName: "Points",
+            currencyInternalName: "points",
+            cost() {return D("1e341")},
+        },
+        13: {
+            title() {return "Discover II"},
+            tooltip() {return ""},
+            description() {return "Point gain nerf is slightly weaker, Unlock Research Layer in The Plant Tree."},
+            currencyLocation() {return player},
+            currencyDisplayName: "Points",
+            currencyInternalName: "points",
+            cost() {return D("4.040e404")},
         },
     },
-    layerShown(){return true},
-    update(diff) {
+    milestones: {
+        0: {
+            requirementDescription() {
+                return "1 Singularity"},
+            unlocked() {return true},
+            done() {return player.sin.best.gte(1)},
+            effectDescription() {return "Multiply Non-Static Resources gain in The Operator Tree by 100"},
+            },
+        1: {
+            requirementDescription() {
+                return "2 Singularity"},
+            unlocked() {return true},
+            done() {return player.sin.best.gte(2)},
+            effectDescription() {return "Multiply Non-Static Resources gain in YACT:A by 100"},
+            },
     },
-    nodeStyle: {'opacity': '0'}
+    layerShown(){return player.points.gte(D(2).pow(1024))||player.sin.unlocked},
+    update(diff) {
+        player.sin.pow = player.sin.pow.add(tmp.sin.SingGain.times(diff))
+    },
 })
 addLayer("add", {
     name: "addition", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -802,12 +890,14 @@ addLayer("add", {
         if (hasMilestone('pla', 4)) mult = mult.times(milestoneEffect('pla', 4))
         if (hasMilestone('gar', 3)) mult = mult.times(milestoneEffect('gar', 3))
         if (hasMilestone('recur', 0)) mult = mult.times(milestoneEffect('recur', 0))
+        if (hasMilestone('sin', 0)) mult = mult.times(100)
+        if (hasMilestone('zon', 7)) mult = mult.times(milestoneEffect('zon', 7))
         if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         let expo = D(1)
-        if (hasMilestone('expo', 12)) expo = expo.times(tmp.expo.effect)
+        if (hasMilestone('expo', 4)) expo = expo.times(tmp.expo.effect)
         return expo
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
@@ -1058,6 +1148,7 @@ addLayer("sub", {
         if (hasMilestone('div', 17)) mult = mult.times(milestoneEffect('div', 17))
         if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
         mult = mult.times(tmp.div.effect)
+        if (hasMilestone('sin', 0)) mult = mult.times(100)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -1220,6 +1311,7 @@ addLayer("mul", {
         if (hasMilestone('recur', 0)) mult = mult.times(milestoneEffect('recur', 0))
         if (hasUpgrade('inc', 14)) mult = mult.times(upgradeEffect('inc', 14))
         if (player.V.boost.eq(0)) mult = mult.times(tmp.V.timeEffect.asm)
+        if (hasMilestone('sin', 0)) mult = mult.times(100)
         mult = mult.times(tmp.div.effect)
         return mult
     },
@@ -1595,7 +1687,6 @@ addLayer("rat", {
     update(diff) {
     }
 })
-
 addLayer("expo", {
     name: "exponential", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "E", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -1635,7 +1726,23 @@ addLayer("expo", {
                     "milestones"
             ]
         },
+        "The Ultimate Number": {
+            unlocked(){return hasUpgrade('sin', 12)},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    "blank",
+                    ["display-text",function() {return "The Ultimate Formula: [("+colorText('span', '#4BDC13', 'A')+"-"+colorText('span', '#00DDDD', 'S')+")*("+colorText('span', '#38C52E', 'M')+"/"+colorText('span', '#900090', 'D')+")]<sup>"+colorText('span', '#FF69B4', 'E')+"/10</sup>"}],
+                    ["display-text",function() {return "The Ultimate Number: "+format(tmp.expo.TUN)}],
+                    "buyables"
+            ]
+        },
     },
+    TUN() {return player.add.points.sub(player.sub.points).times(player.mul.points.div(player.div.points.max(0).add(1))).max(0).pow(player.expo.points.div(10))},
     onPrestige() {
         player.rat.points = D(0)
         player.div.points = D(0)
@@ -1645,6 +1752,7 @@ addLayer("expo", {
         player.div.total = D(0)
     },
     effect() {
+        if (hasUpgrade('sin', 12)) return player.expo.points.max(0).pow(0.6).div(20).add(1)
         return player.expo.points.max(0).pow(0.5).div(20).add(1)
     },
     effectDescription() {
@@ -1659,6 +1767,32 @@ addLayer("expo", {
     hotkeys: [
         {key: "E", description: "E: Reset for Exponential Points", onPress(){if (canReset(this.layer)) doReset(this.layer)}, unlocked() {return player.universe.eq(1)}, unlocked() {return player.universe.eq(0)}}
     ],
+    buyables: {
+        11: {
+            title() {return "The Ultimate Buyable"},
+            display() {
+                if (getBuyableAmount(this.layer, this.id).lte(0)) return "Unlock a new effect per level<br>Req: The Ultimate Number "+format(this.cost())+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effects: No effects :["
+                return "Unlock a new effect per level<br>Req: The Ultimate Number "+format(this.cost())+"<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effects: <br>"+(getBuyableAmount(this.layer, this.id).gte(1) ? "Multiply Point gain by "+format(buyableEffect('expo', 11).pg)+"<br>" : "")+(getBuyableAmount(this.layer, this.id).gte(2) ? ",Multiply Singularity Power gain by "+format(buyableEffect('expo', 11).sg) : "")
+            },
+            effect(x) {return {
+                pg: tmp.expo.TUN.max(0).add(10).log10().pow_base(1.125),
+                sg: tmp.expo.TUN.max(0).add(10).log10().pow_base(1.025)
+            }},
+            style() {
+                return {
+                "min-height": "200px",
+                "width": "200px",
+            }
+            },
+            cost() {return [D("1e384"), D("1e512"), Decimal.dInf][getBuyableAmount(this.layer, this.id)]},
+            buy() {
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return tmp.expo.TUN.gte(this.cost())
+            },
+        },
+    },
     milestones: {
         0: {
             requirementDescription() {return ["1 expont", "1 Exponential", "1 Exponential Point"][options.text]},
@@ -1750,6 +1884,12 @@ addLayer("expo", {
                 unlocked() {return player.I.version.gte(4)},
                 effectDescription() {return ["expon do plapon gan bas.", "This layer's effect affects Plant point gain.", "Raise Plant point gain to the this layer's effect."][options.text]},
             },
+        14: {
+                requirementDescription() {return ["15 expont", "15 Exponentials", "15 Exponential Points"][options.text]},
+                done() {return player[this.layer].best.gte(15)},
+                unlocked() {return player.sin.best.gte(1)},
+                effectDescription() {return ["dis do mrrp point.", "This layer's effect affects Meta Point gain.", "Raise Meta point gain to the this layer's effect."][options.text]},
+            },
     },
     layerShown(){return player.add.version.gte(6)&&(player.universe.eq(0))},
     getResetGain() {
@@ -1763,7 +1903,6 @@ addLayer("expo", {
     update(diff) {
     }
 })
-
 addLayer("div", {
     name: "division", // This is optional, only used in a few places, If absent it just uses the layer id.
     symbol: "D", // This appears on the layer's node. Default is the id with the first letter capitalized
@@ -1990,6 +2129,7 @@ addLayer("I", {
         if (hasMilestone('V', 0)) mult = mult.times(milestoneEffect('V', 0))
         if (inChallenge('II', 22)) mult = D(0)
         if (player.V.boost.eq(8)) mult = mult.times(tmp.V.timeEffect.t1)
+        if (hasMilestone('sin', 1)) mult = mult.times(100)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -2122,7 +2262,7 @@ addLayer("I", {
     },
     layerShown(){return player.universe.eq(1)},
     update(diff) {
-        player.chalpow = player.chalpow.add(getChalPowGen().times(diff)).min(D(2).pow(1024))
+        player.chalpow = player.chalpow.add(getChalPowGen().times(diff)).min(tmp.sin.effect.lim)
     }
 })
 addLayer("II", {
@@ -2149,6 +2289,7 @@ addLayer("II", {
         if (player.V.boost.eq(5)) mult = mult.times(tmp.V.timeEffect.t2)
         mult = mult.times(tmp.IV.ChalRew.T)
         if (!inChallenge('V', 22)) mult = mult.times(challengeEffect('V', 22))
+        if (hasMilestone('sin', 1)) mult = mult.times(100)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -2336,9 +2477,9 @@ addLayer("III", {
                     ["display-text",function() {if (hasMilestone('III', 0)) return "Your f("+makeBlue("t")+") gives a "+format(tmp.III.fteff)+"x boost to Challenge Power gain."}],
                     "blank",
                     "blank",
-                    ["row", [["clickable", 11], ["clickable", 12], ["clickable", 13], ["bar", 0], ["clickable", 14],]],
-                    ["row", [["clickable", 21], ["clickable", 22], ["clickable", 23], ["bar", 1], ["clickable", 24],]],
-                    ["row", [["clickable", 31], ["clickable", 32], ["clickable", 33], ["bar", 2], ["clickable", 34],]],
+                    ["row", [["clickable", 11], ["clickable", 12], ["clickable", 13], ["bar", 0], ["clickable", 14], ["clickable", 15]]],
+                    ["row", [["clickable", 21], ["clickable", 22], ["clickable", 23], ["bar", 1], ["clickable", 24], ["clickable", 25]]],
+                    ["row", [["clickable", 31], ["clickable", 32], ["clickable", 33], ["bar", 2], ["clickable", 34], ["clickable", 35]]],
                     "blank",
                     "blank",
                     "milestones",
@@ -2387,6 +2528,7 @@ addLayer("III", {
         if (hasChallenge('IV', 42)) base = base.times(challengeEffect('IV', 42))
         if (hasChallenge('IV', 51)) base = base.times(challengeEffect('IV', 51))
         if (player.V.boost.eq(3)) base = base.times(tmp.V.timeEffect.dt)
+        if (hasMilestone('sin', 1)) base = base.times(100)
         return base
     },
     ftgain() {
@@ -2615,6 +2757,22 @@ addLayer("III", {
                 "height": "5px"
             }
         },
+        15: {
+            display() {
+                return "<h1><b>MAX</b></h1>"
+            },
+            unlocked() {return hasMilestone('III', 0)},
+            canClick() {
+                return tmp.III.varsum.lt(tmp.III.allowvar)&&(player.III.a.lt(tmp.III.varlim))
+            },
+            onClick(){
+                player[this.layer].a = player[this.layer].a.add(tmp.III.allowvar.sub(tmp.III.varsum)).min(tmp.III.varlim)
+            },
+            style: {
+                "width": "80px",
+                "height": "5px"
+            }
+        },
         21: {
             display() {
                 return "<h1><b>1</b></h1>"
@@ -2673,6 +2831,22 @@ addLayer("III", {
             },
             onClick(){
                 player[this.layer].b = player[this.layer].b.add(1)
+            },
+            style: {
+                "width": "80px",
+                "height": "5px"
+            }
+        },
+        25: {
+            display() {
+                return "<h1><b>MAX</b></h1>"
+            },
+            unlocked() {return hasMilestone('III', 0)},
+            canClick() {
+                return tmp.III.varsum.lt(tmp.III.allowvar)&&(player.III.b.lt(tmp.III.varlim))
+            },
+            onClick(){
+                player[this.layer].b = player[this.layer].b.add(tmp.III.allowvar.sub(tmp.III.varsum)).min(tmp.III.varlim)
             },
             style: {
                 "width": "80px",
@@ -2743,6 +2917,22 @@ addLayer("III", {
                 "height": "5px"
             }
         },
+        35: {
+            display() {
+                return "<h1><b>MAX</b></h1>"
+            },
+            unlocked() {return hasMilestone('III', 0)},
+            canClick() {
+                return tmp.III.varsum.lt(tmp.III.allowvar)&&(player.III.c.lt(tmp.III.varlim))
+            },
+            onClick(){
+                player[this.layer].c = player[this.layer].c.add(tmp.III.allowvar.sub(tmp.III.varsum)).min(tmp.III.varlim)
+            },
+            style: {
+                "width": "80px",
+                "height": "5px"
+            }
+        },
     },
     autoPrestige() {return hasMilestone('V', 0)},
     layerShown(){return player.universe.eq(1)&&player.I.version.gte(2)},
@@ -2784,6 +2974,7 @@ addLayer("IV", {
         if (!inChallenge('V', 21)) mult = mult.times(challengeEffect('V', 21))
         if (inChallenge('IV', 22)) mult = mult.div(20)
         mult = mult.times(tmp.V.ChallengesCompletions.add(1).pow(hasMilestone('V', 8) ? player.V.points.max(1) : D(1)))
+        if (hasMilestone('sin', 1)) mult = mult.times(100)
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -2879,6 +3070,8 @@ addLayer("IV", {
         if (hasMilestone('V', 2)) N = N.times(milestoneEffect('V', 2))
         if (hasMilestone('expo', 11)) P = P.times(milestoneEffect('expo', 11))
         if (hasMilestone('expo', 11)) N = N.times(milestoneEffect('expo', 11))
+        if (hasMilestone('sin', 1)) P = P.times(100)
+        if (hasMilestone('sin', 1)) N = N.times(100)
         return {
             p:P,
             n:N
@@ -3245,6 +3438,7 @@ addLayer("V", {
                     ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(7)) return "/"+format(tmp.V.timeEffect.t3)+" discount to Tier 3 cost"}]]],
                     ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(8)) return format(tmp.V.timeEffect.inc)+"x boost to Incremental Points gain"}]]],
                     ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(9)) return format(tmp.V.timeEffect.t1)+"x boost to Tier 1 gain"}]]],
+                    ["row",[["display-text",function() {if (tmp.V.Unlocked.gte(10)) return format(tmp.V.timeEffect.sp)+"x boost to Singularity Power gain"}]]],
                     "blank",
                     "blank",
                     "buyables",
@@ -3280,6 +3474,7 @@ addLayer("V", {
             t3: player.V.timeEnergy.max(0).add(10).log10().pow(1.6), // Tier 3 cost.
             inc: player.V.timeEnergy.max(0).add(10).log10().pow_base(1.1), // Tier 3 cost.
             t1: player.V.timeEnergy.max(0).add(2).log2().pow(10), // Tier 1 gain.
+            sp: player.V.timeEnergy.max(0).add(1).log10().add(1).log10().pow_base(2) // Singularity Power gain.
         }
     },
     Unlocked() {
@@ -3294,10 +3489,12 @@ addLayer("V", {
         if (hasUpgrade('inc', 63)) base = base.times(upgradeEffect('inc', 63))
         if (hasMilestone('expo', 7)) base = base.times(milestoneEffect('expo', 7))
         base = base.times(tmp.V.ChallengesCompletions.max(0).add(1).pow(hasMilestone('V', 8) ? player.V.points.max(1) : D(1)))
+        if (hasMilestone('sin', 1)) base = base.times(100)
+        if (hasUpgrade('resear', 14)) base = base.times(tmp.resear.effect)
         if (hasMilestone('expo', 8)) base = base.pow(tmp.expo.effect)
         if (inChallenge('V', 22)) base = base.pow(1/3)
-        if (inChallenge('V', 21)) base = base.div(challengeCompletions('V', 21).pow_base(10))
         base = base.pow(challengeEffect('V', 32))
+        if (inChallenge('V', 21)) base = base.div(challengeCompletions('V', 21).pow_base(10))
         return base
     },
     Nerfed() {
@@ -3354,7 +3551,7 @@ addLayer("V", {
             },
             unlocked() {return hasMilestone('V', 3)},
             countsAs: [11],
-            challengeDescription() {return "Stuck in The Time Chamber, Divide Time Energy and Challenge Power gain by 10 per completions<br>Completions: "+formatWhole(challengeCompletions('V', 21))},
+            challengeDescription() {return "Stuck in The Time Chamber, Divide Time Energy and Challenge Power gain by 10 per completions (applies after exponential)<br>Completions: "+formatWhole(challengeCompletions('V', 21))},
             goal() {
                 return D(20).pow(challengeCompletions(this.layer, this.id)).pow(challengeCompletions(this.layer, this.id).div(10).floor().pow_base(2))
             },
@@ -3490,7 +3687,10 @@ addLayer("pla", {
     requires: D(1), // Can be a function that takes requirement increases into account
     resource: "plants", // Name of prestige currency
     baseResource: "plant points", // Name of resource prestige is based on
-    exponent: D(1.25),
+    exponent() {
+        if (hasUpgrade('pla', 75)) return D(1.2)
+        return D(1.25)
+    },
     base() {
         let base = D(2)
         if (hasUpgrade('pla', 43)) base = base.sub(0.05)
@@ -3517,9 +3717,11 @@ addLayer("pla", {
         if (hasUpgrade('gar', 23)) mult = mult.div(upgradeEffect('gar', 23))
         if (hasUpgrade('wild', 31)) mult = mult.div(upgradeEffect('wild', 31))
         if (hasUpgrade('wild', 63)) mult = mult.div(upgradeEffect('wild', 63))
+        if (hasUpgrade('resear', 12)) mult = mult.div(upgradeEffect('resear', 12).p)
         if (inChallenge('zon', 12)) mult = mult.times(getBuyableAmount('pla', 11).add(1))
         mult = mult.div(buyableEffect('pla', 11).C)
         mult = mult.div(buyableEffect('pla', 12))
+        if (hasUpgrade('gar', 41)) mult = mult.pow(1.1)
         return mult
     },
     autoPrestige() {return hasMilestone('gar', 1)},
@@ -3589,6 +3791,7 @@ addLayer("pla", {
             unlocked() {return hasUpgrade('gar', 12)},
             tooltip() {return "Cost Formula: 5*2<sup>x</sup>"},
             cost(x) {let base = D(2).pow(x).times(5)
+                if (hasUpgrade('gar', 42)) base = D(1.85).pow(x).times(5)
                 if (hasUpgrade('gar', 14)) base = base.div(upgradeEffect('gar', 14))
                 if (hasUpgrade('pla', 44)) base = base.div(upgradeEffect('pla', 44).P)
                 if (hasUpgrade('pla', 52)) base = base.div(upgradeEffect('pla', 52))
@@ -3638,10 +3841,14 @@ addLayer("pla", {
         13: {
             title() {return "Echinocactus"},
             display() {
-                return "Reduce Plant cost base by 0.005 per level<br>Cost: "+format(this.cost())+" Plants<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/10<br>Effect: -"+format(this.effect())
+                return "Reduce Plant cost base by 0.005 per level<br>Cost: "+format(this.cost())+" Plants<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(this.purchaseLimit())+"<br>Effect: -"+format(this.effect())
             },
-            purchaseLimit() {return D(10)},
-            effect(x) {return x.min(10).div(200)},
+            purchaseLimit() {
+                let base = D(10)
+                if (hasUpgrade('resear', 22)) base = base.add(5)
+                return base
+            },
+            effect(x) {return x.min(20).div(200)},
             unlocked() {return hasUpgrade('pla', 63)&&(!inChallenge('zon', 22))},
             tooltip() {return "Cost Formula: 10*(x+1)*(x+2)"},
             cost(x) {
@@ -3988,6 +4195,16 @@ addLayer("pla", {
             cost() {return D(283)},
             effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id))},
         },
+        75: {
+            title() {return "Cattail"},
+            tooltip() {return "Effect Formula: 2<sup>[Plants]<sup>1.25</sup></sup> -> 2<sup>[Plants]<sup>1.2</sup></sup>"},
+            unlocked() {return challengeCompletions('zon', 31).gte(1)&&(!inChallenge('zon', 22))},
+            description() {
+                return "Reduce Plant's Cost Exponent by 0.05."},
+            effect() {return D(0.05)},
+            cost() {return D(477)},
+            effectDisplay() {return "-"+format(upgradeEffect(this.layer, this.id))},
+        },
     },
     automate() {
         if (player.pla.auto) {
@@ -4106,8 +4323,10 @@ addLayer("wild", {
         if (hasUpgrade('wild', 44)) mult = mult.times(upgradeEffect('wild', 44))
         if (hasUpgrade('wild', 52)) mult = mult.times(upgradeEffect('wild', 52))
         if (hasUpgrade('wild', 62)) mult = mult.times(upgradeEffect('wild', 62))
+        mult = mult.times(challengeEffect('zon', 31))
         mult = mult.times(tmp.wild.effect.w)
         mult = mult.times(buyableEffect('wild', 11).W)
+        mult = mult.times(buyableEffect('resear', 12))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -4137,6 +4356,8 @@ addLayer("wild", {
         let bas1 = player.wild.large.max(0).add(1).pow(0.25)
         let bas2 = player.wild.large.max(0).add(1).pow(0.1)
         if (hasUpgrade('wild', 54)) bas2 = bas2.pow(upgradeEffect('wild', 54))
+        if (hasUpgrade('wild', 64)) bas1 = bas1.pow(upgradeEffect('wild', 64))
+        if (hasUpgrade('wild', 64)) bas2 = bas2.pow(upgradeEffect('wild', 64))
         return {
             po:bas1,
             w:bas2
@@ -4161,7 +4382,11 @@ addLayer("wild", {
             display() {
                 return "Divide Saguro cost by "+format(tmp.wild.buyables[11].base.S)+" (based on plant points) and Multiply Wildlife gain by "+format(tmp.wild.buyables[11].base.W)+" per level<br>Only Reduces Large Wildlife by 10% of Cost.<br>Cost: "+format(this.cost())+" Larger Wildllife<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"/"+formatWhole(tmp.wild.buyables[11].purchaseLimit)+"<br>Effect: /"+format(this.effect().S)+", "+format(this.effect().W)+"x"
             },
-            purchaseLimit() {return D(10)},
+            purchaseLimit() {
+                let base = D(10)
+                if (hasUpgrade('resear', 21)) base = base.add(5)
+                return base
+            },
             base() {
                 return {
                     S: player.planpts.max(0).add(1).log10().add(1),
@@ -4426,13 +4651,24 @@ addLayer("wild", {
         63: {
             title() {return "Alligator"},
             tooltip() {return "Requires Cave and Stronger Wildlife"},
-            canAfford() {return hasUpgrade('wild', 12)&&hasUpgrade('wild', 24)},
+            canAfford() {return hasUpgrade('wild', 13)&&hasUpgrade('wild', 24)},
             unlocked() {return true},
             description() {
                 return "Divide Plant cost by Larger Wildlife's First Effect."},
             effect() {return tmp.wild.effect.po},
             cost() {return D(1.111e11)},
             effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id))},
+        },
+        64: {
+            title() {return "Fox"},
+            tooltip() {return "Requires Meadow and Stronger Wildlife"},
+            canAfford() {return hasUpgrade('wild', 14)&&hasUpgrade('wild', 24)},
+            unlocked() {return challengeCompletions('zon', 31).gte(2)},
+            description() {
+                return "Raise Research Time and Larger Wildlife's effects to the 1.2th power."},
+            effect() {return D(1.2)},
+            cost() {return D(1e24)},
+            effectDisplay() {return "^"+format(upgradeEffect(this.layer, this.id))},
         },
     },
     layerShown(){return player.universe.eq(2)&&(challengeCompletions('zon', 22).gte(3)||player.wild.unlocked)},
@@ -4461,6 +4697,9 @@ addLayer("wild", {
         if (hasUpgrade('wild', 33)) {
             player.wild.large = player.wild.large.add(tmp.wild.LWgain.sub(player.wild.large.times(tmp.wild.DecayRate)).times(diff)).min(tmp.wild.LWgain.div(tmp.wild.DecayRate)).max(0)
         }
+    },
+    automate() {
+        if (hasMilestone('zon', 7)) {buyBuyable('wild', 11)}
     }
 })
 addLayer("zon", {
@@ -4471,6 +4710,7 @@ addLayer("zon", {
         unlocked: false,
 		points: D(0),
         best: D(0),
+        eaters: D(1)
     }},
     branches: ['pla', 'gar'],
     color: "#00AAFF",
@@ -4483,6 +4723,7 @@ addLayer("zon", {
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = D(1)
+        if (hasMilestone('zon', 8)) mult = mult.div(milestoneEffect('zon', 8))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -4503,7 +4744,7 @@ addLayer("zon", {
                     "blank",
                     "milestones",
                     "blank",
-                    ["display-text",function() {false}],
+                    ["display-text",function() {return "Each Challenge will reset your plant upgrades and combine all previous challenges' nerfs!"}],
                     "blank",
                     "challenges"
             ]
@@ -4559,6 +4800,25 @@ addLayer("zon", {
                 done() {return player[this.layer].best.gte(5)},
                 effectDescription() {return "Gardens reset nothing, Divide Garden Cost based on Zone, Currently: /"+format(milestoneEffect('zon', 5))},
             },
+        6: {
+                requirementDescription: "6 Zones",
+                effect() {return player.zon.points.add(2)},
+                done() {return player[this.layer].best.gte(6)},
+                effectDescription() {return "Multiply Plant point gain by [Zones]+2."},
+            },
+        7: {
+                requirementDescription: "7 Zones",
+                effect() {return player.wild.large.max(0).add(1)},
+                done() {return player[this.layer].best.gte(7)},
+                effectDescription() {return "Automate Nutrients, Multiply Addition gain by [Larger Wildlife]+1."},
+            },
+        8: {
+                requirementDescription: "8 Zones",
+                tooltip() {return "Effect Formula: [Zones]/20+1"},
+                effect() {return player.zon.points.div(20).add(1)},
+                done() {return player[this.layer].best.gte(8)},
+                effectDescription() {return "Divide Zone cost based on Zones, Currently: /"+format(milestoneEffect('zon', 8))+"."},
+            },
     },
     challenges: {
         11: {
@@ -4568,7 +4828,7 @@ addLayer("zon", {
                 player.pla.upgrades = []
                 player.planpts = D(0)
             },
-            challengeDescription() {return "Reset Plant upgrades, Divide Plant point gain by [plant]+1.<br>Completions:"+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
+            challengeDescription() {return "Divide Plant point gain by [plant]+1.<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
             goal() {return [D(75), D(90), D(100), D(0)][challengeCompletions(this.layer, this.id).min(3)]},
             goalDescription() {return "Reach "+formatWhole(this.goal())+" Plants"},
             completionLimit() {return D(3)},
@@ -4584,7 +4844,7 @@ addLayer("zon", {
                 player.pla.upgrades = []
                 player.planpts = D(0)
             },
-            challengeDescription() {return "Reset Plant upgrades, Apply Previous Challenge Nerfs, Divide Plant point gain and Multiply Plant cost by [Prickly Pear]+1<br>Completions:"+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
+            challengeDescription() {return "Divide Plant point gain and Multiply Plant cost by [Prickly Pear]+1<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
             goal() {return [D(100), D(115), D(136), D(0)][challengeCompletions(this.layer, this.id).min(3)]},
             goalDescription() {return "Reach "+formatWhole(this.goal())+" Plants"},
             completionLimit() {return D(3)},
@@ -4600,7 +4860,7 @@ addLayer("zon", {
                 player.pla.upgrades = []
                 player.planpts = D(0)
             },
-            challengeDescription() {return "Reset Plant upgrades, Apply Previous Challenge Nerfs, Divide Plant point gain by log<sub>2</sub>([Plant Points]+2), Currently: /"+format(tmp.zon.TTZNerf)+"<br>Completions:"+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
+            challengeDescription() {return "Divide Plant point gain by log<sub>2</sub>([Plant Points]+2), Currently: /"+format(tmp.zon.TTZNerf)+"<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
             goal() {return [D(137), D(154), D(183), D(0)][challengeCompletions(this.layer, this.id).min(3)]},
             goalDescription() {return "Reach "+formatWhole(this.goal())+" Plants"},
             completionLimit() {return D(3)},
@@ -4616,7 +4876,7 @@ addLayer("zon", {
                 player.pla.upgrades = []
                 player.planpts = D(0)
             },
-            challengeDescription() {return "Reset Plant upgrades, Apply Previous Challenge Nerfs, Echinocactus and \"New Plant Upgrades\" are Unavailable<br>Completions:"+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
+            challengeDescription() {return "Echinocactus and \"New Plant Upgrades\" are Unavailable<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
             goal() {return [D(152), D(181), D(186), D(0)][challengeCompletions(this.layer, this.id).min(3)]},
             goalDescription() {return "Reach "+formatWhole(this.goal())+" Plants"},
             completionLimit() {return D(3)},
@@ -4624,10 +4884,29 @@ addLayer("zon", {
             rewardDescription() {return "Unlock more plant upgrades and Multiply Plant point gain by 5 per completion, Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
             canComplete: function() {return player.pla.points.gte(this.goal())},
         },
+        31: {
+            name: "The Infected Zone",
+            countsAs: [11, 12, 21, 22],
+            unlocked() {return hasUpgrade('resear', 14)},
+            onEnter() {
+                player.pla.upgrades = []
+                player.planpts = D(1e10)
+                player.zon.eaters = D(1)
+            },
+            onExit() {player.zon.eaters = D(1)},
+            challengeDescription() {return "There's 'Eaters' that will slowly grows exponentially and divides plant point gain, You start with more Plant Points and square root Plant Point gain<br>Completions: "+formatWhole(challengeCompletions(this.layer, this.id))+"/3"},
+            goal() {return [D(213), D(222), D(260), D(0)][challengeCompletions(this.layer, this.id).min(3)]},
+            goalDescription() {return "Reach "+formatWhole(this.goal())+" Plants without 'Eaters' Overtaking"},
+            completionLimit() {return D(3)},
+            rewardEffect() {return D(5).pow(challengeCompletions(this.layer, this.id))},
+            rewardDescription() {return "Unlock more upgrades and Multiply Wildlife and Research Time gain by 5 per completion, Currently: "+format(challengeEffect(this.layer, this.id))+"x"},
+            canComplete: function() {return player.pla.points.gte(this.goal())},
+        },
     },
     TTZNerf() {return player.planpts.max(0).add(2).log2()},
     layerShown(){return player.universe.eq(2)&&(hasUpgrade('pla', 35)||player.zon.unlocked)},
     update(diff) {
+        if (inChallenge('zon', 31)) player.zon.eaters = player.zon.eaters.times(D(1.15).pow(D(diff).div(4)))
     }
 })
 addLayer("gar", {
@@ -4656,6 +4935,7 @@ addLayer("gar", {
         if (hasUpgrade('pla', 71)) mult = mult.div(upgradeEffect('pla', 71))
         if (hasUpgrade('wild', 53)) mult = mult.div(upgradeEffect('wild', 53))
         if (hasMilestone('zon', 5)) mult = mult.div(milestoneEffect('zon', 5))
+        if (hasUpgrade('resear', 21)) mult = mult.div(upgradeEffect('resear', 21))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -4897,6 +5177,22 @@ addLayer("gar", {
             cost() {return D(42)},
             effectDisplay() {return "-"+format(upgradeEffect(this.layer, this.id))},
         },
+        41: {
+            title() {return "Half Whisky Barrel"},
+            tooltip() {return "Effect Formula: [Zones+1]<sup>3</sup>"},
+            unlocked() {return hasUpgrade('sin', 13)},
+            description() {
+                return "Raise Plant cost dividers' to the 1.1th power."},
+            cost() {return D(69)},
+        },
+        42: {
+            title() {return "Half Barrel Pond"},
+            tooltip() {return "Effect Formula: [Zones+1]<sup>3</sup>"},
+            unlocked() {return hasUpgrade('sin', 13)},
+            description() {
+                return "Reduce Prickly Pear cost base by 0.15."},
+            cost() {return D(72)},
+        },
     },
     milestones: {
         0: {
@@ -4931,6 +5227,296 @@ addLayer("gar", {
     layerShown(){return player.universe.eq(2)&&player.pla.version.gte(1)},
     update(diff) {
     }
+})
+addLayer("resear", {
+    name: "Research", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "R", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 1, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: D(0),
+        best: D(0),
+        time: D(0),
+        res: D(0),
+    }},
+    color: "#cccccc",
+    requires() {return D(2)}, // Can be a function that takes requirement increases into account
+    resource: "Research", // Name of prestige currency
+    baseResource: "Research Time", // Name of resource prestige is based on
+    base: D(2),
+    exponent: D(1.25),
+    baseAmount() {return player.resear.time}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = D(1)
+        mult = mult.div(buyableEffect('resear', 11))
+        if (hasMilestone('resear', 0)) mult = mult.div(milestoneEffect('resear', 0))
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return D(1)
+    },
+    row: "side", // Row the layer is in on the tree (0 is the first row)
+    tabFormat: {
+        "Main": {
+            unlocked(){return true},
+            content:[
+                "main-display",
+                    "blank",
+                    ["prestige-button", "", function (){ return false ? {'display': 'none'} : {}}],
+                    "blank",
+                    "blank",
+                    "resource-display",
+                    "blank",
+                    ["display-text",function() {if (getBuyableAmount('resear', 31).gte(1))return "You have "+format(player.resear.res)+" Researchers, Translated to a "+format(tmp.resear.REff)+"x boost to Research Speed"}],
+                    "blank",
+                    ["display-text",function() {return "Your Research Speed: "+format(tmp.resear.ResearchSpeed)+" Research Time/s"}],
+                    "blank",
+                    ["display-text",function() {return "Each Buyables' Cost Scales after 10 levels"}],
+                    "blank",
+                    "milestones",
+                    "buyables",
+                    "upgrades"
+            ]
+        },
+    },
+    effect() {
+        return player.resear.points.max(0).add(1).log2().pow(2).pow_base(5)
+    },
+    effectDescription() {return ", translated to a "+format(tmp.resear.effect)+"x boost to Plant Point gain."},
+    REff() {return player.resear.res.max(0).add(1).pow(0.6)},
+    onPrestige() {
+        player.planpts = D(0)
+        player.resear.time = D(0)
+    },
+    canBuyMax() {return hasUpgrade('resear', 11)},
+    buyables: {
+        11: {
+            title() {return "Shorter Research"},
+            base() {let base = D(3).add(buyableEffect('resear', 21))
+                return base
+            },
+            display() {
+                return "Divide Research's Requirement by "+format(this.base())+" per level<br>Cost: "+format(this.cost())+" Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: /"+format(this.effect())
+            },
+            effect(x) {return this.base().pow(softcap(x, D(20), D(0.4)))},
+            unlocked() {return true},
+            tooltip() {return "Cost Formula: 2(x+1)"},
+            cost(x) {
+                return x.add(1).times(2).add(x.sub(9).max(0).times(x.sub(8).max(0)).div(2)).floor()
+            },
+            buy() {
+                player.resear.points = player.resear.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.resear.points.gte(this.cost())
+            },
+        },
+        12: {
+            title() {return "Wildlife Theory"},
+            base() {let base = D(3).add(buyableEffect('resear', 22))
+                return base
+            },
+            display() {
+                return "Multiply Wildlife gain by "+format(this.base())+" per level<br>Cost: "+format(this.cost())+" Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return this.base().pow(x)},
+            unlocked() {return true},
+            tooltip() {return "Cost Formula: 3(x+1)"},
+            cost(x) {
+                return x.add(1).times(3).add(x.sub(9).max(0).times(x.sub(8).max(0)).div(2)).floor()
+            },
+            buy() {
+                player.resear.points = player.resear.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.resear.points.gte(this.cost())
+            },
+        },
+        13: {
+            title() {return "Faster Research"},
+            base() {let base = D(3).add(buyableEffect('resear', 23))
+                return base
+            },
+            display() {
+                return "Multiply Research Time gain by "+format(this.base())+" per level<br>Cost: "+format(this.cost())+" Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: "+format(this.effect())+"x"
+            },
+            effect(x) {return this.base().pow(x)},
+            unlocked() {return true},
+            tooltip() {return "Cost Formula: 3(x+1)"},
+            cost(x) {
+                return x.add(1).times(3).add(x.sub(9).max(0).times(x.sub(8).max(0)).div(2)).floor()
+            },
+            buy() {
+                player.resear.points = player.resear.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.resear.points.gte(this.cost())
+            },
+        },
+        21: {
+            title() {return "Advanced Research"},
+            display() {
+                return "Increase Shorter Research's base effect by 0.5 per level<br>Cost: "+format(this.cost())+" Shorter Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: +"+format(this.effect())
+            },
+            effect(x) {return D(x).div(2)},
+            unlocked() {return hasUpgrade('resear', 11)},
+            tooltip() {return "Cost Formula: 3(x+1)"},
+            cost(x) {
+                return x.add(1).times(3).floor()
+            },
+            buy() {
+                setBuyableAmount(this.layer, 11, getBuyableAmount(this.layer, 11).sub(this.cost()).max(0))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return getBuyableAmount(this.layer, 11).gte(this.cost())
+            },
+        },
+        22: {
+            title() {return "Wildlife Evolution"},
+            display() {
+                return "Increase Wildlife Theory's base effect by 0.5 per level<br>Cost: "+format(this.cost())+" Wildlife Theory<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: +"+format(this.effect())
+            },
+            effect(x) {return D(x).div(2)},
+            unlocked() {return hasUpgrade('resear', 12)},
+            tooltip() {return "Cost Formula: 3(x+1)"},
+            cost(x) {
+                return x.add(1).times(3).floor()
+            },
+            buy() {
+                setBuyableAmount(this.layer, 12, getBuyableAmount(this.layer, 12).sub(this.cost()).max(0))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return getBuyableAmount(this.layer, 12).gte(this.cost())
+            },
+        },
+        23: {
+            title() {return "Approved Research"},
+            display() {
+                return "Increase Faster Research's base effect by 0.5 per level<br>Cost: "+format(this.cost())+" Faster Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: +"+format(this.effect())
+            },
+            effect(x) {return D(x).div(2)},
+            unlocked() {return hasUpgrade('resear', 13)},
+            tooltip() {return "Cost Formula: 3(x+1)"},
+            cost(x) {
+                return x.add(1).times(3).floor()
+            },
+            buy() {
+                setBuyableAmount(this.layer, 13, getBuyableAmount(this.layer, 13).sub(this.cost()).max(0))
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return getBuyableAmount(this.layer, 13).gte(this.cost())
+            },
+        },
+        31: {
+            title() {return "Researchers"},
+            display() {
+                return "Start Gaining Researchers on first level then Double Researcher gain per level starting at 2.<br>Cost: "+format(this.cost())+" Research<br>Bought: "+formatWhole(getBuyableAmount(this.layer, this.id))+"<br>Effect: +"+format(this.effect())+"/s"
+            },
+            effect(x) {return D(x.max(0).min(1)).times(D(2).pow(x.sub(1).max(0)))},
+            unlocked() {return hasUpgrade('resear', 14)},
+            tooltip() {return "Cost Formula: 5(x+5)"},
+            cost(x) {
+                return x.add(5).times(5).floor()
+            },
+            buy() {
+                player.resear.points = player.resear.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            canAfford() {
+                return player.resear.points.gte(this.cost())
+            },
+        },
+    },
+    upgrades: {
+        11: {
+            title() {return "Wilderlife Theory"},
+            tooltip() {return "Effect Formula: log<sub>2</sub>[Larger Wildlife+2]"},
+            description() {return "Multiply Research Speed based on Larger Wildlife, You may Buy max Research."},
+            effect() {return player.wild.large.max(0).add(2).log2()},
+            cost() {return D(8)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        12: {
+            title() {return "Fertilizer Theory"},
+            tooltip() {return "Effect Formula: 4<sup>log<sub>10</sub>[Effect]</sup>, [Plants+1]<sup>0.4</sup>"},
+            description() {return "Divide Plant's Cost based on Research, Multiply Research Speed based on Plants."},
+            effect() {return {
+                p: tmp.resear.effect.max(0).add(1).log10().pow_base(4),
+                r: player.pla.points.max(0).add(1).pow(0.4)}},
+            cost() {return D(16)},
+            effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id).p)+", "+format(upgradeEffect(this.layer, this.id).r)+"x"},
+        },
+        13: {
+            title() {return "Singularity Theory"},
+            tooltip() {return "Effect Formula: 2<sup>log<sub>10</sub>[Power+1]</sup>"},
+            description() {return "Multiply Reserch speed based on Singularity Power."},
+            effect() {return player.sin.pow.max(0).add(1).log10().pow_base(2)},
+            cost() {return D(22)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        14: {
+            title() {return "Time Theory"},
+            description() {return "Multiply Time Energy gain by Research's Effect, Unlock The Infected Zone."},
+            cost() {return D(33)},
+        },
+        15: {
+            title() {return "Magnitude Theory"},
+            tooltip() {return "Effect Formula: 1.4<sup>[Magnitude]</sup>"},
+            description() {return "Multiply Reserch speed based on Research Time Magnitude."},
+            effect() {return player.resear.time.max(1).log10().floor().pow_base(1.4)},
+            cost() {return D(37)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+        21: {
+            title() {return "Extra Nutrients"},
+            tooltip() {return "Effect Formula: log<sub>2</sub>[Research+2]/20+1"},
+            description() {return "Divide Garden Cost based on Research, Increase Nutrients Limit and Research Buyables Scale Start by 5."},
+            effect() {return player.resear.points.max(0).add(2).log2().div(20).add(1)},
+            cost() {return D(42)},
+            effectDisplay() {return "/"+format(upgradeEffect(this.layer, this.id))},
+        },
+        22: {
+            title() {return "Weather Reports"},
+            tooltip() {return "Effect Formula: log<sub>2</sub>[Research+2]/20+1"},
+            description() {return "Multiply Research Speed by [Zones]+2, Increase Echinocactus Limit by 5."},
+            effect() {return player.zon.points.max(0).add(2)},
+            cost() {return D(51)},
+            effectDisplay() {return format(upgradeEffect(this.layer, this.id))+"x"},
+        },
+    },
+    milestones: {
+        0: {
+            requirementDescription() {return "20 Researches"},
+            done() {return player[this.layer].best.gte(20)},
+            effect() {
+                return player[this.layer].points.max(0).add(2)},
+            effectDescription() {return "Divide Research's Cost by [Research+2]."},
+        },
+    },
+    ResearchSpeed() {
+        let base = buyableEffect('resear', 13)
+        if (hasUpgrade('resear', 11)) base = base.times(upgradeEffect('resear', 11))
+        if (hasUpgrade('resear', 12)) base = base.times(upgradeEffect('resear', 12).r)
+        if (hasUpgrade('resear', 13)) base = base.times(upgradeEffect('resear', 13))
+        if (hasUpgrade('resear', 15)) base = base.times(upgradeEffect('resear', 15))
+        if (hasUpgrade('resear', 22)) base = base.times(upgradeEffect('resear', 22))
+        if (hasUpgrade('wild', 64)) base = base.pow(upgradeEffect('wild', 64))
+        base = base.times(challengeEffect('zon', 31))
+        base = base.times(tmp.resear.REff)
+        return base
+    },
+    layerShown(){return hasUpgrade('sin', 13)&&player.universe.eq(2)},
+    update(diff) {
+        if (hasUpgrade('sin', 13)) player.resear.time = player.resear.time.add(tmp.resear.ResearchSpeed.times(diff))
+        player.resear.res = player.resear.res.add(buyableEffect('resear', 31).times(diff))
+    },
 })
 addLayer("meta", {
     name: "meta points", // This is optional, only used in a few places, If absent it just uses the layer id.
@@ -5894,6 +6480,7 @@ addLayer("inc", {
         if (player.V.boost.eq(7)) base = base.times(tmp.V.timeEffect.inc)
         if (hasUpgrade('inc', 33)) pow = pow.times(upgradeEffect('inc', 33))
         if (hasUpgrade('inc', 43)) free = free.add(upgradeEffect('inc', 43))
+        base = base.times(tmp.sin.effect.mp)
         return player.inc.trees.add(free).pow(pow).times(base)
     },
     ByteEffect() {
